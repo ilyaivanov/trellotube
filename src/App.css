@@ -13,19 +13,21 @@ body {
   color: #121f3c;
   font-weight: bold;
   padding-left: 8px;
-  line-height: 40px;
+  line-height: 35px;
+}
+
+.container-radius {
+  border-radius: 3px;
+}
+.column {
+  min-width: 256px;
+  width: 256px;
+  margin-right: 8px;
 }
 
 .container {
   background-color: #e6e7ec;
-  width: 272px;
   padding: 8px;
-  margin-right: 8px;
-  border-radius: 3px;
-}
-
-.container:last-of-type {
-  margin-bottom: 0;
 }
 
 .row-item {
@@ -35,6 +37,31 @@ body {
   border-radius: 3px;
   box-shadow: rgba(9, 30, 66, 0.25) 0 1px 0 0;
   margin-bottom: 8px;
+  position: relative;
+}
+
+.absolute-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.row-item-cross-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 10px;
+}
+.row-item-cross {
+  font-size: 14px;
+  line-height: 14px;
+  cursor: pointer;
+  display: none;
+}
+
+.row-item:hover .row-item-cross {
+  display: inherit;
 }
 
 .row-item:last-of-type {

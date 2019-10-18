@@ -3,16 +3,23 @@ import { Item } from "./types";
 
 interface Props {
   items: Item[];
-  title: string;
+  Header: string | JSX.Element;
 }
-const Column = ({ items, title }: Props) => {
+const Column = ({ items, Header }: Props) => {
   return (
-    <div className="container">
-      <span className="music-label">{title}</span>
+    <div className="column container-radius container">
+      {typeof Header === "string" ? (
+        <span className="music-label">{Header}</span>
+      ) : (
+        Header
+      )}
 
       {items.map(item => (
         <div key={item.id} className="row-item">
-          {item.text}
+          <span>{item.text}</span>
+          <div className="absolute-fill row-item-cross-container">
+            <span className="row-item-cross">x</span>
+          </div>
         </div>
       ))}
     </div>

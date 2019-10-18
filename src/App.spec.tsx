@@ -5,6 +5,5 @@ import "@testing-library/jest-dom/extend-expect";
 
 it("renders without crashing", () => {
   const { getByText } = render(<App />);
-  expect(getByText("Album 1")).toBeInTheDocument();
   expect(getByText("Title 5")).toBeInTheDocument();
 });
