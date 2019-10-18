@@ -1,22 +1,30 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Column from "./BoardUI/Column";
+
+const id = () => Math.random() + "";
 
 const App: React.FC = () => {
+  const firstColumn = [
+    { text: "Album 1", id: id() },
+    { text: "Album 2", id: id() },
+    { text: "Album 3", id: id() },
+  ];
+  const secondColumn = [
+    { text: "Title 1", id: id() },
+    { text: "Title 2", id: id() },
+    { text: "Title 3", id: id() },
+    { text: "Title 4", id: id() },
+    { text: "Title 5", id: id() },
+    { text: "Title 6", id: id() },
+  ];
+
   return (
-    <div className="App">
-
-      <div className="container">
-        <span className="music-label" data-testid="MyMusic">Music</span>
-
-        <div className="row-item">Album 1</div>
-        <div className="row-item">Album 2</div>
-        <div className="row-item">Album 3</div>
-        <div className="row-item">Album 4</div>
-        <div className="row-item">Album 5</div>
-      </div>
-
+    <div className="board">
+      <Column title="Music" items={firstColumn} />
+      <Column title="Tracks" items={secondColumn} />
     </div>
   );
-}
+};
 
 export default App;

@@ -1,6 +1,12 @@
 body {
   background-color: #70797e;
-  padding: 5px;
+  padding: 8px;
+}
+
+.board {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 .music-label {
@@ -14,7 +20,12 @@ body {
   background-color: #e6e7ec;
   width: 272px;
   padding: 8px;
+  margin-right: 8px;
   border-radius: 3px;
+}
+
+.container:last-of-type {
+  margin-bottom: 0;
 }
 
 .row-item {
