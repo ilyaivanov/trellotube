@@ -1,22 +1,31 @@
-.App {
-  text-align: center;
+body {
+  background-color: #70797e;
+  padding: 5px;
 }
 
-.App-logo {
-  height: 40vmin;
+.music-label {
+  color: #121f3c;
+  font-weight: bold;
+  padding-left: 8px;
+  line-height: 40px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.container {
+  background-color: #e6e7ec;
+  width: 272px;
+  padding: 8px;
+  border-radius: 3px;
 }
 
-.App-link {
-  color: #09d3ac;
+.row-item {
+  padding: 8px;
+  background-color: white;
+  color: #121f3c;
+  border-radius: 3px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0 1px 0 0;
+  margin-bottom: 8px;
+}
+
+.row-item:last-of-type {
+  margin-bottom: 0;
 }
