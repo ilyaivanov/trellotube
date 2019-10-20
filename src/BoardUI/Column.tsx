@@ -1,5 +1,6 @@
 import React from "react";
 import { Item } from "./types";
+import Card from "./card/Card";
 
 interface Props {
   items: Item[];
@@ -15,12 +16,10 @@ const Column = ({ items, Header }: Props) => {
       )}
 
       {items.map(item => (
-        <div key={item.id} className="row-item">
-          <span>{item.text}</span>
-          <div className="absolute-fill row-item-cross-container">
-            <span className="row-item-cross">x</span>
-          </div>
-        </div>
+        <Card
+          text={item.text}
+          imageUrl="https://i.ytimg.com/vi/Dlxu28sQfkE/default.jpg"
+        />
       ))}
     </div>
   );
