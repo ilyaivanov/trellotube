@@ -17,6 +17,7 @@ const Column = ({ items, Header }: Props) => {
 
       {items.map(item => (
         <Card
+          key={item.id}
           text={item.text}
           imageUrl="https://i.ytimg.com/vi/Dlxu28sQfkE/default.jpg"
         />
