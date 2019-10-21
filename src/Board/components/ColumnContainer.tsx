@@ -5,11 +5,11 @@ const TransparentColumnContainer = styled.div`
   width: 256px;
   margin-right: 8px;
 
-  padding: 8px;
   border-radius: 3px;
 `;
 
 const ColumnContainer = styled(TransparentColumnContainer)`
+  padding: 8px;
   background-color: #e6e7ec;
 `;
 
