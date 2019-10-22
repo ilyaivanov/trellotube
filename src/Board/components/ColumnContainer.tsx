@@ -10,6 +10,7 @@ const TransparentColumnContainer = styled.div`
 
 const ColumnContainer = styled(TransparentColumnContainer)`
   padding: 8px;
+  padding-bottom: 0px;
   background-color: #e6e7ec;
 `;
 

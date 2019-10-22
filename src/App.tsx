@@ -6,7 +6,9 @@ import {
   Button,
   TransparentColumnContainer
 } from "./Board/components";
+import { DragDropContext } from "react-beautiful-dnd";
 
+//extract to reducer
 const id = () => Math.random() + "";
 
 const App: React.FC = () => {
@@ -26,19 +28,32 @@ const App: React.FC = () => {
     { text: "Title 5", id: id() },
     { text: "Title 6", id: id() }
   ];
+  const thirdColumn = [
+    {
+      text: "Carbon Based Lifeforms - Interloper [Full Album - 2015 Remaster]",
+      id: id()
+    },
+    { text: "Title 12", id: id() },
+    { text: "Title 23", id: id() },
+    { text: "Title 34", id: id() },
+    { text: "Title 45", id: id() },
+    { text: "Title 56", id: id() }
+  ];
 
   const searchHeader = <SearchInput placeholder="Enter search here..." />;
 
   return (
-    <Board>
-      <Column Header={searchHeader} items={firstColumn} />
-      <Column Header="Music" items={firstColumn} />
-      <Column Header="Tracks" items={secondColumn} />
-      <TransparentColumnContainer>
-        <Button label="+ Playlist" />
-        <Button label="+ Search" />
-      </TransparentColumnContainer>
-    </Board>
+    <DragDropContext onDragEnd={(result) => console.log(result)}>
+      <Board>
+        <Column Header={searchHeader} items={firstColumn} />
+        <Column Header="Music" items={secondColumn} />
+        <Column Header="Tracks" items={thirdColumn} />
+        <TransparentColumnContainer>
+          <Button label="+ Playlist" />
+          <Button label="+ Search" />
+        </TransparentColumnContainer>
+      </Board>
+    </DragDropContext>
   );
 };
 

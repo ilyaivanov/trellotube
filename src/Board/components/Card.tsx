@@ -4,16 +4,18 @@ import styled from "styled-components";
 interface Props {
   text: string;
   imageUrl: string;
+  draggableProps: any;
+  dragHandleProps: any;
 }
 
-const Card = ({ text }: Props) => (
-  <CardContainer>
+const Card = React.forwardRef(({ text, draggableProps, dragHandleProps }: Props, ref) => (
+  <CardContainer {...draggableProps} {...dragHandleProps} ref={ref}>
     <span>{text}</span>
     <CrossContainer>
       <Cross>x</Cross>
     </CrossContainer>
   </CardContainer>
-);
+));
 
 const CardContainer = styled.div`
   padding: 8px;
@@ -23,10 +25,6 @@ const CardContainer = styled.div`
   box-shadow: rgba(9, 30, 66, 0.25) 0 1px 0 0;
   margin-bottom: 8px;
   position: relative;
-
-  &:last-of-type {
-    margin-bottom: 0;
-  }
 `;
 
 const CrossContainer = styled.div`
