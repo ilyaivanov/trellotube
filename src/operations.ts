@@ -1,5 +1,5 @@
-import { Board } from "./Board/types";
-import { DropResult } from "react-beautiful-dnd";
+import { Board, Column } from "./Board/types";
+import { DraggableLocation, DropResult } from "react-beautiful-dnd";
 
 export const handleDnd = (board: Board, result: DropResult): Board => {
   const { destination, source } = result;
@@ -11,26 +11,61 @@ export const handleDnd = (board: Board, result: DropResult): Board => {
   )
     return board;
 
-  if (result.source.droppableId === destination.droppableId) {
-    const column = board.columns[destination.droppableId];
-    const newItems = [...column.items];
-    const oldItem = column.items[result.source.index];
-    newItems.splice(result.source.index, 1);
-    newItems.splice(destination.index, 0, oldItem);
+  if (source.droppableId === destination.droppableId) {
+    const column = getColumn(board, destination.droppableId);
+    const oldItem = getItemBeingDragged(board, source);
+    const newColumn = insertItemIntoColumn(
+      removeItemFromColumn(column, source.index),
+      oldItem,
+      destination.index
+    );
     return {
       ...board,
       columns: {
         ...board.columns,
-        [destination.droppableId]: {
-          ...column,
-          items: newItems
-        }
+        [destination.droppableId]: newColumn
       }
     };
   } else {
-    console.log("different");
-    return board;
+    return {
+      ...board,
+      columns: {
+        ...board.columns,
+        [destination.droppableId]: insertItemIntoColumn(
+          getColumn(board, destination.droppableId),
+          getItemBeingDragged(board, source),
+          destination.index
+        ),
+        [source.droppableId]: removeItemFromColumn(
+          getColumn(board, destination.droppableId),
+          source.index
+        )
+      }
+    };
   }
+};
 
-  return board;
+const getColumn = (board: Board, columnId: string) => board.columns[columnId];
+
+//TODO: handle board in remove and insert methods
+//this will allow to remove if statement at the top
+const removeItemFromColumn = (column: Column, itemIndex: number) => {
+  const items = [...column.items];
+  items.splice(itemIndex, 1);
+  return {
+    ...column,
+    items
+  };
+};
+
+const getItemBeingDragged = (board: Board, source: DraggableLocation) =>
+  board.columns[source.droppableId].items[source.index];
+
+const insertItemIntoColumn = (column: Column, item: any, index: number) => {
+  const items = [...column.items];
+  items.splice(index, 0, item);
+  return {
+    ...column,
+    items
+  };
 };
