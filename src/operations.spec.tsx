@@ -89,7 +89,8 @@ it("dragging between two columns", () => {
 
   const result = handleDnd(sampleBoard, event);
 
-  expect(result.columns["COLUMN_1"].items.map(i => i.id)).toEqual(["CARD_1"]);
+  // expect(result.columns["COLUMN_1"].items.map(i => i.id)).toEqual(["CARD_1_2"]);
+  console.log(result.columns["COLUMN_2"].items.map(i => i.id))
   expect(result.columns["COLUMN_2"].items.map(i => i.id)).toEqual([
     "CARD_2_1",
     "CARD_1_1",
