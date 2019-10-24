@@ -11,5 +11,8 @@ export interface Column {
 }
 
 export interface Board {
-  columns: Column[];
+  columns: {
+    [key: string]: Column;
+  };
+  columnOrders: string[];
 }

@@ -4,9 +4,9 @@ let _id = 1;
 const id = () => _id++ + "";
 
 const initialState = (): Board => ({
-  columns: [
-    {
-      id: id(),
+  columns: {
+    "1": {
+      id: "1",
       items: [
         { text: "Album 1", id: id() },
         { text: "Album 2", id: id() },
@@ -15,8 +15,8 @@ const initialState = (): Board => ({
       name: "First",
       type: "PLAYLIST"
     },
-    {
-      id: id(),
+    "2": {
+      id: "2",
       items: [
         { text: "Title 2", id: id() },
         { text: "Title 3", id: id() },
@@ -27,8 +27,8 @@ const initialState = (): Board => ({
       name: "Second",
       type: "PLAYLIST"
     },
-    {
-      id: id(),
+    "3": {
+      id: "3",
       items: [
         { text: "Album 1.1", id: id() },
         { text: "Album 2.2", id: id() },
@@ -37,12 +37,11 @@ const initialState = (): Board => ({
       name: "Third",
       type: "SEARCH"
     }
-  ]
+  },
+  columnOrders: ["1", "2", "3"]
 });
 
 type Hook = [Board, (board: Board) => void];
 export const useBoard = (): Hook => {
   return useState(initialState);
 };
-
-
