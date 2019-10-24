@@ -6,22 +6,28 @@ import {
   SearchInput,
   TransparentColumnContainer
 } from "./Board/components";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useBoard } from "./state";
+import { handleDnd } from "./operations";
 
 const App: React.FC = () => {
-  const [board] = useBoard();
+  const [board, setBoard] = useBoard();
+
+  const onDragEnd = (dropAction: DropResult) =>
+    setBoard(handleDnd(board, dropAction));
 
   return (
-    <DragDropContext onDragEnd={result => console.log(result)}>
+    <DragDropContext onDragEnd={onDragEnd}>
       <Board>
-        {board.columns.map(column => {
+        {board.columnOrders.map(columnId => {
+          const column = board.columns[columnId];
           if (column.type === "SEARCH")
             return (
               <Column
                 key={column.id}
                 Header={<SearchInput placeholder="Enter search here..." />}
-                items={column.items}
+                column={column}
+
               />
             );
           else
@@ -29,7 +35,7 @@ const App: React.FC = () => {
               <Column
                 key={column.id}
                 Header={column.name}
-                items={column.items}
+                column={column}
               />
             );
         })}

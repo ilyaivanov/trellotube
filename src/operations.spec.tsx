@@ -14,8 +14,8 @@ it("renders without crashing", () => {
   };
 
   const sampleBoard: Board = {
-    columns: [
-      {
+    columns: {
+      "BOARD_1": {
         items: [
           {
             id: "CARD_1",
@@ -30,9 +30,11 @@ it("renders without crashing", () => {
         id: "BOARD_1",
         name: "MyBoard"
       }
-    ]
+    },
+    columnOrders: ["1"]
   };
 
   const result = handleDnd(sampleBoard, event);
-  expect(result.columns[0].items.map(i => i.id)).toEqual(["CARD_2", "CARD_1"]);
+
+  expect(result.columns['BOARD_1'].items.map(i => i.id)).toEqual(["CARD_2", "CARD_1"]);
 });
