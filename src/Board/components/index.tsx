@@ -2,7 +2,7 @@ import SearchInput from "./SearchInput";
 import Button from "./Button";
 import Board from "./Board";
 import ColumnContainer from "./ColumnContainer";
-import ColumnHeader from "./ColumnHeader";
+import MusicLabel from "./MusicLabel";
 import Card from "./Card";
 import { TransparentColumnContainer } from "./ColumnContainer";
 
@@ -12,6 +12,6 @@ export {
   Board,
   TransparentColumnContainer,
   Card,
-  ColumnHeader,
+  MusicLabel,
   ColumnContainer
 };
