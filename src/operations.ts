@@ -11,6 +11,9 @@ export const handleDnd = (board: Board, result: DropResult): Board => {
   )
     return board;
 
+  if(source.droppableId === 'COLUMNS')
+    return board;
+
   const oldItem = getItemBeingDragged(board, source);
 
   const without = removeItemFromBoard(board, source.droppableId, source.index);

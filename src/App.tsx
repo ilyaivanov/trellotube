@@ -4,12 +4,14 @@ import {
   Board,
   Button,
   SearchInput,
-  TransparentColumnContainer
+  TransparentColumnContainer,
+  MusicLabel,
+  ColumnContainer
 } from "./Board/components";
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { useBoard } from "./state";
 import { handleDnd } from "./operations";
-import {Column as ColumnType} from "./Board/types";
+import { Column as ColumnType } from "./Board/types";
 
 const App: React.FC = () => {
   const [board, setBoard] = useBoard();
@@ -19,31 +21,42 @@ const App: React.FC = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Board>
-        {board.columnOrders.map(columnId => {
-          const column = board.columns[columnId];
-          return (
-            <Column
-              key={column.id}
-              Header={getHeader(column)}
-              column={column}
-            />
-          );
-        })}
-        <TransparentColumnContainer>
-          <Button label="+ Playlist" />
-          <Button label="+ Search" />
-        </TransparentColumnContainer>
-      </Board>
+      <Droppable droppableId={"COLUMNS"} type="Column" direction="horizontal">
+        {provided => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
+            <Board>
+              {board.columnOrders.map((columnId, index) => {
+                const column = board.columns[columnId];
+                return (
+                  <Column
+                    columnIndex={index}
+                    key={column.id}
+                    Header={getHeader(column)}
+                    column={column}
+                  />
+                );
+              })}
+              {provided.placeholder}
+              <TransparentColumnContainer>
+                <Button label="+ Playlist" />
+                <Button label="+ Search" />
+              </TransparentColumnContainer>
+            </Board>
+          </div>
+        )}
+      </Droppable>
     </DragDropContext>
   );
 };
 
 const getHeader = (column: ColumnType) =>
   column.type === "SEARCH" ? (
-    <SearchInput placeholder="Enter search here..." />
+    <div>
+      <MusicLabel>{column.name}</MusicLabel>
+      <SearchInput placeholder="Enter search here..." />
+    </div>
   ) : (
-    column.name
+    <MusicLabel>{column.name}</MusicLabel>
   );
 
 export default App;
