@@ -10,9 +10,11 @@ export interface Column {
   items: Item[];
 }
 
+export interface ColumnContainer {
+  [key: string]: Column;
+}
+
 export interface Board {
-  columns: {
-    [key: string]: Column;
-  };
+  columns: ColumnContainer;
   columnOrders: string[];
 }
