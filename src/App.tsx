@@ -9,6 +9,7 @@ import {
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useBoard } from "./state";
 import { handleDnd } from "./operations";
+import {Column as ColumnType} from "./Board/types";
 
 const App: React.FC = () => {
   const [board, setBoard] = useBoard();
@@ -21,23 +22,13 @@ const App: React.FC = () => {
       <Board>
         {board.columnOrders.map(columnId => {
           const column = board.columns[columnId];
-          if (column.type === "SEARCH")
-            return (
-              <Column
-                key={column.id}
-                Header={<SearchInput placeholder="Enter search here..." />}
-                column={column}
-
-              />
-            );
-          else
-            return (
-              <Column
-                key={column.id}
-                Header={column.name}
-                column={column}
-              />
-            );
+          return (
+            <Column
+              key={column.id}
+              Header={getHeader(column)}
+              column={column}
+            />
+          );
         })}
         <TransparentColumnContainer>
           <Button label="+ Playlist" />
@@ -47,5 +38,12 @@ const App: React.FC = () => {
     </DragDropContext>
   );
 };
+
+const getHeader = (column: ColumnType) =>
+  column.type === "SEARCH" ? (
+    <SearchInput placeholder="Enter search here..." />
+  ) : (
+    column.name
+  );
 
 export default App;
