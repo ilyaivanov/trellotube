@@ -1,4 +1,4 @@
-import { Board } from "./Board/types";
+import { Board } from "./types";
 import { useState } from "react";
 let _id = 100;
 const id = () => _id++ + "";
@@ -38,7 +38,7 @@ const initialState = (): Board => ({
       type: "SEARCH"
     }
   },
-  columnOrders: ["1", "2"]
+  columnOrders: ["1", "2", '3']
 });
 
 type Hook = [Board, (board: Board) => void];

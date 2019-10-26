@@ -1,4 +1,4 @@
-import { Board, Column, ColumnContainer } from "./Board/types";
+import { Board, Column, ColumnContainer } from "./types";
 import { handleDnd } from "./operations";
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
 
