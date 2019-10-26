@@ -40,7 +40,6 @@ const ColumnView = ({ column, index }: Props) => {
 
 const ColumnContainer = styled.div`
   background-color: white;
-  margin-top: 8px;
   margin-left: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
