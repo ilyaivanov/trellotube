@@ -1,14 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Quote } from "./types";
-import {
-  DraggableProvided,
-  DraggableStateSnapshot,
-  Draggable,
-  Droppable, DroppableProvided, DroppableStateSnapshot
-} from "react-beautiful-dnd";
+import {Draggable, DraggableProvided, DraggableStateSnapshot} from "react-beautiful-dnd";
 import QuoteList from "./QuoteList";
 import Title from "./title";
+import {Item} from "../../Board/types";
 
 const grid = 2;
 const borderRadius = 4;
@@ -25,7 +20,7 @@ const Header = styled.div<any>`
   justify-content: center;
   border-top-left-radius: ${borderRadius}px;
   border-top-right-radius: ${borderRadius}px;
-  background-color: ${({ isDragging }: any) => (isDragging ? "black" : "blue")};
+  background-color: ${({isDragging}: any) => (isDragging ? "black" : "blue")};
   transition: background-color 0.2s ease;
 
   &:hover {
@@ -35,42 +30,29 @@ const Header = styled.div<any>`
 
 type Props = {
   title: string;
-  quotes: Quote[];
+  columnId: string;
+  items: Item[];
   index: number;
-  isScrollable?: boolean;
-  isCombineEnabled?: boolean;
 };
 
-export default class Column extends Component<Props> {
-  render() {
-    const title: string = this.props.title;
-    const quotes: Quote[] = this.props.quotes;
-    const index: number = this.props.index;
-    return (
-      <Draggable draggableId={title} index={index}>
-        {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
-          <Container ref={provided.innerRef} {...provided.draggableProps}>
-            <Header isDragging={snapshot.isDragging}>
-              <Title
-                isDragging={snapshot.isDragging}
-                {...provided.dragHandleProps}
-              >
-                {title}
-              </Title>
-            </Header>
-            <QuoteList
-              listId={title}
-              listType="QUOTE"
-              style={{
-                backgroundColor: snapshot.isDragging ? 'green' : null
-              }}
-              quotes={quotes}
-              internalScroll={this.props.isScrollable}
-              isCombineEnabled={Boolean(this.props.isCombineEnabled)}
-            />
-          </Container>
-        )}
-      </Draggable>
-    );
-  }
-}
+export default ({title, index, columnId, items}: Props) => (
+  <Draggable draggableId={title} index={index}>
+    {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
+      <Container ref={provided.innerRef} {...provided.draggableProps}>
+        <Header isDragging={snapshot.isDragging}>
+          <Title isDragging={snapshot.isDragging} {...provided.dragHandleProps}>
+            {title}
+          </Title>
+        </Header>
+        <QuoteList
+          listId={columnId}
+          listType="QUOTE"
+          style={{
+            backgroundColor: snapshot.isDragging ? "green" : null
+          }}
+          items={items}
+        />
+      </Container>
+    )}
+  </Draggable>
+);
