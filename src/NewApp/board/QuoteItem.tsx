@@ -1,13 +1,13 @@
 // @flow
 import React from "react";
 import styled from "styled-components";
-import { AuthorColors, Quote } from "./types";
 import { DraggableProvided } from "react-beautiful-dnd";
+import { Item } from "../../Board/types";
 const borderRadius = 2,
   grid = 2;
 
 type Props = {
-  quote: Quote;
+  item: Item;
   isDragging: boolean;
   provided: DraggableProvided;
   isGroupedOver?: boolean;
@@ -15,11 +15,10 @@ type Props = {
 
 const getBackgroundColor = (
   isDragging: boolean,
-  isGroupedOver: boolean,
-  authorColors: AuthorColors
+  isGroupedOver: boolean
 ) => {
   if (isDragging) {
-    return 'white';
+    return "white";
   }
 
   if (isGroupedOver) {
@@ -29,15 +28,15 @@ const getBackgroundColor = (
   return "lightgrey";
 };
 
-const getBorderColor = (isDragging: boolean, authorColors: AuthorColors) =>
-  isDragging ? authorColors.hard : "transparent";
+const getBorderColor = (isDragging: boolean) =>
+  isDragging ? 'teal' : "transparent";
 
 const Container = styled.div<any>`
   border-radius: ${borderRadius}px;
   border: 2px solid transparent;
-  border-color: ${props => getBorderColor(props.isDragging, props.colors)};
+  border-color: ${props => getBorderColor(props.isDragging)};
   background-color: ${props =>
-    getBackgroundColor(props.isDragging, props.isGroupedOver, props.colors)};
+    getBackgroundColor(props.isDragging, props.isGroupedOver)};
   box-shadow: ${({ isDragging }) =>
     isDragging ? `2px 2px 1px green` : "none"};
   padding: ${grid}px;
@@ -56,7 +55,7 @@ const Container = styled.div<any>`
 
   &:focus {
     outline: none;
-    border-color: ${props => props.colors.hard};
+    border-color: ${props => 'black'};
     box-shadow: none;
   }
 
@@ -80,21 +79,17 @@ const Content = styled.div`
 `;
 
 function QuoteItem(props: Props) {
-  const { quote, isDragging, isGroupedOver, provided } = props;
+  const { item, isDragging, isGroupedOver, provided } = props;
 
   return (
     <Container
-      href={quote.author.url}
       isDragging={isDragging}
       isGroupedOver={isGroupedOver}
-      colors={quote.author.colors}
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
     >
-      <Content>
-        {quote.content}
-      </Content>
+      <Content>{item.text}</Content>
     </Container>
   );
 }

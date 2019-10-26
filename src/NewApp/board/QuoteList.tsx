@@ -2,7 +2,6 @@
 import React from "react";
 import styled from "styled-components";
 import Title from "./title";
-import { Quote } from "./types";
 import {
   Draggable,
   DraggableProvided,
@@ -12,6 +11,7 @@ import {
   DroppableStateSnapshot
 } from "react-beautiful-dnd";
 import QuoteItem from "./QuoteItem";
+import { Item } from "../../Board/types";
 
 const grid = 2;
 
@@ -58,7 +58,7 @@ const DropZone = styled.div`
 const ScrollContainer = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
-  max-height: ${scrollContainerHeight}px;
+   //max-height: ${scrollContainerHeight}px;
 `;
 
 /* stylelint-disable block-no-empty */
@@ -68,7 +68,7 @@ const Container = styled.div``;
 type Props = {
   listId?: string;
   listType?: string;
-  quotes: Quote[];
+  items: Item[];
   title?: string;
   internalScroll?: boolean;
   scrollContainerStyle?: Object;
@@ -80,51 +80,8 @@ type Props = {
 };
 
 type QuoteListProps = {
-  quotes: Quote[];
+  items: Item[];
 };
-
-// @ts-ignore
-const InnerQuoteList = React.memo(function InnerQuoteList(
-  props: QuoteListProps
-) {
-  return props.quotes.map((quote: Quote, index: number) => (
-    <Draggable key={quote.id} draggableId={quote.id} index={index}>
-      {(
-        dragProvided: DraggableProvided,
-        dragSnapshot: DraggableStateSnapshot
-      ) => (
-        <QuoteItem
-          key={quote.id}
-          quote={quote}
-          isDragging={dragSnapshot.isDragging}
-          isGroupedOver={Boolean(dragSnapshot.combineTargetFor)}
-          provided={dragProvided}
-        />
-      )}
-    </Draggable>
-  ));
-});
-
-type InnerListProps = {
-  dropProvided: DroppableProvided;
-  quotes: Quote[];
-  title?: string;
-};
-
-function InnerList(props: InnerListProps) {
-  const { quotes, dropProvided } = props;
-  const title = props.title ? <Title>{props.title}</Title> : null;
-
-  return (
-    <Container>
-      {title}
-      <DropZone ref={dropProvided.innerRef}>
-        <InnerQuoteList quotes={quotes} />
-        {dropProvided.placeholder}
-      </DropZone>
-    </Container>
-  );
-}
 
 export default function QuoteList(props: Props) {
   const {
@@ -134,7 +91,7 @@ export default function QuoteList(props: Props) {
     listId = "LIST",
     listType,
     style,
-    quotes,
+    items,
     title
   } = props;
 
@@ -154,23 +111,58 @@ export default function QuoteList(props: Props) {
           isDraggingFrom={Boolean(dropSnapshot.draggingFromThisWith)}
           {...dropProvided.droppableProps}
         >
-          {internalScroll ? (
-            <ScrollContainer style={scrollContainerStyle}>
-              <InnerList
-                quotes={quotes}
-                title={title}
-                dropProvided={dropProvided}
-              />
-            </ScrollContainer>
-          ) : (
+          <ScrollContainer style={scrollContainerStyle}>
             <InnerList
-              quotes={quotes}
+              items={items}
               title={title}
               dropProvided={dropProvided}
             />
-          )}
+          </ScrollContainer>
         </Wrapper>
       )}
     </Droppable>
+  );
+}
+
+// @ts-ignore
+const InnerQuoteList = React.memo(function InnerQuoteList(
+  props: QuoteListProps
+) {
+  return props.items.map((item: Item, index: number) => (
+    <Draggable key={item.id} draggableId={item.id} index={index}>
+      {(
+        dragProvided: DraggableProvided,
+        dragSnapshot: DraggableStateSnapshot
+      ) => (
+        <QuoteItem
+          key={item.id}
+          item={item}
+          isDragging={dragSnapshot.isDragging}
+          isGroupedOver={Boolean(dragSnapshot.combineTargetFor)}
+          provided={dragProvided}
+        />
+      )}
+    </Draggable>
+  ));
+});
+
+type InnerListProps = {
+  dropProvided: DroppableProvided;
+  items: Item[];
+  title?: string;
+};
+
+function InnerList(props: InnerListProps) {
+  const { items, dropProvided } = props;
+  const title = props.title ? <Title>{props.title}</Title> : null;
+
+  return (
+    <Container>
+      {title}
+      <DropZone ref={dropProvided.innerRef}>
+        <InnerQuoteList items={items} />
+        {dropProvided.placeholder}
+      </DropZone>
+    </Container>
   );
 }

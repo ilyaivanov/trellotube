@@ -1,20 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
 import Column from "./column";
-import {
-  DragDropContext,
-  DraggableLocation,
-  Droppable,
-  DroppableProvided,
-  DropResult
-} from "react-beautiful-dnd";
-import { Quote, QuoteMap } from "./types";
-
-const ParentContainer = styled.div<{ height: any }>`
-  height: ${({ height }: any) => height};
-  overflow-x: hidden;
-  overflow-y: auto;
-`;
+import {DragDropContext, Droppable, DroppableProvided, DropResult} from "react-beautiful-dnd";
+import {useBoard} from "../../state";
+import {handleDnd} from "../../operations";
 
 const Container = styled.div`
   background-color: white;
@@ -24,93 +13,30 @@ const Container = styled.div`
   display: inline-flex;
 `;
 
-type Props = {
-  initial: QuoteMap;
-  withScrollableColumns?: boolean;
-  isCombineEnabled?: boolean;
-  containerHeight?: string;
-};
+export default () => {
+  const [board, setBoard] = useBoard();
+  const onDragEnd = (result: DropResult) => setBoard(handleDnd(board, result));
 
-type State = {
-  columns: QuoteMap;
-  ordered: string[];
-};
-
-export default class Board extends Component<Props, State> {
-  /* eslint-disable react/sort-comp */
-  static defaultProps = {
-    isCombineEnabled: false
-  };
-
-  state: State = {
-    columns: this.props.initial,
-    ordered: Object.keys(this.props.initial)
-  };
-
-  onDragEnd = (result: DropResult) => {
-    if (result.combine) {
-      if (result.type === "COLUMN") {
-        const shallow: string[] = [...this.state.ordered];
-        shallow.splice(result.source.index, 1);
-        this.setState({ ordered: shallow });
-        return;
-      }
-
-      const column: Quote[] = this.state.columns[result.source.droppableId];
-      const withQuoteRemoved: Quote[] = [...column];
-      withQuoteRemoved.splice(result.source.index, 1);
-      const columns: QuoteMap = {
-        ...this.state.columns,
-        [result.source.droppableId]: withQuoteRemoved
-      };
-      this.setState({ columns });
-      return;
-    }
-
-    return;
-  };
-
-  render() {
-    const columns: QuoteMap = this.state.columns;
-    const ordered: string[] = this.state.ordered;
-    const { containerHeight } = this.props;
-
-    const board = (
-      <Droppable
-        droppableId="board"
-        type="COLUMN"
-        direction="horizontal"
-        ignoreContainerClipping={Boolean(containerHeight)}
-        isCombineEnabled={this.props.isCombineEnabled}
-      >
-        {(provided: DroppableProvided) => (
-          <Container ref={provided.innerRef} {...provided.droppableProps}>
-            {ordered.map((key: string, index: number) => (
-              <Column
-                key={key}
-                index={index}
-                title={key}
-                quotes={columns[key]}
-                isScrollable={this.props.withScrollableColumns}
-                isCombineEnabled={this.props.isCombineEnabled}
-              />
-            ))}
-            {provided.placeholder}
-          </Container>
-        )}
-      </Droppable>
-    );
-
-    return (
-      <React.Fragment>
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          {containerHeight ? (
-            <ParentContainer height={containerHeight}>{board}</ParentContainer>
-          ) : (
-            board
+  return (
+    <React.Fragment>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="board" type="COLUMN" direction="horizontal">
+          {(provided: DroppableProvided) => (
+            <Container ref={provided.innerRef} {...provided.droppableProps}>
+              {board.columnOrders.map((columnId: string, index: number) => (
+                <Column
+                  key={columnId}
+                  index={index}
+                  title={board.columns[columnId].name}
+                  items={board.columns[columnId].items}
+                  columnId={columnId}
+                />
+              ))}
+              {provided.placeholder}
+            </Container>
           )}
-        </DragDropContext>
-      </React.Fragment>
-    );
-  }
-}
+        </Droppable>
+      </DragDropContext>
+    </React.Fragment>
+  );
+};
