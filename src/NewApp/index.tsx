@@ -22,7 +22,7 @@ const App = () => {
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="COLUMNS" direction={"horizontal"} type="column">
+      <Droppable droppableId="board" direction={"horizontal"} type="column">
         {provided => (
           <BoardContainer ref={provided.innerRef} {...provided.droppableProps}>
             {board.columnOrders.map((cId, index) => (

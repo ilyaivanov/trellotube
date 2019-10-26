@@ -1,6 +1,6 @@
 import { Board } from "./Board/types";
 import { useState } from "react";
-let _id = 1;
+let _id = 100;
 const id = () => _id++ + "";
 
 const initialState = (): Board => ({
