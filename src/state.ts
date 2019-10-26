@@ -38,7 +38,7 @@ const initialState = (): Board => ({
       type: "SEARCH"
     }
   },
-  columnOrders: ["1", "2", "3"]
+  columnOrders: ["1", "2"]
 });
 
 type Hook = [Board, (board: Board) => void];

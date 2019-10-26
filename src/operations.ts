@@ -11,8 +11,15 @@ export const handleDnd = (board: Board, result: DropResult): Board => {
   )
     return board;
 
-  if(source.droppableId === 'COLUMNS')
-    return board;
+  if (source.droppableId === "COLUMNS") {
+    const columnOrders = [...board.columnOrders];
+    columnOrders.splice(source.index, 1);
+    columnOrders.splice(destination.index, 0, result.draggableId);
+    return {
+      ...board,
+      columnOrders
+    };
+  }
 
   const oldItem = getItemBeingDragged(board, source);
 
