@@ -9,7 +9,7 @@ interface Props {
   index: number;
 }
 
-const ColumnView = ({ column, index }: Props) => {
+const ColumnView = ({ column, index}: Props) => {
   return (
     <Draggable draggableId={column.id} index={index}>
       {columnProvided => (
@@ -39,25 +39,26 @@ const ColumnView = ({ column, index }: Props) => {
 };
 
 const ColumnContainer = styled.div`
-  background-color: white;
+  background-color: lightgrey;
   margin-left: 8px;
-  border: 1px solid lightgrey;
   border-radius: 2px;
   width: 220px;
-
   display: flex;
   flex-direction: column;
+  padding-left: 8px;
+  padding-right: 8px;
 `;
 
-const Title = styled.h3`
+const Title = styled.h4`
+  margin-bottom: 0;
   padding: 8px;
 `;
 
 const TaskList = styled.div<any>`
-  padding: 8px;
   background-color: ${(props: any) =>
-    props.isDraggingOver ? "skyblue" : "white"};
+    props.isDraggingOver ? "skyblue" : "lightgrey"};
   flex-grow: 1;
+  min-height: 50px;
 `;
 
 export default ColumnView;

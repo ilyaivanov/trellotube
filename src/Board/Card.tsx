@@ -11,25 +11,35 @@ interface Props {
 const Task = ({ item, index }: Props) => (
   <Draggable draggableId={item.id} index={index} type="item">
     {provided => (
-      <div>
-        <TaskContainer
-          ref={provided.innerRef}
-          {...provided.dragHandleProps}
-          {...provided.draggableProps}
-        >
-          {item.text}
-        </TaskContainer>
-      </div>
+      <TaskContainer
+        ref={provided.innerRef}
+        {...provided.dragHandleProps}
+        {...provided.draggableProps}
+      >
+        <Img src={item.imageUrl}></Img>
+        <Subtext>
+        {item.text}
+        </Subtext>
+      </TaskContainer>
     )}
   </Draggable>
 );
 
 const TaskContainer = styled.div`
-  border: 1px solid lightgrey;
-  border-radius: 2px;
-  padding: 8px;
-  margin-bottom: 8px;
+  border-radius: 4px;
   background-color: white;
+  margin-bottom: 8px;
 `;
 
+const Img = styled.img`
+  width: 100%;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+`;
+
+
+const Subtext = styled.div`
+  color: #1e1e1e;
+  padding: 4px;
+`;
 export default Task;
