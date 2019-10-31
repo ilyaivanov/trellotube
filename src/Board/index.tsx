@@ -68,7 +68,20 @@ const App = () => {
     setAppState({
       ...appState,
       selectedBoard: boardId
-    })
+    });
+  };
+
+  const onRenameColumn = (columnId: string, newName: string) => {
+    updateBoard({
+      ...selectedBoard,
+      columns: {
+        ...selectedBoard.columns,
+        [columnId]: {
+          ...appState.boards[appState.selectedBoard].columns[columnId],
+          name: newName
+        }
+      }
+    });
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -86,6 +99,7 @@ const App = () => {
                 onDelete={onDelete}
                 column={selectedBoard.columns[cId]}
                 index={index}
+                renameColumn={onRenameColumn}
               />
             ))}
             {provided.placeholder}

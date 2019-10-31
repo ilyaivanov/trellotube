@@ -45,7 +45,7 @@ const createBoard = (...column: Column[]): Board => ({
   }, {}),
   columnOrders: [],
   searchItems: [],
-  boardId:'dummy'
+  boardId: "dummy"
 });
 
 const createColumn = (columnId: string, itemsNames: string[]): Column => ({

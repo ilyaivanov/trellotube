@@ -7,6 +7,7 @@ interface Props {
   item: Item;
   index: number;
 }
+
 const decode = (text: string) => {
   const dom = new DOMParser().parseFromString(
     "<!doctype html><body>" + text,

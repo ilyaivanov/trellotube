@@ -4,11 +4,13 @@ import SearchArea from "./SearchSidebar";
 import { ApplicationState, Board, Item } from "../types";
 
 type SidebarState = "search" | "board";
+
 interface Props {
   app: ApplicationState;
   onSearchDone: (items: Item[]) => void;
   onSelectBoard: (boardId: string) => void;
 }
+
 const Sidebar = ({ app, onSearchDone, onSelectBoard }: Props) => {
   const [state, setState] = useState<SidebarState>("search");
   return (
@@ -21,7 +23,7 @@ const Sidebar = ({ app, onSearchDone, onSelectBoard }: Props) => {
       </button>
       {state === "search" ? (
         <SearchArea
-          items={app.boards[app.selectedBoard].columns['SEARCH'].items}
+          items={app.boards[app.selectedBoard].columns["SEARCH"].items}
           onSearchDone={onSearchDone}
         />
       ) : (
@@ -39,11 +41,13 @@ const Sidebar = ({ app, onSearchDone, onSelectBoard }: Props) => {
     </SidebarContainer>
   );
 };
+
 interface BoardItemProps {
   onSelectBoard: (boardId: string) => void;
   board: Board;
   isSelected: boolean;
 }
+
 const BoardItem = ({ onSelectBoard, board, isSelected }: BoardItemProps) => {
   const Item = isSelected ? SelectedBoard : UnselectedBoard;
   return (
@@ -63,6 +67,7 @@ const UnselectedBoard = styled.h4``;
 export default Sidebar;
 
 const SidebarContainer = styled.div`
+  overflow: scroll;
   position: fixed;
   width: 200px;
   top: 0;

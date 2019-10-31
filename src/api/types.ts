@@ -54,5 +54,4 @@ interface Thumbnail {
 }
 
 {
-
 }

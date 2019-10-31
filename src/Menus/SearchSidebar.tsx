@@ -9,6 +9,7 @@ export interface SearchProps {
   items: Item[];
   onSearchDone: (items: Item[]) => void;
 }
+
 const SearchArea = ({ items, onSearchDone }: SearchProps) => {
   const [term, setTerm] = useState("");
   const debounced = useDebounce(term, 600);
@@ -23,7 +24,12 @@ const SearchArea = ({ items, onSearchDone }: SearchProps) => {
 
   return (
     <>
-      <input data-testid="search-input" type="text" value={term} onChange={onSearch} />
+      <input
+        data-testid="search-input"
+        type="text"
+        value={term}
+        onChange={onSearch}
+      />
       <Droppable droppableId="SEARCH" type="item">
         {(provided, snapshot) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>

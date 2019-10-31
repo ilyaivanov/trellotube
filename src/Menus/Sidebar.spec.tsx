@@ -4,9 +4,11 @@ import { fireEvent, render } from "@testing-library/react";
 import Sidebar from "./Sidebar";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useBoard } from "../state";
+
 interface Props {
   onSelectBoard?: (boardId: string) => void;
 }
+
 const SampleApp = ({ onSelectBoard }: Props) => {
   const [state] = useBoard();
   return (

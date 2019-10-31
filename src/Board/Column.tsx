@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { Column } from "../types";
@@ -8,9 +8,18 @@ interface Props {
   column: Column;
   index: number;
   onDelete: (columnId: string) => void;
+  renameColumn: (columnId: string, newText: string) => void;
 }
 
-const ColumnView = ({ column, index, onDelete }: Props) => {
+const ColumnView = ({ column, index, onDelete, renameColumn }: Props) => {
+  const [isRenaming, setIsRenaming] = useState(false);
+  const [newText, setNewText] = useState(column.name);
+  const onEditButtonPress = () => {
+    if (isRenaming) {
+      renameColumn(column.id, newText);
+    }
+    setIsRenaming(!isRenaming);
+  };
   return (
     <Draggable draggableId={column.id} index={index}>
       {columnProvided => (
@@ -19,8 +28,20 @@ const ColumnView = ({ column, index, onDelete }: Props) => {
           {...columnProvided.draggableProps}
         >
           <Title {...columnProvided.dragHandleProps}>
-            {column.name}{" "}
-            <Options onClick={() => onDelete(column.id)}>X</Options>
+            {isRenaming ? (
+              <input
+                autoFocus
+                type="text"
+                value={newText}
+                onChange={e => setNewText(e.target.value)}
+              />
+            ) : (
+              column.name
+            )}{" "}
+            <Options>
+              <button onClick={onEditButtonPress}>E</button>
+              <button onClick={() => onDelete(column.id)}>X</button>
+            </Options>
           </Title>
           <Droppable droppableId={column.id} type="item">
             {(provided, snapshot) => (
@@ -41,7 +62,7 @@ const ColumnView = ({ column, index, onDelete }: Props) => {
     </Draggable>
   );
 };
-const Options = styled.button`
+const Options = styled.div`
   display: none;
 `;
 

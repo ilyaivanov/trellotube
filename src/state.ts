@@ -1,5 +1,6 @@
-import { ApplicationState, Board } from "./types";
+import { ApplicationState } from "./types";
 import { useState } from "react";
+
 let _id = 100;
 const id = () => _id++ + "";
 
