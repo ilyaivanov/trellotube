@@ -17,7 +17,18 @@ export interface ColumnContainer {
 }
 
 export interface Board {
-  searchItems: Item[];
+  boardId: string;
+  boardName: string;
   columns: ColumnContainer;
   columnOrders: string[];
+}
+
+export interface BoardsContainer {
+  [key: string]: Board;
+}
+
+export interface ApplicationState {
+  boards: BoardsContainer;
+  boardsOrder: string[];
+  selectedBoard: string;
 }

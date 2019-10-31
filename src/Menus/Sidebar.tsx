@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import SearchArea, { SearchProps } from "./SearchSidebar";
+import SearchArea from "./SearchSidebar";
+import { ApplicationState, Board, Item } from "../types";
 
 type SidebarState = "search" | "board";
-interface Props extends SearchProps {}
-const Sidebar = ({ items, onSearchDone }: Props) => {
+interface Props {
+  app: ApplicationState;
+  onSearchDone: (items: Item[]) => void;
+  onSelectBoard: (boardId: string) => void;
+}
+const Sidebar = ({ app, onSearchDone, onSelectBoard }: Props) => {
   const [state, setState] = useState<SidebarState>("search");
   return (
     <SidebarContainer>
@@ -15,16 +20,46 @@ const Sidebar = ({ items, onSearchDone }: Props) => {
         search
       </button>
       {state === "search" ? (
-        <SearchArea items={items} onSearchDone={onSearchDone} />
+        <SearchArea
+          items={app.boards[app.selectedBoard].columns['SEARCH'].items}
+          onSearchDone={onSearchDone}
+        />
       ) : (
-        <div>
-          <h3 data-testid="board-view">Boards</h3>
+        <div data-testid="board-view">
+          {app.boardsOrder.map(boardId => (
+            <BoardItem
+              key={boardId}
+              onSelectBoard={onSelectBoard}
+              isSelected={boardId === app.selectedBoard}
+              board={app.boards[boardId]}
+            />
+          ))}
         </div>
       )}
     </SidebarContainer>
   );
 };
+interface BoardItemProps {
+  onSelectBoard: (boardId: string) => void;
+  board: Board;
+  isSelected: boolean;
+}
+const BoardItem = ({ onSelectBoard, board, isSelected }: BoardItemProps) => {
+  const Item = isSelected ? SelectedBoard : UnselectedBoard;
+  return (
+    <div>
+      <Item
+        data-testid={"board-" + board.boardId}
+        onClick={() => onSelectBoard(board.boardId)}
+      >
+        {board.boardName}
+      </Item>
+    </div>
+  );
+};
 
+const SelectedBoard = styled.h2``;
+const UnselectedBoard = styled.h4``;
 export default Sidebar;
 
 const SidebarContainer = styled.div`

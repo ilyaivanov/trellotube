@@ -1,27 +1,36 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React from "react";
 import { useBoard } from "../state";
 import styled from "styled-components";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { handleDnd } from "../operations";
 import ColumnView from "./Column";
-import Card from "./Card";
-import { useDebounce } from "../hooks";
-import { Column, Item } from "../types";
-import { searchVideos } from "../api/youtube";
+import { Board, Column, Item } from "../types";
 import Sidebar from "../Menus/Sidebar";
 
 const App = () => {
-  const [board, setBoard] = useBoard();
+  const [appState, setAppState] = useBoard();
+
+  const updateBoard = (board: Board) => {
+    setAppState({
+      ...appState,
+      boards: {
+        ...appState.boards,
+        [board.boardId]: board
+      }
+    });
+  };
+  const selectedBoard = appState.boards[appState.selectedBoard];
+
   const onDragEnd = (dropResult: DropResult) => {
-    setBoard(handleDnd(board, dropResult));
+    updateBoard(handleDnd(selectedBoard, dropResult));
   };
   const onSearchDone = (items: Item[]) => {
-    setBoard({
-      ...board,
+    updateBoard({
+      ...selectedBoard,
       columns: {
-        ...board.columns,
+        ...selectedBoard.columns,
         SEARCH: {
-          ...board.columns["SEARCH"],
+          ...selectedBoard.columns["SEARCH"],
           items
         }
       }
@@ -30,12 +39,12 @@ const App = () => {
 
   const onDelete = (columnId: string) => {
     const columns = {
-      ...board.columns
+      ...selectedBoard.columns
     };
     delete columns[columnId];
-    setBoard({
-      ...board,
-      columnOrders: board.columnOrders.filter(cc => cc !== columnId),
+    updateBoard({
+      ...selectedBoard,
+      columnOrders: selectedBoard.columnOrders.filter(cc => cc !== columnId),
       columns: columns
     });
   };
@@ -46,29 +55,36 @@ const App = () => {
       id: Math.random() + "",
       type: "PLAYLIST"
     };
-    setBoard({
-      ...board,
-      columnOrders: board.columnOrders.concat([newColumn.id]),
+    updateBoard({
+      ...selectedBoard,
+      columnOrders: selectedBoard.columnOrders.concat([newColumn.id]),
       columns: {
-        ...board.columns,
+        ...selectedBoard.columns,
         [newColumn.id]: newColumn
       }
     });
   };
+  const onSelectBoard = (boardId: string) => {
+    setAppState({
+      ...appState,
+      selectedBoard: boardId
+    })
+  };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Sidebar
-        items={board.columns["SEARCH"].items}
+        app={appState}
         onSearchDone={onSearchDone}
+        onSelectBoard={onSelectBoard}
       />
       <Droppable droppableId="board" direction={"horizontal"} type="column">
         {provided => (
           <BoardContainer ref={provided.innerRef} {...provided.droppableProps}>
-            {board.columnOrders.map((cId, index) => (
+            {selectedBoard.columnOrders.map((cId, index) => (
               <ColumnView
                 key={cId}
                 onDelete={onDelete}
-                column={board.columns[cId]}
+                column={selectedBoard.columns[cId]}
                 index={index}
               />
             ))}
