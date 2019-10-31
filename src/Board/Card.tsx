@@ -7,6 +7,13 @@ interface Props {
   item: Item;
   index: number;
 }
+const decode = (text: string) => {
+  const dom = new DOMParser().parseFromString(
+    "<!doctype html><body>" + text,
+    "text/html"
+  );
+  return dom.body.textContent;
+};
 
 const Task = ({ item, index }: Props) => (
   <Draggable draggableId={item.id} index={index} type="item">
@@ -17,9 +24,7 @@ const Task = ({ item, index }: Props) => (
         {...provided.draggableProps}
       >
         <Img src={item.imageUrl}></Img>
-        <Subtext>
-        {item.text}
-        </Subtext>
+        <Subtext>{decode(item.text)}</Subtext>
       </TaskContainer>
     )}
   </Draggable>
@@ -36,7 +41,6 @@ const Img = styled.img`
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 `;
-
 
 const Subtext = styled.div`
   color: #1e1e1e;

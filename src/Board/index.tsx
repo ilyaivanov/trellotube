@@ -6,8 +6,9 @@ import { handleDnd } from "../operations";
 import ColumnView from "./Column";
 import Card from "./Card";
 import { useDebounce } from "../hooks";
-import { Item } from "../types";
+import { Column, Item } from "../types";
 import { searchVideos } from "../api/youtube";
+import Sidebar from "../Menus/Sidebar";
 
 const App = () => {
   const [board, setBoard] = useBoard();
@@ -15,7 +16,6 @@ const App = () => {
     setBoard(handleDnd(board, dropResult));
   };
   const onSearchDone = (items: Item[]) => {
-    console.log(items);
     setBoard({
       ...board,
       columns: {
@@ -27,9 +27,37 @@ const App = () => {
       }
     });
   };
+
+  const onDelete = (columnId: string) => {
+    const columns = {
+      ...board.columns
+    };
+    delete columns[columnId];
+    setBoard({
+      ...board,
+      columnOrders: board.columnOrders.filter(cc => cc !== columnId),
+      columns: columns
+    });
+  };
+  const createColumn = () => {
+    const newColumn: Column = {
+      items: [],
+      name: "New Column",
+      id: Math.random() + "",
+      type: "PLAYLIST"
+    };
+    setBoard({
+      ...board,
+      columnOrders: board.columnOrders.concat([newColumn.id]),
+      columns: {
+        ...board.columns,
+        [newColumn.id]: newColumn
+      }
+    });
+  };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <SearchArea
+      <Sidebar
         items={board.columns["SEARCH"].items}
         onSearchDone={onSearchDone}
       />
@@ -37,58 +65,21 @@ const App = () => {
         {provided => (
           <BoardContainer ref={provided.innerRef} {...provided.droppableProps}>
             {board.columnOrders.map((cId, index) => (
-              <ColumnView key={cId} column={board.columns[cId]} index={index} />
+              <ColumnView
+                key={cId}
+                onDelete={onDelete}
+                column={board.columns[cId]}
+                index={index}
+              />
             ))}
             {provided.placeholder}
-            <button>+ Playlist</button>
+            <button onClick={createColumn}>+ Playlist</button>
           </BoardContainer>
         )}
       </Droppable>
     </DragDropContext>
   );
 };
-
-interface SearchProps {
-  items: Item[];
-  onSearchDone: (items: Item[]) => void;
-}
-const SearchArea = ({ items, onSearchDone }: SearchProps) => {
-  const [term, setTerm] = useState("");
-  const debounced = useDebounce(term, 600);
-  const onSearch = (e: ChangeEvent<HTMLInputElement>) =>
-    setTerm(e.target.value);
-
-  useEffect(() => {
-    if (debounced) {
-      searchVideos(debounced).then(response => onSearchDone(response.items));
-    }
-  }, [debounced]);
-
-  return (
-    <SearchBar>
-      <input type="text" value={term} onChange={onSearch} />
-      <Droppable droppableId="SEARCH" type="item">
-        {(provided, snapshot) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
-            {items.map((i, index) => (
-              <Card key={i.id} index={index} item={i} />
-            ))}
-          </div>
-        )}
-      </Droppable>
-    </SearchBar>
-  );
-};
-const SearchBar = styled.div`
-  position: fixed;
-  width: 200px;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 200px;
-  background-color: white;
-  border-right: solid 1px #70797e;
-`;
 
 const BoardContainer = styled.div`
   min-height: calc(100vh - 16px);

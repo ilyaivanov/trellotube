@@ -7,9 +7,10 @@ import Card from "./Card";
 interface Props {
   column: Column;
   index: number;
+  onDelete: (columnId: string) => void;
 }
 
-const ColumnView = ({ column, index}: Props) => {
+const ColumnView = ({ column, index, onDelete }: Props) => {
   return (
     <Draggable draggableId={column.id} index={index}>
       {columnProvided => (
@@ -17,7 +18,10 @@ const ColumnView = ({ column, index}: Props) => {
           ref={columnProvided.innerRef}
           {...columnProvided.draggableProps}
         >
-          <Title {...columnProvided.dragHandleProps}>{column.name}</Title>
+          <Title {...columnProvided.dragHandleProps}>
+            {column.name}{" "}
+            <Options onClick={() => onDelete(column.id)}>X</Options>
+          </Title>
           <Droppable droppableId={column.id} type="item">
             {(provided, snapshot) => (
               <TaskList
@@ -37,6 +41,9 @@ const ColumnView = ({ column, index}: Props) => {
     </Draggable>
   );
 };
+const Options = styled.button`
+  display: none;
+`;
 
 const ColumnContainer = styled.div`
   background-color: lightgrey;
@@ -47,11 +54,17 @@ const ColumnContainer = styled.div`
   flex-direction: column;
   padding-left: 8px;
   padding-right: 8px;
+  &:hover ${Options} {
+    display: inherit;
+  }
 `;
 
 const Title = styled.h4`
   margin-bottom: 0;
   padding: 8px;
+
+  display: flex;
+  justify-content: space-between;
 `;
 
 const TaskList = styled.div<any>`

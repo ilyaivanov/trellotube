@@ -43,7 +43,8 @@ const createBoard = (...column: Column[]): Board => ({
     res[c.id] = c;
     return res;
   }, {}),
-  columnOrders: []
+  columnOrders: [],
+  searchItems: []
 });
 
 const createColumn = (columnId: string, itemsNames: string[]): Column => ({
@@ -52,7 +53,9 @@ const createColumn = (columnId: string, itemsNames: string[]): Column => ({
   id: columnId,
   items: itemsNames.map(i => ({
     id: i,
-    text: i
+    text: i,
+    videoId: "",
+    imageUrl: ""
   }))
 });
 
