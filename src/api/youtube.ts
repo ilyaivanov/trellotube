@@ -1,6 +1,6 @@
-import { YOUTUBE_KEY } from "../keys";
-import { ItemKind, YoutubeSearchResponse } from "./types";
-import { Item } from "../types";
+import {YOUTUBE_KEY} from "../keys";
+import {ItemKind, YoutubeSearchResponse} from "./types";
+import {Item} from "../types";
 
 interface ResponseType {
   items: Item[];
@@ -49,7 +49,7 @@ const defaultProps = {
 };
 
 const parseProps = (props: any): string => {
-  const allProps = { ...props, ...defaultProps };
+  const allProps = {...props, ...defaultProps};
   return Object.keys(allProps)
     .filter(key => typeof allProps[key] !== "undefined")
     .map(key => `${key}=${allProps[key]}`)

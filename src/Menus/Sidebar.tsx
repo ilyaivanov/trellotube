@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import SearchArea from "./SearchSidebar";
-import { ApplicationState, Board, Item } from "../types";
+import {ApplicationState, Board, Item} from "../types";
 
 type SidebarState = "search" | "board";
 
@@ -11,7 +11,7 @@ interface Props {
   onSelectBoard: (boardId: string) => void;
 }
 
-const Sidebar = ({ app, onSearchDone, onSelectBoard }: Props) => {
+const Sidebar = ({app, onSearchDone, onSelectBoard}: Props) => {
   const [state, setState] = useState<SidebarState>("search");
   return (
     <SidebarContainer>
@@ -23,7 +23,7 @@ const Sidebar = ({ app, onSearchDone, onSelectBoard }: Props) => {
       </button>
       {state === "search" ? (
         <SearchArea
-          items={app.boards[app.selectedBoard].columns["SEARCH"].items}
+          items={app.boards[app.selectedBoard].columns['SEARCH'].items}
           onSearchDone={onSearchDone}
         />
       ) : (
@@ -48,7 +48,7 @@ interface BoardItemProps {
   isSelected: boolean;
 }
 
-const BoardItem = ({ onSelectBoard, board, isSelected }: BoardItemProps) => {
+const BoardItem = ({onSelectBoard, board, isSelected}: BoardItemProps) => {
   const Item = isSelected ? SelectedBoard : UnselectedBoard;
   return (
     <div>

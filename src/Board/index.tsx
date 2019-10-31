@@ -1,10 +1,10 @@
 import React from "react";
-import { useBoard } from "../state";
+import {useBoard} from "../state";
 import styled from "styled-components";
-import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
-import { handleDnd } from "../operations";
+import {DragDropContext, Droppable, DropResult} from "react-beautiful-dnd";
+import {handleDnd} from "../operations";
 import ColumnView from "./Column";
-import { Board, Column, Item } from "../types";
+import {Board, Column, Item} from "../types";
 import Sidebar from "../Menus/Sidebar";
 
 const App = () => {

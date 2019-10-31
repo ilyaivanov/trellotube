@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { Item } from "../types";
-import { Draggable } from "react-beautiful-dnd";
+import {Item} from "../types";
+import {Draggable} from "react-beautiful-dnd";
 import React from "react";
 
 interface Props {
@@ -16,7 +16,7 @@ const decode = (text: string) => {
   return dom.body.textContent;
 };
 
-const Task = ({ item, index }: Props) => (
+const Task = ({item, index}: Props) => (
   <Draggable draggableId={item.id} index={index} type="item">
     {provided => (
       <TaskContainer

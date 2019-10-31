@@ -1,8 +1,8 @@
-import { Item } from "../types";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { useDebounce } from "../hooks";
-import { searchVideos } from "../api/youtube";
-import { Droppable } from "react-beautiful-dnd";
+import {Item} from "../types";
+import React, {ChangeEvent, useEffect, useState} from "react";
+import {useDebounce} from "../hooks";
+import {searchVideos} from "../api/youtube";
+import {Droppable} from "react-beautiful-dnd";
 import Card from "../Board/Card";
 
 export interface SearchProps {
@@ -10,7 +10,7 @@ export interface SearchProps {
   onSearchDone: (items: Item[]) => void;
 }
 
-const SearchArea = ({ items, onSearchDone }: SearchProps) => {
+const SearchArea = ({items, onSearchDone}: SearchProps) => {
   const [term, setTerm] = useState("");
   const debounced = useDebounce(term, 600);
   const onSearch = (e: ChangeEvent<HTMLInputElement>) =>
@@ -24,17 +24,12 @@ const SearchArea = ({ items, onSearchDone }: SearchProps) => {
 
   return (
     <>
-      <input
-        data-testid="search-input"
-        type="text"
-        value={term}
-        onChange={onSearch}
-      />
+      <input data-testid="search-input" type="text" value={term} onChange={onSearch}/>
       <Droppable droppableId="SEARCH" type="item">
         {(provided, snapshot) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {items.map((i, index) => (
-              <Card key={i.id} index={index} item={i} />
+              <Card key={i.id} index={index} item={i}/>
             ))}
           </div>
         )}

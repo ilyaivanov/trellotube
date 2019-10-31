@@ -1,5 +1,5 @@
-import { ApplicationState } from "./types";
-import { useState } from "react";
+import {ApplicationState} from "./types";
+import {useState} from "react";
 
 let _id = 100;
 const id = () => _id++ + "";
@@ -38,11 +38,11 @@ const initialState = (): ApplicationState => ({
         "2": {
           id: "2",
           items: [
-            { text: "Title 2", id: id(), videoId: "1", imageUrl: "" },
-            { text: "Title 3", id: id(), videoId: "1", imageUrl: "" },
-            { text: "Title 4", id: id(), videoId: "1", imageUrl: "" },
-            { text: "Title 5", id: id(), videoId: "1", imageUrl: "" },
-            { text: "Title 6", id: id(), videoId: "1", imageUrl: "" }
+            {text: "Title 2", id: id(), videoId: "1", imageUrl: ""},
+            {text: "Title 3", id: id(), videoId: "1", imageUrl: ""},
+            {text: "Title 4", id: id(), videoId: "1", imageUrl: ""},
+            {text: "Title 5", id: id(), videoId: "1", imageUrl: ""},
+            {text: "Title 6", id: id(), videoId: "1", imageUrl: ""}
           ],
           name: "Second",
           type: "PLAYLIST"
@@ -50,9 +50,9 @@ const initialState = (): ApplicationState => ({
         "3": {
           id: "3",
           items: [
-            { text: "Album 1.1", id: id(), videoId: "1", imageUrl: "" },
-            { text: "Album 2.2", id: id(), videoId: "1", imageUrl: "" },
-            { text: "Album 3.3", id: id(), videoId: "1", imageUrl: "" }
+            {text: "Album 1.1", id: id(), videoId: "1", imageUrl: ""},
+            {text: "Album 2.2", id: id(), videoId: "1", imageUrl: ""},
+            {text: "Album 3.3", id: id(), videoId: "1", imageUrl: ""}
           ],
           name: "Third",
           type: "SEARCH"
