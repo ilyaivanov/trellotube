@@ -9,9 +9,10 @@ interface Props {
   app: ApplicationState;
   onSearchDone: (items: Item[]) => void;
   onSelectBoard: (boardId: string) => void;
+  onPlay: (youtubeId: string) => void;
 }
 
-const Sidebar = ({app, onSearchDone, onSelectBoard}: Props) => {
+const Sidebar = ({app, onSearchDone, onSelectBoard, onPlay}: Props) => {
   const [state, setState] = useState<SidebarState>("search");
   return (
     <SidebarContainer>
@@ -23,6 +24,7 @@ const Sidebar = ({app, onSearchDone, onSelectBoard}: Props) => {
       </button>
       {state === "search" ? (
         <SearchArea
+          onPlay={onPlay}
           items={app.boards[app.selectedBoard].columns['SEARCH'].items}
           onSearchDone={onSearchDone}
         />

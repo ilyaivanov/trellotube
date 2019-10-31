@@ -6,6 +6,7 @@ import React from "react";
 interface Props {
   item: Item;
   index: number;
+  onPress: () => void;
 }
 
 const decode = (text: string) => {
@@ -16,10 +17,11 @@ const decode = (text: string) => {
   return dom.body.textContent;
 };
 
-const Task = ({item, index}: Props) => (
+const Task = ({item, index, onPress}: Props) => (
   <Draggable draggableId={item.id} index={index} type="item">
     {provided => (
       <TaskContainer
+        onClick={onPress}
         ref={provided.innerRef}
         {...provided.dragHandleProps}
         {...provided.draggableProps}

@@ -1,15 +1,16 @@
-import React from "react";
-import {useBoard} from "../state";
+import React, { useState } from "react";
+import { useBoard } from "../state";
 import styled from "styled-components";
-import {DragDropContext, Droppable, DropResult} from "react-beautiful-dnd";
-import {handleDnd} from "../operations";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
+import { handleDnd } from "../operations";
 import ColumnView from "./Column";
-import {Board, Column, Item} from "../types";
+import { Board, Column, Item } from "../types";
 import Sidebar from "../Menus/Sidebar";
+import Player from "../player/Player";
 
 const App = () => {
   const [appState, setAppState] = useBoard();
-
+  const [videoId, setVideoId] = useState<string>();
   const updateBoard = (board: Board) => {
     setAppState({
       ...appState,
@@ -86,6 +87,7 @@ const App = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Sidebar
+        onPlay={setVideoId}
         app={appState}
         onSearchDone={onSearchDone}
         onSelectBoard={onSelectBoard}
@@ -95,6 +97,7 @@ const App = () => {
           <BoardContainer ref={provided.innerRef} {...provided.droppableProps}>
             {selectedBoard.columnOrders.map((cId, index) => (
               <ColumnView
+                onPlay={setVideoId}
                 key={cId}
                 onDelete={onDelete}
                 column={selectedBoard.columns[cId]}
@@ -107,6 +110,10 @@ const App = () => {
           </BoardContainer>
         )}
       </Droppable>
+      <Player
+        videoId={videoId}
+        onEnd={() => console.log("on video end, TODO: play next track")}
+      />
     </DragDropContext>
   );
 };

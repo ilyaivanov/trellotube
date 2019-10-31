@@ -1,17 +1,24 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {Draggable, Droppable} from "react-beautiful-dnd";
-import {Column} from "../types";
+import { Draggable, Droppable } from "react-beautiful-dnd";
+import { Column } from "../types";
 import Card from "./Card";
 
 interface Props {
   column: Column;
   index: number;
   onDelete: (columnId: string) => void;
+  onPlay: (youtubeId: string) => void;
   renameColumn: (columnId: string, newText: string) => void;
 }
 
-const ColumnView = ({column, index, onDelete, renameColumn}: Props) => {
+const ColumnView = ({
+  column,
+  index,
+  onDelete,
+  renameColumn,
+  onPlay
+}: Props) => {
   const [isRenaming, setIsRenaming] = useState(false);
   const [newText, setNewText] = useState(column.name);
   const onEditButtonPress = () => {
@@ -51,7 +58,12 @@ const ColumnView = ({column, index, onDelete, renameColumn}: Props) => {
                 {...provided.droppableProps}
               >
                 {column.items.map((item, index) => (
-                  <Card index={index} key={item.id} item={item}/>
+                  <Card
+                    onPress={() => onPlay(item.videoId)}
+                    index={index}
+                    key={item.id}
+                    item={item}
+                  />
                 ))}
                 {provided.placeholder}
               </TaskList>
@@ -90,7 +102,7 @@ const Title = styled.h4`
 
 const TaskList = styled.div<any>`
   background-color: ${(props: any) =>
-  props.isDraggingOver ? "skyblue" : "lightgrey"};
+    props.isDraggingOver ? "skyblue" : "lightgrey"};
   flex-grow: 1;
   min-height: 50px;
 `;
