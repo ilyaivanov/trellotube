@@ -53,6 +53,7 @@ const App = () => {
     const newColumn: Column = {
       items: [],
       name: "New Column",
+      //TODO: extract into separate file and use a getter id generator
       id: Math.random() + "",
       type: "PLAYLIST"
     };
@@ -106,7 +107,9 @@ const App = () => {
               />
             ))}
             {provided.placeholder}
-            <button onClick={createColumn}>+ Playlist</button>
+            <button data-testid="column-create" onClick={createColumn}>
+              + Playlist
+            </button>
           </BoardContainer>
         )}
       </Droppable>

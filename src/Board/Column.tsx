@@ -31,6 +31,7 @@ const ColumnView = ({
     <Draggable draggableId={column.id} index={index}>
       {columnProvided => (
         <ColumnContainer
+          data-testid={"column-" + column.id}
           ref={columnProvided.innerRef}
           {...columnProvided.draggableProps}
         >
@@ -47,7 +48,12 @@ const ColumnView = ({
             )}{" "}
             <Options>
               <button onClick={onEditButtonPress}>E</button>
-              <button onClick={() => onDelete(column.id)}>X</button>
+              <button
+                data-testid={"column-remove-" + column.id}
+                onClick={() => onDelete(column.id)}
+              >
+                X
+              </button>
             </Options>
           </Title>
           <Droppable droppableId={column.id} type="item">

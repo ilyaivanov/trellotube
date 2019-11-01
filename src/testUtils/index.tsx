@@ -6,6 +6,7 @@ import {
   waitForElement
 } from "@testing-library/react";
 import App from "../Board";
+import "@testing-library/jest-dom/extend-expect";
 
 jest.mock("../Menus/constants", () => ({
   SEARCH_DELAY: 0
@@ -58,5 +59,22 @@ export class ApplicationSandbox {
   }
   getBoardElement(boardId: string) {
     return this.app.getByTestId("board-" + boardId);
+  }
+
+  expectColumnToExist(columnId: string) {
+    expect(this.app.queryByTestId("column-" + columnId)).toBeInTheDocument();
+  }
+  expectColumnNotToExist(columnId: string) {
+    expect(
+      this.app.queryByTestId("column-" + columnId)
+    ).not.toBeInTheDocument();
+  }
+
+  clickRemoveColumn(columnId: string) {
+    fireEvent.click(this.app.getByTestId("column-remove-" + columnId));
+  }
+
+  clickCreateNewColumn(){
+    fireEvent.click(this.app.getByTestId("column-create"));
   }
 }
