@@ -1,52 +1,61 @@
 import "@testing-library/jest-dom/extend-expect";
 import React from "react";
-import { fireEvent, render } from "@testing-library/react";
-import Sidebar from "./Sidebar";
-import { DragDropContext } from "react-beautiful-dnd";
-import { useBoard } from "../state";
+import { ApplicationSandbox } from "../testUtils";
 
-interface Props {
-  onSelectBoard?: (boardId: string) => void;
-}
+jest.mock("../api/youtube", () => ({
+  searchVideos: () =>
+    Promise.resolve({
+      items: [
+        {
+          videoId: "VIDEOID",
+          imageUrl: "IMAGE_URL",
+          text: "SOME_TEXT",
+          id: "MYID_1"
+        },
+        {
+          videoId: "VIDEOID",
+          imageUrl: "IMAGE_URL",
+          text: "SOME_TEXT",
+          id: "MYID_2"
+        }
+      ]
+    })
+}));
 
-const SampleApp = ({ onSelectBoard }: Props) => {
-  const [state] = useBoard();
-  return (
-    <DragDropContext onDragEnd={() => "dummy"}>
-      <Sidebar
-        onPlay={() => "dummy"}
-        app={state}
-        onSearchDone={() => "dummy"}
-        onSelectBoard={onSelectBoard || (() => "dummy")}
-      />
-    </DragDropContext>
-  );
-};
+describe("App", () => {
+  let app: ApplicationSandbox;
+  beforeEach(() => (app = new ApplicationSandbox()));
 
-it("a search should be shown by default", () => {
-  const { getByTestId } = render(<SampleApp />);
-  expect(getByTestId("search-input")).toBeInTheDocument();
-});
+  afterEach(() => app.resetState());
+  it("a search should be shown by default", () => {
+    app.expectItemToBePresent("search-input");
+  });
 
-it("clicking on a board button should show boards options", () => {
-  const { getByTestId, queryByTestId } = render(<SampleApp />);
-  fireEvent.click(getByTestId("boards-button"));
-  expect(queryByTestId("search-input")).not.toBeInTheDocument();
-  expect(getByTestId("board-view")).toBeInTheDocument();
-});
+  it("clicking on a board button should show boards options", () => {
+    app.switchToBoard();
+    app.expectItemNotToBePresent("search-input");
+    app.expectItemToBePresent("board-view");
+  });
 
-it("clicking on a board then on a search button should show search", () => {
-  const { getByTestId, queryByTestId } = render(<SampleApp />);
-  fireEvent.click(getByTestId("boards-button"));
-  fireEvent.click(getByTestId("search-button"));
-  expect(queryByTestId("search-input")).toBeInTheDocument();
-  expect(queryByTestId("board-view")).not.toBeInTheDocument();
-});
+  it("clicking on a board then on a search button should show search", () => {
+    app.switchToBoard();
+    app.switchToSearch();
+    app.expectItemToBePresent("search-input");
+    app.expectItemNotToBePresent("board-view");
+  });
 
-it("clicking on a board should call onSelectBoard with propert board id", () => {
-  const onSelectBoard = jest.fn();
-  const { getByTestId } = render(<SampleApp onSelectBoard={onSelectBoard} />);
-  fireEvent.click(getByTestId("boards-button"));
-  fireEvent.click(getByTestId("board-BOARD_1"));
-  expect(onSelectBoard).toHaveBeenCalledWith("BOARD_1");
+  it("clicking on a board should call onSelectBoard with propert board id", () => {
+    app.switchToBoard();
+    const board = "BOARD_2";
+    expect(app.getBoardElement(board).nodeName).toBe("H4");
+    app.selectBoard(board);
+    expect(app.getBoardElement(board).nodeName).toBe("H2");
+  });
+
+  it("when searching for items they should appear ", async () => {
+    app.enterSearch("some dummy term");
+    await app.waitForVideoId("MYID_1");
+    app.expectVideoIdToBeInTheBoard("MYID_1");
+    app.expectVideoIdToBeInTheBoard("MYID_2");
+  });
 });

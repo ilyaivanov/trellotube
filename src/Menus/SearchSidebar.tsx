@@ -1,9 +1,10 @@
-import { Item } from "../types";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { useDebounce } from "../hooks";
-import { searchVideos } from "../api/youtube";
-import { Droppable } from "react-beautiful-dnd";
+import {Item} from "../types";
+import React, {ChangeEvent, useEffect, useState} from "react";
+import {useDebounce} from "../hooks";
+import {searchVideos} from "../api/youtube";
+import {Droppable} from "react-beautiful-dnd";
 import Card from "../Board/Card";
+import {SEARCH_DELAY} from "./constants";
 
 export interface SearchProps {
   items: Item[];
@@ -11,9 +12,9 @@ export interface SearchProps {
   onPlay: (youtubeId: string) => void;
 }
 
-const SearchArea = ({ items, onSearchDone, onPlay }: SearchProps) => {
+const SearchArea = ({items, onSearchDone, onPlay}: SearchProps) => {
   const [term, setTerm] = useState("");
-  const debounced = useDebounce(term, 600);
+  const debounced = useDebounce(term, SEARCH_DELAY);
   const onSearch = (e: ChangeEvent<HTMLInputElement>) =>
     setTerm(e.target.value);
 

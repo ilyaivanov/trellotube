@@ -4,7 +4,7 @@ import { useState } from "react";
 let _id = 100;
 const id = () => _id++ + "";
 
-const initialState = (): ApplicationState => ({
+export const initialState = (): ApplicationState => ({
   boards: {
     BOARD_1: {
       boardId: "BOARD_1",

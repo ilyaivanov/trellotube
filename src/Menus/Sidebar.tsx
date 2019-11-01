@@ -5,7 +5,7 @@ import {ApplicationState, Board, Item} from "../types";
 
 type SidebarState = "search" | "board";
 
-interface Props {
+export interface Props {
   app: ApplicationState;
   onSearchDone: (items: Item[]) => void;
   onSelectBoard: (boardId: string) => void;
@@ -52,6 +52,7 @@ interface BoardItemProps {
 
 const BoardItem = ({onSelectBoard, board, isSelected}: BoardItemProps) => {
   const Item = isSelected ? SelectedBoard : UnselectedBoard;
+  console.log(Item)
   return (
     <div>
       <Item
