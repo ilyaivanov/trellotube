@@ -38,7 +38,7 @@ export const initialState = (): ApplicationState => ({
         "2": {
           id: "2",
           items: [
-            { text: "Title 2", id: id(), videoId: "1", imageUrl: "" },
+            { text: "Title 2", id: 'MY_VIDEO_ID', videoId: "YOUTUBE_ID", imageUrl: "" },
             { text: "Title 3", id: id(), videoId: "1", imageUrl: "" },
             { text: "Title 4", id: id(), videoId: "1", imageUrl: "" },
             { text: "Title 5", id: id(), videoId: "1", imageUrl: "" },

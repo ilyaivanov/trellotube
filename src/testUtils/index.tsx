@@ -12,6 +12,12 @@ jest.mock("../Menus/constants", () => ({
   SEARCH_DELAY: 0
 }));
 
+jest.mock("react-youtube");
+const foo = require("react-youtube");
+foo.default = ({ videoId }: any) => (
+  <div data-testid={"playing-video-" + videoId} />
+);
+
 export class ApplicationSandbox {
   private app: RenderResult;
   constructor() {
@@ -74,7 +80,31 @@ export class ApplicationSandbox {
     fireEvent.click(this.app.getByTestId("column-remove-" + columnId));
   }
 
-  clickCreateNewColumn(){
+  clickCreateNewColumn() {
     fireEvent.click(this.app.getByTestId("column-create"));
+  }
+
+  startRenamingColumn(columnId: string) {
+    this.clickByTestId("column-rename-" + columnId);
+  }
+  endRenamingColumn(columnId: string) {
+    this.clickByTestId("column-rename-" + columnId);
+  }
+  enterColumnNameText(columnId: string, columnText: string) {
+    fireEvent.change(this.app.getByTestId("column-label-input-" + columnId), {
+      target: { value: columnText }
+    });
+  }
+
+  hitPlayVideo(videoId: string) {
+    this.clickByTestId("video-" + videoId);
+  }
+
+  expectVideoToBePlaying(youtubeId: string) {
+    this.expectItemToBePresent("playing-video-" + youtubeId);
+  }
+
+  private clickByTestId(testId: string) {
+    fireEvent.click(this.app.getByTestId(testId));
   }
 }

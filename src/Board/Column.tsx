@@ -41,13 +41,14 @@ const ColumnView = ({
                 autoFocus
                 type="text"
                 value={newText}
+                data-testid={"column-label-input-" + column.id}
                 onChange={e => setNewText(e.target.value)}
               />
             ) : (
               column.name
             )}{" "}
             <Options>
-              <button onClick={onEditButtonPress}>E</button>
+              <button data-testid={"column-rename-" + column.id} onClick={onEditButtonPress}>E</button>
               <button
                 data-testid={"column-remove-" + column.id}
                 onClick={() => onDelete(column.id)}

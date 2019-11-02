@@ -11,7 +11,9 @@ const Player = ({ videoId, onEnd }: Props) => {
 
   if (!videoId) return null;
 
-  return <YoutubePlayerWrapper onReady={setPlayer} videoId={videoId} onEnd={onEnd} />;
+  return (
+    <YoutubePlayerWrapper onReady={setPlayer} videoId={videoId} onEnd={onEnd} />
+  );
 };
 
 const YoutubePlayerWrapper = (props: any) => (
@@ -20,7 +22,6 @@ const YoutubePlayerWrapper = (props: any) => (
       {...props}
       onReady={e => props.onReady(e.target)}
       onEnd={props.onEnd}
-      data-testid="player"
       opts={{
         height: "150",
         width: "400",
