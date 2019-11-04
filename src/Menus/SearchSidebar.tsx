@@ -3,7 +3,7 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import {useDebounce} from "../hooks";
 import {searchVideos} from "../api/youtube";
 import {Droppable} from "react-beautiful-dnd";
-import Card from "../Board/Card";
+import Card from "../board/Card";
 import {SEARCH_DELAY} from "./constants";
 
 export interface SearchProps {

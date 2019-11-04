@@ -5,8 +5,10 @@ import {
   RenderResult,
   waitForElement
 } from "@testing-library/react";
-import App from "../Board";
+import App from "../board";
 import "@testing-library/jest-dom/extend-expect";
+import {store} from "../store";
+import {Provider} from "react-redux";
 
 jest.mock("../Menus/constants", () => ({
   SEARCH_DELAY: 0
@@ -21,7 +23,10 @@ foo.default = ({ videoId }: any) => (
 export class ApplicationSandbox {
   private app: RenderResult;
   constructor() {
-    this.app = render(<App />);
+    const app = <Provider store={store}>
+      <App />
+    </Provider>;
+    this.app = render(app);
   }
 
   resetState() {
