@@ -1,48 +1,29 @@
 import React from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import ColumnView from "./Column";
-import { ApplicationState, Board } from "../types";
+import { ApplicationState, Column } from "../types";
 import Sidebar from "../Menus/Sidebar";
 import Player from "../player/Player";
 import { connect } from "react-redux";
-import {
-  createColumn,
-  endDrag,
-  removeColumn,
-  renameColumn,
-  selectBoard
-} from "./actions";
-import { getSelectedBoard } from "./reducer";
+import { createColumn, endDrag, selectBoard } from "./actions";
+import { getColumnsForSelectedBoard } from "./reducer";
 import { BoardContainer } from "./components";
+
 interface Props {
-  removeColumn: any;
   createColumn: any;
-  renameColumn: any;
   endDrag: any;
-  selectedBoard: Board;
+  columns: Column[];
 }
 
-const App = ({
-  removeColumn,
-  createColumn,
-  renameColumn,
-  endDrag,
-  selectedBoard
-}: Props) => {
+const App = ({ createColumn, endDrag, columns }: Props) => {
   return (
     <DragDropContext onDragEnd={endDrag}>
       <Sidebar />
       <Droppable droppableId="board" direction={"horizontal"} type="column">
         {provided => (
           <BoardContainer ref={provided.innerRef} {...provided.droppableProps}>
-            {selectedBoard.columnOrders.map((cId, index) => (
-              <ColumnView
-                key={cId}
-                onDelete={removeColumn}
-                column={selectedBoard.columns[cId]}
-                index={index}
-                renameColumn={renameColumn}
-              />
+            {columns.map((column, index) => (
+              <ColumnView key={column.id} column={column} index={index} />
             ))}
             {provided.placeholder}
             <button data-testid="column-create" onClick={createColumn}>
@@ -59,15 +40,13 @@ const App = ({
 };
 
 const mapState = (state: ApplicationState) => ({
-  selectedBoard: getSelectedBoard(state)
+  columns: getColumnsForSelectedBoard(state)
 });
 export default connect(
   mapState,
   {
-    removeColumn,
     createColumn,
     selectBoard,
-    renameColumn,
     endDrag
   }
 )(App);

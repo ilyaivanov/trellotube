@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Item } from "../types";
 import { Draggable } from "react-beautiful-dnd";
 import React from "react";
+import { TaskContainer, Img, Subtext } from "./components";
 
 interface Props {
   item: Item;
@@ -34,20 +35,4 @@ const Task = ({ item, index, onPress }: Props) => (
   </Draggable>
 );
 
-const TaskContainer = styled.div`
-  border-radius: 4px;
-  background-color: white;
-  margin-bottom: 8px;
-`;
-
-const Img = styled.img`
-  width: 100%;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-`;
-
-const Subtext = styled.div`
-  color: #1e1e1e;
-  padding: 4px;
-`;
 export default Task;

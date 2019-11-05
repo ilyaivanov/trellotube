@@ -91,3 +91,10 @@ const updateBoard = (state: ApplicationState, board: Board) => ({
 //SELECTOR CANDIDATES
 export const getSelectedBoard = (state: ApplicationState) =>
   state.boards[state.selectedBoard];
+
+export const getColumnsForSelectedBoard = (
+  state: ApplicationState
+): Column[] => {
+  const board = getSelectedBoard(state);
+  return board.columnOrders.map(id => board.columns[id]);
+};
