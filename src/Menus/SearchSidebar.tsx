@@ -1,18 +1,21 @@
-import {Item} from "../types";
-import React, {ChangeEvent, useEffect, useState} from "react";
-import {useDebounce} from "../hooks";
-import {searchVideos} from "../api/youtube";
-import {Droppable} from "react-beautiful-dnd";
+import { ApplicationState, Item } from "../types";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useDebounce } from "../hooks";
+import { searchVideos } from "../api/youtube";
+import { Droppable } from "react-beautiful-dnd";
 import Card from "../board/Card";
-import {SEARCH_DELAY} from "./constants";
+import { SEARCH_DELAY } from "./constants";
+import { connect } from "react-redux";
+import { play } from "../player/actions";
+import { searchDone } from "../board/actions";
 
 export interface SearchProps {
   items: Item[];
-  onSearchDone: (items: Item[]) => void;
-  onPlay: (youtubeId: string) => void;
+  searchDone: (items: Item[]) => void;
+  play: (youtubeId: string) => void;
 }
 
-const SearchArea = ({items, onSearchDone, onPlay}: SearchProps) => {
+const SearchArea = ({ items, searchDone, play }: SearchProps) => {
   const [term, setTerm] = useState("");
   const debounced = useDebounce(term, SEARCH_DELAY);
   const onSearch = (e: ChangeEvent<HTMLInputElement>) =>
@@ -20,7 +23,7 @@ const SearchArea = ({items, onSearchDone, onPlay}: SearchProps) => {
 
   useEffect(() => {
     if (debounced) {
-      searchVideos(debounced).then(response => onSearchDone(response.items));
+      searchVideos(debounced).then(response => searchDone(response.items));
     }
   }, [debounced]);
 
@@ -37,7 +40,7 @@ const SearchArea = ({items, onSearchDone, onPlay}: SearchProps) => {
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {items.map((i, index) => (
               <Card
-                onPress={() => onPlay(i.videoId)}
+                onPress={() => play(i.videoId)}
                 key={i.id}
                 index={index}
                 item={i}
@@ -49,5 +52,10 @@ const SearchArea = ({items, onSearchDone, onPlay}: SearchProps) => {
     </>
   );
 };
-
-export default SearchArea;
+const mapState = (state: ApplicationState) => ({
+  items: state.boards[state.selectedBoard].columns["SEARCH"].items
+});
+export default connect(
+  mapState,
+  { play, searchDone }
+)(SearchArea);

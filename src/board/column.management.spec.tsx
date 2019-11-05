@@ -28,8 +28,15 @@ it("when renaming a column it's title label should change", () => {
   app.expectColumnNotToExist("NEW COLUMN");
 });
 
-it("plan hitting a play button a video should be player", () => {
+it("plan hitting a play in column button a video should be player", () => {
   const app = new ApplicationSandbox();
   app.hitPlayVideo("MY_VIDEO_ID");
   app.expectVideoToBePlaying("YOUTUBE_ID");
+});
+
+
+it("plan hitting a play in search button a video should be player", () => {
+  const app = new ApplicationSandbox();
+  app.hitPlayVideo("MY_VIDEO_ID_AT_SEARCH");
+  app.expectVideoToBePlaying("YOUTUBE_ID_AT_SEARCH");
 });

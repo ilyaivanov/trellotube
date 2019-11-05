@@ -1,18 +1,11 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import SearchArea from "./SearchSidebar";
-import {ApplicationState, Board, Item} from "../types";
+import BoardsSidebar from "./BoardsSidebar";
 
 type SidebarState = "search" | "board";
 
-export interface Props {
-  app: ApplicationState;
-  onSearchDone: (items: Item[]) => void;
-  onSelectBoard: (boardId: string) => void;
-  onPlay: (youtubeId: string) => void;
-}
-
-const Sidebar = ({app, onSearchDone, onSelectBoard, onPlay}: Props) => {
+const Sidebar = () => {
   const [state, setState] = useState<SidebarState>("search");
   return (
     <SidebarContainer>
@@ -22,51 +15,11 @@ const Sidebar = ({app, onSearchDone, onSelectBoard, onPlay}: Props) => {
       <button data-testid="search-button" onClick={() => setState("search")}>
         search
       </button>
-      {state === "search" ? (
-        <SearchArea
-          onPlay={onPlay}
-          items={app.boards[app.selectedBoard].columns['SEARCH'].items}
-          onSearchDone={onSearchDone}
-        />
-      ) : (
-        <div data-testid="board-view">
-          {app.boardsOrder.map(boardId => (
-            <BoardItem
-              key={boardId}
-              onSelectBoard={onSelectBoard}
-              isSelected={boardId === app.selectedBoard}
-              board={app.boards[boardId]}
-            />
-          ))}
-        </div>
-      )}
+      {state === "search" ? <SearchArea/> : <BoardsSidebar/>}
     </SidebarContainer>
   );
 };
 
-interface BoardItemProps {
-  onSelectBoard: (boardId: string) => void;
-  board: Board;
-  isSelected: boolean;
-}
-
-const BoardItem = ({onSelectBoard, board, isSelected}: BoardItemProps) => {
-  const Item = isSelected ? SelectedBoard : UnselectedBoard;
-  console.log(Item)
-  return (
-    <div>
-      <Item
-        data-testid={"board-" + board.boardId}
-        onClick={() => onSelectBoard(board.boardId)}
-      >
-        {board.boardName}
-      </Item>
-    </div>
-  );
-};
-
-const SelectedBoard = styled.h2``;
-const UnselectedBoard = styled.h4``;
 export default Sidebar;
 
 const SidebarContainer = styled.div`

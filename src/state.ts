@@ -59,7 +59,7 @@ export const initialState = (): ApplicationState => ({
         },
         SEARCH: {
           id: "SEARCH",
-          items: [],
+          items: [{ text: "Title 2", id: 'MY_VIDEO_ID_AT_SEARCH', videoId: "YOUTUBE_ID_AT_SEARCH", imageUrl: "" },],
           name: "SEARCH",
           type: "SEARCH"
         }

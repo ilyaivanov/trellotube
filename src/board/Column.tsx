@@ -3,12 +3,14 @@ import styled from "styled-components";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { Column } from "../types";
 import Card from "./Card";
+import {play} from "../player/actions";
+import {connect} from "react-redux";
 
 interface Props {
   column: Column;
   index: number;
   onDelete: (columnId: string) => void;
-  onPlay: (youtubeId: string) => void;
+  play: (youtubeId: string) => void;
   renameColumn: (columnId: string, newText: string) => void;
 }
 
@@ -17,7 +19,7 @@ const ColumnView = ({
   index,
   onDelete,
   renameColumn,
-  onPlay
+                      play
 }: Props) => {
   const [isRenaming, setIsRenaming] = useState(false);
   const [newText, setNewText] = useState(column.name);
@@ -66,7 +68,7 @@ const ColumnView = ({
               >
                 {column.items.map((item, index) => (
                   <Card
-                    onPress={() => onPlay(item.videoId)}
+                    onPress={() => play(item.videoId)}
                     index={index}
                     key={item.id}
                     item={item}
@@ -114,4 +116,4 @@ const TaskList = styled.div<any>`
   min-height: 50px;
 `;
 
-export default ColumnView;
+export default connect(null, {play})(ColumnView);

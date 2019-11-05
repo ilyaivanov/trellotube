@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Youtube from "react-youtube";
+import { ApplicationState } from "../types";
+import { connect } from "react-redux";
 
 interface Props {
   videoId?: string;
@@ -40,4 +42,8 @@ const style = {
   bottom: 15
 } as {};
 
-export default Player;
+const mapState = (state: ApplicationState) => ({
+  videoId: state.videoBeingPlayed
+});
+
+export default connect(mapState)(Player);
