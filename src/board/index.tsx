@@ -2,7 +2,7 @@ import React from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import ColumnView from "./Column";
 import { ApplicationState, Column } from "../types";
-import Sidebar from "../Menus/Sidebar";
+import Sidebar from "../menu/Sidebar";
 import Player from "../player/Player";
 import { connect } from "react-redux";
 import { createColumn, endDrag, selectBoard } from "./actions";

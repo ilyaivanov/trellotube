@@ -10,7 +10,7 @@ import "@testing-library/jest-dom/extend-expect";
 import {store} from "../store";
 import {Provider} from "react-redux";
 
-jest.mock("../Menus/constants", () => ({
+jest.mock("../menu/constants", () => ({
   SEARCH_DELAY: 0
 }));
 
