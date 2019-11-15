@@ -1,8 +1,8 @@
-import styled from "styled-components";
 import { Item } from "../types";
 import { Draggable } from "react-beautiful-dnd";
 import React from "react";
 import { TaskContainer, Img, Subtext } from "./components";
+import Truncate from "react-truncate";
 
 interface Props {
   item: Item;
@@ -10,12 +10,12 @@ interface Props {
   onPress: () => void;
 }
 
-const decode = (text: string) => {
+const decode = (text: string): string => {
   const dom = new DOMParser().parseFromString(
     "<!doctype html><body>" + text,
     "text/html"
   );
-  return dom.body.textContent;
+  return dom.body.textContent || "";
 };
 
 const Task = ({ item, index, onPress }: Props) => (
@@ -29,7 +29,11 @@ const Task = ({ item, index, onPress }: Props) => (
         {...provided.draggableProps}
       >
         <Img src={item.imageUrl}></Img>
-        <Subtext>{decode(item.text)}</Subtext>
+        <Subtext>
+          <Truncate width={220 - 74 - 10} lines={2}>
+            {decode(item.text)}
+          </Truncate>
+        </Subtext>
       </TaskContainer>
     )}
   </Draggable>

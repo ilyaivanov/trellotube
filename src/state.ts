@@ -14,19 +14,19 @@ export const initialState = (): ApplicationState => ({
           id: "1",
           items: [
             {
-              text: "Album 1",
+              text: "Short name",
               id: id(),
               videoId: "1",
               imageUrl: "https://i.ytimg.com/vi/6Zo_FTUNDBI/mqdefault.jpg"
             },
             {
-              text: "Album 2",
+              text: "Two lines of text but not that long",
               id: id(),
               videoId: "1",
               imageUrl: "https://i.ytimg.com/vi/-xj2BmxEkcI/mqdefault.jpg"
             },
             {
-              text: "Album 3",
+              text: "A very-very long text with lots of redundant infomation",
               id: id(),
               videoId: "1",
               imageUrl: "https://i.ytimg.com/vi/ZchNI8bEnoY/mqdefault.jpg"
