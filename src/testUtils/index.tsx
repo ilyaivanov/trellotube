@@ -7,8 +7,10 @@ import {
 } from "@testing-library/react";
 import App from "../board";
 import "@testing-library/jest-dom/extend-expect";
-import {store} from "../store";
-import {Provider} from "react-redux";
+import { store } from "../store";
+import { Provider } from "react-redux";
+
+jest.mock("react-truncate", () => ({ children }: any) => children);
 
 jest.mock("../menu/constants", () => ({
   SEARCH_DELAY: 0
@@ -23,9 +25,11 @@ foo.default = ({ videoId }: any) => (
 export class ApplicationSandbox {
   private app: RenderResult;
   constructor() {
-    const app = <Provider store={store}>
-      <App />
-    </Provider>;
+    const app = (
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
     this.app = render(app);
   }
 
@@ -108,6 +112,18 @@ export class ApplicationSandbox {
   expectVideoToBePlaying(youtubeId: string) {
     this.expectItemToBePresent("playing-video-" + youtubeId);
   }
+  createNewBoard() {
+    this.clickByTestId("create-board-button");
+  }
+
+  checkThatBoardExist(boardId: string) {
+    this.expectItemToBePresent("board-" + boardId);
+  }
+
+  chechThatBoardIsSelected(boardId: string) {
+    expect(this.app.getByTestId("board-" + boardId).tagName).toEqual('H2');
+  }
+
 
   private clickByTestId(testId: string) {
     fireEvent.click(this.app.getByTestId(testId));

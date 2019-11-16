@@ -1,6 +1,7 @@
-import { ApplicationState, Board, Column } from "../types";
+import { ApplicationState, Board, BoardsContainer, Column } from "../types";
 import { Action, ACTIONS } from "./actions";
 import { handleDnd } from "../operations";
+import { initialState } from "../state";
 
 export default (state: ApplicationState, action: Action) => {
   if (action.type === ACTIONS.REMOVE_COLUMN) {
@@ -75,6 +76,14 @@ export default (state: ApplicationState, action: Action) => {
     const selectedBoard = getSelectedBoard(state);
     return updateBoard(state, handleDnd(selectedBoard, action.dropResult));
   }
+  if (action.type === ACTIONS.CREATE_BOARD) {
+    return {
+      ...state,
+      boardsOrder: state.boardsOrder.concat([action.boardId]),
+      boards: createDefaultBoard(state.boards, action.boardId),
+      selectedBoard: action.boardId
+    };
+  }
   return state;
 };
 
@@ -87,6 +96,18 @@ const updateBoard = (state: ApplicationState, board: Board) => ({
     [board.boardId]: board
   }
 });
+
+const createDefaultBoard = (boards: BoardsContainer, boardId: string) => {
+  const newBoard: Board = JSON.parse(
+    JSON.stringify(initialState().boards["BOARD_2"])
+  );
+  newBoard.boardName = "New Board";
+  newBoard.boardId = boardId;
+  return {
+    ...boards,
+    [boardId]: newBoard
+  };
+};
 
 //SELECTOR CANDIDATES
 export const getSelectedBoard = (state: ApplicationState) =>

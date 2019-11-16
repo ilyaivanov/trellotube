@@ -1,5 +1,5 @@
-import {Item} from "../types";
-import {DropResult} from "react-beautiful-dnd";
+import { Item } from "../types";
+import { DropResult } from "react-beautiful-dnd";
 
 export enum ACTIONS {
   REMOVE_COLUMN = "REMOVE_COLUMN",
@@ -7,7 +7,8 @@ export enum ACTIONS {
   SEARCH_DONE = "SEARCH_DONE",
   SELECT_BOARD = "SELECT_BOARD",
   RENAME_COLUMN = "RENAME_COLUMN",
-  DRAG_END = "DRAG_END"
+  DRAG_END = "DRAG_END",
+  CREATE_BOARD = "CREATE_BOARD"
 }
 
 export interface RemoveAction {
@@ -40,12 +41,18 @@ export interface EndDrag {
   dropResult: DropResult;
 }
 
+export interface CreateBoard {
+  type: ACTIONS.CREATE_BOARD;
+  boardId: string;
+}
+
 export type Action =
   | RemoveAction
   | CreateColumnAction
   | SelectBoard
   | RenameColumn
   | EndDrag
+  | CreateBoard
   | SearchDone;
 
 export const removeColumn = (columnId: string) => ({
@@ -72,6 +79,14 @@ export const renameColumn = (columnId: string, newName: string) => ({
   columnId,
   newName
 });
+
+export const createAndSelectNewBoard = (): CreateBoard => {
+  const newID = Math.random() + "";
+  return {
+    type: ACTIONS.CREATE_BOARD,
+    boardId: newID
+  };
+};
 
 export const endDrag = (dropResult: DropResult): EndDrag => ({
   type: ACTIONS.DRAG_END,

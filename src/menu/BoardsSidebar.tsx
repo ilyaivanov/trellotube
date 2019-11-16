@@ -1,15 +1,19 @@
 import { ApplicationState, Board } from "../types";
 import React from "react";
 import { connect } from "react-redux";
-import { selectBoard } from "../board/actions";
+import { selectBoard, createAndSelectNewBoard } from "../board/actions";
 import { SelectedBoard, UnselectedBoard } from "./components";
 
 interface Props {
   app: ApplicationState;
   selectBoard: (boardId: string) => void;
+  createAndSelectNewBoard: () => void;
 }
-
-const BoardsSidebar = ({ app, selectBoard }: Props) => (
+const l = (e:any)=> {
+  console.log(e);
+  return  e;
+}
+const BoardsSidebar = ({ app, selectBoard, createAndSelectNewBoard }: Props) => (
   <div data-testid="board-view">
     {app.boardsOrder.map(boardId => (
       <BoardItem
@@ -19,6 +23,7 @@ const BoardsSidebar = ({ app, selectBoard }: Props) => (
         board={app.boards[boardId]}
       />
     ))}
+    <button data-testid="create-board-button" onClick={createAndSelectNewBoard}>create</button>
   </div>
 );
 
@@ -48,5 +53,5 @@ const mapState = (state: ApplicationState) => ({
 
 export default connect(
   mapState,
-  { selectBoard }
+  { selectBoard, createAndSelectNewBoard }
 )(BoardsSidebar);
