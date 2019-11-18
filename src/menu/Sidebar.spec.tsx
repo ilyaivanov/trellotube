@@ -46,9 +46,9 @@ describe("App", () => {
   it("clicking on a board should call onSelectBoard with propert board id", () => {
     app.switchToBoard();
     const board = "BOARD_2";
-    expect(app.getBoardElement(board).nodeName).toBe("H4");
+    app.checkThatBoardIsUnselected("BOARD_2");
     app.selectBoard(board);
-    expect(app.getBoardElement(board).nodeName).toBe("H2");
+    app.checkThatBoardIsSelected("BOARD_2");
   });
 
   it("when searching for items they should appear ", async () => {

@@ -17,15 +17,13 @@ it("creating a new column should show a new empty column", () => {
 
 it("when renaming a column it's title label should change", () => {
   const app = new ApplicationSandbox();
-  app.expectColumnToExist("1");
-  app.expectColumnNotToExist("NEW COLUMN");
+  app.expectColumnToHaveName("1", "First");
 
   app.startRenamingColumn("1");
   app.enterColumnNameText("1", "NEW COLUMN");
   app.endRenamingColumn("1");
 
-  app.expectColumnToExist("1");
-  app.expectColumnNotToExist("NEW COLUMN");
+  app.expectColumnToHaveName("1", "NEW COLUMN");
 });
 
 it("plan hitting a play in column button a video should be player", () => {
@@ -33,7 +31,6 @@ it("plan hitting a play in column button a video should be player", () => {
   app.hitPlayVideo("MY_VIDEO_ID");
   app.expectVideoToBePlaying("YOUTUBE_ID");
 });
-
 
 it("plan hitting a play in search button a video should be player", () => {
   const app = new ApplicationSandbox();

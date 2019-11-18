@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@types/react-truncate": "^2.3.3",
+    "jest-styled-components": "^6.3.4",
     "react": "16.10.2",
     "react-beautiful-dnd": "11.0.5",
     "react-dom": "16.10.2",

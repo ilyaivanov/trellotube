@@ -4,16 +4,25 @@ import { Column } from "../types";
 import Card from "./Card";
 import { play } from "../player/actions";
 import { connect } from "react-redux";
-import { ColumnContainer, TaskList } from "./components";
-import ColumnTitle from "./ColumnTitle";
+import {ColumnContainer, TaskList, Title, Options} from "./components";
+import EditableTitle from "../shared/EditableTitle";
+import { removeColumn, renameColumn } from "./actions";
 
 interface Props {
   column: Column;
   index: number;
   play: (youtubeId: string) => void;
+  renameColumn: (columnId: string, newLabel: string) => void;
+  removeColumn: (columnId: string) => void;
 }
 
-const ColumnView = ({ column, index, play }: Props) => {
+const ColumnView = ({
+  column,
+  index,
+  play,
+  removeColumn,
+  renameColumn
+}: Props) => {
   return (
     <Draggable draggableId={column.id} index={index}>
       {columnProvided => (
@@ -22,10 +31,15 @@ const ColumnView = ({ column, index, play }: Props) => {
           ref={columnProvided.innerRef}
           {...columnProvided.draggableProps}
         >
-          <ColumnTitle
+          <EditableTitle
             dragHandleProps={columnProvided.dragHandleProps}
             label={column.name}
-            columnId={column.id}
+            id={column.id}
+            onRename={renameColumn}
+            onRemove={removeColumn}
+            testIdGroupName={"column-label"}
+            Title={Title}
+            Options={Options}
           />
           <Droppable droppableId={column.id} type="item">
             {(provided, snapshot) => (
@@ -54,5 +68,5 @@ const ColumnView = ({ column, index, play }: Props) => {
 
 export default connect(
   null,
-  { play }
+  { play, renameColumn, removeColumn }
 )(ColumnView);

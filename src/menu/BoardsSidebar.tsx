@@ -1,51 +1,53 @@
 import { ApplicationState, Board } from "../types";
 import React from "react";
 import { connect } from "react-redux";
-import { selectBoard, createAndSelectNewBoard } from "../board/actions";
-import { SelectedBoard, UnselectedBoard } from "./components";
+import {
+  selectBoard,
+  createAndSelectNewBoard,
+  renameBoard,
+  removeBoard
+} from "../board/actions";
+import { BoardItemView, BoardOptions } from "./components";
+import EditableTitle from "../shared/EditableTitle";
 
 interface Props {
   app: ApplicationState;
   selectBoard: (boardId: string) => void;
   createAndSelectNewBoard: () => void;
+  renameBoard: (boardId: string, boardName: string) => void;
+  removeBoard: (boardId: string) => void;
 }
-const l = (e:any)=> {
-  console.log(e);
-  return  e;
-}
-const BoardsSidebar = ({ app, selectBoard, createAndSelectNewBoard }: Props) => (
+
+const BoardsSidebar = ({
+  app,
+  selectBoard,
+  createAndSelectNewBoard,
+  renameBoard,
+  removeBoard
+}: Props) => (
   <div data-testid="board-view">
     {app.boardsOrder.map(boardId => (
-      <BoardItem
+      <EditableTitle
+        //TODO fix performance problem here
+        dragHandleProps={{
+          isSelected: boardId === app.selectedBoard,
+          onClick: () => selectBoard(boardId)
+        }}
+        id={boardId}
         key={boardId}
-        onSelectBoard={selectBoard}
-        isSelected={boardId === app.selectedBoard}
-        board={app.boards[boardId]}
+        testIdGroupName="board-button"
+        label={app.boards[boardId].boardName}
+        onRename={renameBoard}
+        onRemove={removeBoard}
+        Title={BoardItemView}
+        Options={BoardOptions}
       />
     ))}
-    <button data-testid="create-board-button" onClick={createAndSelectNewBoard}>create</button>
+    <button data-testid="create-board-button" onClick={createAndSelectNewBoard}>
+      create
+    </button>
   </div>
 );
-
-interface BoardItemProps {
-  onSelectBoard: (boardId: string) => void;
-  board: Board;
-  isSelected: boolean;
-}
-
-const BoardItem = ({ onSelectBoard, board, isSelected }: BoardItemProps) => {
-  const Item = isSelected ? SelectedBoard : UnselectedBoard;
-  return (
-    <div>
-      <Item
-        data-testid={"board-" + board.boardId}
-        onClick={() => onSelectBoard(board.boardId)}
-      >
-        {board.boardName}
-      </Item>
-    </div>
-  );
-};
 
 const mapState = (state: ApplicationState) => ({
   app: state
@@ -53,5 +55,5 @@ const mapState = (state: ApplicationState) => ({
 
 export default connect(
   mapState,
-  { selectBoard, createAndSelectNewBoard }
+  { selectBoard, createAndSelectNewBoard, renameBoard, removeBoard }
 )(BoardsSidebar);

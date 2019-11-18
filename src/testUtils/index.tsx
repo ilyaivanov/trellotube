@@ -2,6 +2,7 @@ import React from "react";
 import {
   fireEvent,
   render,
+  cleanup,
   RenderResult,
   waitForElement
 } from "@testing-library/react";
@@ -9,6 +10,8 @@ import App from "../board";
 import "@testing-library/jest-dom/extend-expect";
 import { store } from "../store";
 import { Provider } from "react-redux";
+import "jest-styled-components";
+import {reset} from '../board/actions';
 
 jest.mock("react-truncate", () => ({ children }: any) => children);
 
@@ -34,7 +37,8 @@ export class ApplicationSandbox {
   }
 
   resetState() {
-    // store.dispatch({ type: "RESET" });
+    cleanup();
+    store.dispatch(reset());
   }
 
   enterSearch(value: string) {
@@ -70,14 +74,20 @@ export class ApplicationSandbox {
   }
 
   selectBoard(boardId: string) {
-    fireEvent.click(this.app.getByTestId("board-" + boardId));
+    fireEvent.click(this.app.getByTestId("board-button-" + boardId));
   }
+
   getBoardElement(boardId: string) {
     return this.app.getByTestId("board-" + boardId);
   }
 
   expectColumnToExist(columnId: string) {
     expect(this.app.queryByTestId("column-" + columnId)).toBeInTheDocument();
+  }
+  expectColumnToHaveName(columnId: string, name: string) {
+    expect(
+      this.app.getByTestId("column-label-title-" + columnId).innerHTML
+    ).toEqual(name);
   }
   expectColumnNotToExist(columnId: string) {
     expect(
@@ -86,7 +96,7 @@ export class ApplicationSandbox {
   }
 
   clickRemoveColumn(columnId: string) {
-    fireEvent.click(this.app.getByTestId("column-remove-" + columnId));
+    fireEvent.click(this.app.getByTestId("column-label-remove-" + columnId));
   }
 
   clickCreateNewColumn() {
@@ -94,15 +104,53 @@ export class ApplicationSandbox {
   }
 
   startRenamingColumn(columnId: string) {
-    this.clickByTestId("column-rename-" + columnId);
+    this.clickByTestId("column-label-rename-" + columnId);
   }
+
   endRenamingColumn(columnId: string) {
-    this.clickByTestId("column-rename-" + columnId);
+    this.clickByTestId("column-label-rename-" + columnId);
   }
+
   enterColumnNameText(columnId: string, columnText: string) {
     fireEvent.change(this.app.getByTestId("column-label-input-" + columnId), {
       target: { value: columnText }
     });
+  }
+
+  expectBoardToHaveName(columnId: string, name: string) {
+    expect(
+      this.app.getByTestId("board-button-title-" + columnId).innerHTML
+    ).toEqual(name);
+  }
+
+  startRenamingBoard(boardId: string) {
+    this.clickByTestId("board-button-rename-" + boardId);
+  }
+
+  stopRenamingBoard(boardId: string) {
+    this.clickByTestId("board-button-rename-" + boardId);
+  }
+
+  enterBoardName(boardId: string, boardText: string) {
+    fireEvent.change(this.app.getByTestId("board-button-input-" + boardId), {
+      target: { value: boardText }
+    });
+  }
+
+  expectBoardToExist(boardId: string) {
+    expect(
+      this.app.getByTestId("board-button-title-" + boardId)
+    ).toBeInTheDocument();
+  }
+
+  removeBoard(boardId: string) {
+    this.clickByTestId("board-button-remove-" + boardId);
+  }
+
+  expectBoardNotToExist(boardId: string) {
+    expect(
+      this.app.queryByTestId("board-button-title-" + boardId)
+    ).not.toBeInTheDocument();
   }
 
   hitPlayVideo(videoId: string) {
@@ -117,13 +165,22 @@ export class ApplicationSandbox {
   }
 
   checkThatBoardExist(boardId: string) {
-    this.expectItemToBePresent("board-" + boardId);
+    this.expectItemToBePresent("board-button-" + boardId);
   }
 
-  chechThatBoardIsSelected(boardId: string) {
-    expect(this.app.getByTestId("board-" + boardId).tagName).toEqual('H2');
+  checkThatBoardIsSelected(boardId: string) {
+    expect(this.app.getByTestId("board-button-" + boardId)).toHaveStyleRule(
+      "color",
+      "purple"
+    );
   }
 
+  checkThatBoardIsUnselected(boardId: string) {
+    expect(this.app.getByTestId("board-button-" + boardId)).toHaveStyleRule(
+      "color",
+      "black"
+    );
+  }
 
   private clickByTestId(testId: string) {
     fireEvent.click(this.app.getByTestId(testId));
