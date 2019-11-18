@@ -26,6 +26,7 @@ describe("", () => {
   });
 
   it("Creating a new board should add a new board in a list with a predefined name", () => {
+    app.expectBoardToHaveName("BOARD_1", "My Board");
     app.startRenamingBoard("BOARD_1");
     app.enterBoardName("BOARD_1", "New Board Name");
     app.stopRenamingBoard("BOARD_1");
@@ -72,7 +73,6 @@ describe("", () => {
     app.checkIfBoardButtonIsNotBeingEdited("BOARD_1");
   });
 
-
   //Bugs reproduction and regression
   it("After ending editing and reopening ", () => {
     app.startRenamingBoard("BOARD_1");
@@ -80,7 +80,6 @@ describe("", () => {
     app.enterBoardName("BOARD_1", "My New Name");
     app.loseFocusFromBoardButton("BOARD_1");
     app.startRenamingBoard("BOARD_1");
-    app.expectBoardButonInputContent("BOARD_1", "My Board");
+    app.expectBoardButonInputContent("BOARD_1", "My New Name");
   });
-
 });

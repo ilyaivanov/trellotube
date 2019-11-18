@@ -149,7 +149,7 @@ export class ApplicationSandbox {
     ).not.toBeInTheDocument();
   }
 
-  expectBoardButonInputContent(boardId: string, inputContent: string){
+  expectBoardButonInputContent(boardId: string, inputContent: string) {
     const item: any = this.app.getByTestId("board-button-input-" + boardId);
     expect(item.value).toBe(inputContent);
   }
@@ -159,9 +159,18 @@ export class ApplicationSandbox {
   }
 
   enterBoardName(boardId: string, boardText: string) {
+    console.log("board-button-input-" + boardId);
     fireEvent.change(this.app.getByTestId("board-button-input-" + boardId), {
       target: { value: boardText }
     });
+  }
+
+  keyPress(boardId: string, key: { key: string; code: number }) {
+    console.log("board-button-input-" + boardId);
+    fireEvent.keyPress(
+      this.app.getByTestId("board-button-input-" + boardId),
+      key
+    );
   }
 
   expectBoardToExist(boardId: string) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { KeyboardEvent, useEffect, useState } from "react";
 interface Props {
   dragHandleProps: {} | null;
   label: string;
@@ -31,9 +31,12 @@ const EditableTitle = ({
   };
 
   const onBlur = () => {
-    setNewText(label);
     setIsRenaming(false);
+    onRename(id, newText);
   };
+
+  const keyPress = ({ key }: KeyboardEvent<HTMLInputElement>) =>
+    key === "Enter" && onBlur();
 
   const onRemoveClick = (e: any) => {
     e.stopPropagation();
@@ -45,6 +48,7 @@ const EditableTitle = ({
       {isRenaming ? (
         <input
           autoFocus
+          onKeyPress={keyPress}
           onBlur={onBlur}
           type="text"
           value={newText}
