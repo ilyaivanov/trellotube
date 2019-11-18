@@ -83,22 +83,3 @@ export const initialState = (): ApplicationState => ({
   boardsOrder: ["BOARD_1", "BOARD_2"],
   selectedBoard: "BOARD_1"
 });
-
-type Hook = [ApplicationState, (appState: ApplicationState) => void];
-let isFirstRender = false;
-export const useBoard = (): Hook => {
-  let initial = initialState();
-  if (!isFirstRender) {
-    isFirstRender = true;
-    const storage = localStorage.getItem("MY_STORAGE");
-    if (storage) {
-      initial = JSON.parse(storage) as ApplicationState;
-    }
-  }
-  const [app, setApp] = useState(initial);
-  const onAppStateUpdate = (app: ApplicationState) => {
-    localStorage.setItem("MY_STORAGE", JSON.stringify(app));
-    setApp(app);
-  };
-  return [app, onAppStateUpdate];
-};
