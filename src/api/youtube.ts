@@ -1,6 +1,7 @@
 import {YOUTUBE_KEY} from "../keys";
 import {ItemKind, YoutubeSearchResponse} from "./types";
 import {Item} from "../types";
+import {createId} from "../shared/utils";
 
 interface ResponseType {
   items: Item[];
@@ -30,7 +31,7 @@ export const searchVideos = (
           videoId: item.id.videoId || "",
           imageUrl: item.snippet.thumbnails.medium.url,
           text: item.snippet.title,
-          id: Math.random() + ""
+          id: createId()
         }))
     }));
 

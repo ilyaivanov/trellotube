@@ -1,5 +1,8 @@
 import { ApplicationSandbox } from "../testUtils";
 import React from "react";
+
+jest.mock("../");
+
 it("when removing a board it should remove it from the screen", () => {
   const app = new ApplicationSandbox();
   app.expectColumnToExist("3");
@@ -8,11 +11,10 @@ it("when removing a board it should remove it from the screen", () => {
 });
 
 it("creating a new column should show a new empty column", () => {
-  Math.random = () => 42;
   const app = new ApplicationSandbox();
-  app.expectColumnNotToExist("42");
+  app.expectColumnNotToExist("someNewId");
   app.clickCreateNewColumn();
-  app.expectColumnToExist("42");
+  app.expectColumnToExist("someNewId");
 });
 
 it("when renaming a column it's title label should change", () => {

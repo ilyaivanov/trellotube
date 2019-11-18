@@ -2,12 +2,7 @@ import { ApplicationSandbox } from "../testUtils";
 
 describe("", () => {
   let app: ApplicationSandbox;
-  let mathImp: any;
   beforeEach(() => {
-    // TODO: move to a dedicated createID function
-    mathImp = Math.random;
-    // @ts-ignore
-    Math.random = () => "newBoardId";
     // TODO: Write a separate component for sandboxed sidebar,
     // no need to render board when testing menu
     app = new ApplicationSandbox();
@@ -15,14 +10,13 @@ describe("", () => {
   });
 
   afterEach(() => {
-    Math.random = mathImp;
     app.resetState();
   });
 
   it("Creating a new board should add a new board in a list with a predefined name", () => {
     app.createNewBoard();
-    app.checkThatBoardExist("newBoardId");
-    app.checkThatBoardIsSelected("newBoardId");
+    app.checkThatBoardExist("someNewId");
+    app.checkThatBoardIsSelected("someNewId");
   });
 
   it("Creating a new board should add a new board in a list with a predefined name", () => {
@@ -62,7 +56,7 @@ describe("", () => {
     app.removeBoard("BOARD_1");
     app.removeBoard("BOARD_2");
     app.createNewBoard();
-    app.checkThatBoardIsSelected("newBoardId");
+    app.checkThatBoardIsSelected("someNewId");
   });
 
   it("when starting to edit board when losing focus edit mode should be turned off", () => {

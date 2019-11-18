@@ -19,6 +19,10 @@ jest.mock("../menu/constants", () => ({
   SEARCH_DELAY: 0
 }));
 
+jest.mock("../shared/utils", () => ({
+  createId: () => "someNewId"
+}));
+
 jest.mock("react-youtube");
 const foo = require("react-youtube");
 foo.default = ({ videoId }: any) => (

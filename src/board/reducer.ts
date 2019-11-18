@@ -2,6 +2,7 @@ import { ApplicationState, Board, BoardsContainer, Column } from "../types";
 import { Action, ACTIONS } from "./actions";
 import { handleDnd } from "../operations";
 import { initialState } from "../state";
+import {createId} from "../shared/utils";
 
 export default (state: ApplicationState, action: Action): ApplicationState => {
   if (action.type === ACTIONS.RESET) {
@@ -27,8 +28,7 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
     const newColumn: Column = {
       items: [],
       name: "New Column",
-      //TODO: extract into separate file and use a getter id generator
-      id: Math.random() + "",
+      id: createId(),
       type: "PLAYLIST"
     };
     return updateBoard(state, {

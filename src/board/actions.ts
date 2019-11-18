@@ -1,5 +1,6 @@
 import { Item } from "../types";
 import { DropResult } from "react-beautiful-dnd";
+import {createId} from "../shared/utils";
 
 export enum ACTIONS {
   REMOVE_COLUMN = "REMOVE_COLUMN",
@@ -99,7 +100,7 @@ export const renameColumn = (columnId: string, newName: string) => ({
 });
 
 export const createAndSelectNewBoard = (): CreateBoard => {
-  const newID = Math.random() + "";
+  const newID = createId();
   return {
     type: ACTIONS.CREATE_BOARD,
     boardId: newID
