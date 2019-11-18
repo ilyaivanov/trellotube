@@ -2,7 +2,7 @@ import { ApplicationState, Board, BoardsContainer, Column } from "../types";
 import { Action, ACTIONS } from "./actions";
 import { handleDnd } from "../operations";
 import { initialState } from "../state";
-import {createId} from "../shared/utils";
+import { createId } from "../shared/utils";
 
 export default (state: ApplicationState, action: Action): ApplicationState => {
   if (action.type === ACTIONS.RESET) {
@@ -31,27 +31,19 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
       id: createId(),
       type: "PLAYLIST"
     };
-    return updateBoard(state, {
+    const newBoard: Board = {
       ...selectedBoard,
-      columnOrders: selectedBoard.columnOrders.concat([newColumn.id]),
-      columns: {
-        ...selectedBoard.columns,
-        [newColumn.id]: newColumn
-      }
-    });
+      columnOrders: selectedBoard.columnOrders.concat([newColumn.id])
+    };
+    return updateBoard(state, updateColumnInBoard(newBoard, newColumn));
   }
   if (action.type === ACTIONS.SEARCH_DONE) {
     const selectedBoard = getSelectedBoard(state);
-    return updateBoard(state, {
-      ...selectedBoard,
-      columns: {
-        ...selectedBoard.columns,
-        SEARCH: {
-          ...selectedBoard.columns["SEARCH"],
-          items: action.items
-        }
-      }
-    });
+    const newSearch: Column = {
+      ...selectedBoard.columns["SEARCH"],
+      items: action.items
+    };
+    return updateBoard(state, updateColumnInBoard(selectedBoard, newSearch));
   }
   if (action.type === ACTIONS.SELECT_BOARD) {
     return {
@@ -61,16 +53,11 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
   }
   if (action.type === ACTIONS.RENAME_COLUMN) {
     const selectedBoard = getSelectedBoard(state);
-    return updateBoard(state, {
-      ...selectedBoard,
-      columns: {
-        ...selectedBoard.columns,
-        [action.columnId]: {
-          ...selectedBoard.columns[action.columnId],
-          name: action.newName
-        }
-      }
-    });
+    const newColumn = {
+      ...selectedBoard.columns[action.columnId],
+      name: action.newName
+    };
+    return updateBoard(state, updateColumnInBoard(selectedBoard, newColumn));
   }
   if (action.type === ACTIONS.DRAG_END) {
     //TODO: try to cover full cycle with specs
@@ -88,16 +75,10 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
     };
   }
   if (action.type === ACTIONS.RENAME_BOARD) {
-    return {
-      ...state,
-      boards: {
-        ...state.boards,
-        [action.boardId]: {
-          ...state.boards[action.boardId],
-          boardName: action.newText
-        }
-      }
-    };
+    return updateBoard(state, {
+      ...state.boards[action.boardId],
+      boardName: action.newText
+    });
   }
   if (action.type === ACTIONS.REMOVE_BOARD) {
     const boards = state.boards;
@@ -134,6 +115,14 @@ const updateBoard = (state: ApplicationState, board: Board) => ({
   boards: {
     ...state.boards,
     [board.boardId]: board
+  }
+});
+
+const updateColumnInBoard = (board: Board, column: Column): Board => ({
+  ...board,
+  columns: {
+    ...board.columns,
+    [column.id]: column
   }
 });
 
