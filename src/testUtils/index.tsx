@@ -11,7 +11,7 @@ import "@testing-library/jest-dom/extend-expect";
 import { store } from "../store";
 import { Provider } from "react-redux";
 import "jest-styled-components";
-import {reset} from '../board/actions';
+import { reset } from "../board/actions";
 
 jest.mock("react-truncate", () => ({ children }: any) => children);
 
@@ -125,6 +125,33 @@ export class ApplicationSandbox {
 
   startRenamingBoard(boardId: string) {
     this.clickByTestId("board-button-rename-" + boardId);
+  }
+
+  loseFocusFromBoardButton(boardId: string) {
+    fireEvent.blur(this.app.getByTestId("board-button-input-" + boardId));
+  }
+
+  checkIfBoardButtonIsNotBeingEdited(boardId: string) {
+    expect(
+      this.app.queryByTestId("board-button-input-" + boardId)
+    ).not.toBeInTheDocument();
+    expect(
+      this.app.getByTestId("board-button-title-" + boardId)
+    ).toBeInTheDocument();
+  }
+
+  checkIfBoardButtonIsBeingEdited(boardId: string) {
+    expect(
+      this.app.queryByTestId("board-button-input-" + boardId)
+    ).toBeInTheDocument();
+    expect(
+      this.app.queryByTestId("board-button-title-" + boardId)
+    ).not.toBeInTheDocument();
+  }
+
+  expectBoardButonInputContent(boardId: string, inputContent: string){
+    const item: any = this.app.getByTestId("board-button-input-" + boardId);
+    expect(item.value).toBe(inputContent);
   }
 
   stopRenamingBoard(boardId: string) {

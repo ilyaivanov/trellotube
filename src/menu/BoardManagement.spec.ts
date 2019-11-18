@@ -63,4 +63,24 @@ describe("", () => {
     app.createNewBoard();
     app.checkThatBoardIsSelected("newBoardId");
   });
+
+  it("when starting to edit board when losing focus edit mode should be turned off", () => {
+    app.checkIfBoardButtonIsNotBeingEdited("BOARD_1");
+    app.startRenamingBoard("BOARD_1");
+    app.checkIfBoardButtonIsBeingEdited("BOARD_1");
+    app.loseFocusFromBoardButton("BOARD_1");
+    app.checkIfBoardButtonIsNotBeingEdited("BOARD_1");
+  });
+
+
+  //Bugs reproduction and regression
+  it("After ending editing and reopening ", () => {
+    app.startRenamingBoard("BOARD_1");
+    app.expectBoardButonInputContent("BOARD_1", "My Board");
+    app.enterBoardName("BOARD_1", "My New Name");
+    app.loseFocusFromBoardButton("BOARD_1");
+    app.startRenamingBoard("BOARD_1");
+    app.expectBoardButonInputContent("BOARD_1", "My Board");
+  });
+
 });

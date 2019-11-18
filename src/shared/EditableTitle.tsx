@@ -30,6 +30,11 @@ const EditableTitle = ({
     setIsRenaming(!isRenaming);
   };
 
+  const onBlur = () => {
+    setNewText(label);
+    setIsRenaming(false);
+  };
+
   const onRemoveClick = (e: any) => {
     e.stopPropagation();
     onRemove(id);
@@ -40,6 +45,7 @@ const EditableTitle = ({
       {isRenaming ? (
         <input
           autoFocus
+          onBlur={onBlur}
           type="text"
           value={newText}
           data-testid={`${testIdGroupName}-input-` + id}
