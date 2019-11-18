@@ -6,6 +6,10 @@ interface Props {
 }
 
 export const BoardOptions = styled.div`
+  position: absolute;
+  left: 0;
+  right: 8px;
+  justify-content: flex-end;
   display: none;
 `;
 
@@ -21,7 +25,7 @@ export const BoardItemView = styled.div<Props>`
   justify-content: space-between;
   color: ${props => (props.isSelected ? "purple" : "black")};
   &:hover ${BoardOptions} {
-    display: inherit;
+    display: flex;
   }
 `;
 
@@ -30,10 +34,13 @@ export const SidebarContainer = styled.div`
   position: fixed;
   width: ${c.SIDEBAR_WIDTH}px;
   box-sizing: border-box;
-  padding-left: ${c.STACK_PADDING}px;
-  padding-right: ${c.STACK_PADDING}px;
   background-color: lightgrey;
   top: 0;
   left: 0;
   bottom: 0;
 `;
+
+export const SidebarVideosContainer = styled.div`
+  padding-left: ${c.STACK_PADDING}px;
+  padding-right: ${c.STACK_PADDING}px;
+`

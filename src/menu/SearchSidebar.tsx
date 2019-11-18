@@ -8,6 +8,7 @@ import { SEARCH_DELAY } from "./constants";
 import { connect } from "react-redux";
 import { play } from "../player/actions";
 import { searchDone } from "../board/actions";
+import { SidebarVideosContainer } from "./components";
 
 export interface SearchProps {
   items: Item[];
@@ -28,7 +29,7 @@ const SearchArea = ({ items, searchDone, play }: SearchProps) => {
   }, [debounced]);
 
   return (
-    <>
+    <SidebarVideosContainer>
       <input
         data-testid="search-input"
         type="text"
@@ -49,7 +50,7 @@ const SearchArea = ({ items, searchDone, play }: SearchProps) => {
           </div>
         )}
       </Droppable>
-    </>
+    </SidebarVideosContainer>
   );
 };
 const mapState = (state: ApplicationState) => ({
