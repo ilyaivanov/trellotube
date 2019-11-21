@@ -31,5 +31,5 @@ export interface ApplicationState {
   boards: BoardsContainer;
   boardsOrder: string[];
   selectedBoard: string;
-  videoBeingPlayed?: string;
+  itemBeingPlayed?: Item;
 }

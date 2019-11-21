@@ -47,12 +47,13 @@ const Title = styled.h4`
   justify-content: space-between;
 `;
 
-const TaskContainer = styled.div`
+const TaskContainer = styled.div<{ isPlaying: boolean }>`
   display: flex;
   flex: 1;
   flex-direction: row;
   border-radius: ${c.BORDER_RADIUS}px;
-  background-color: white;
+  background-color: ${props => (props.isPlaying ? "lightpink" : "white")};
+  transition: background-color 400ms;
   margin-bottom: ${c.STACK_PADDING}px;
   box-shadow: 0 2px 1px -1px gray;
 `;

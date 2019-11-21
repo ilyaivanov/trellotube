@@ -5,7 +5,7 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
   if (action.type === ACTIONS.PLAY)
     return {
       ...state,
-      videoBeingPlayed: action.videoId
+      itemBeingPlayed: action.item
     };
   return state;
 };

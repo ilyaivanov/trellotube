@@ -45,11 +45,11 @@ const YoutubePlayerWrapper = (props: any) => (
 const style = {
   position: "fixed",
   right: 15,
-  bottom: 15
+  bottom: 15 + 60
 } as {};
 
 const mapState = (state: ApplicationState) => ({
-  videoId: state.videoBeingPlayed
+  videoId: state.itemBeingPlayed && state.itemBeingPlayed.videoId
 });
 
 export default connect(mapState)(Player);

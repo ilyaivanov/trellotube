@@ -1,17 +1,17 @@
 import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { Column } from "../types";
+import {Column, Item} from "../types";
 import Card from "./Card";
 import { play } from "../player/actions";
 import { connect } from "react-redux";
-import {ColumnContainer, TaskList, Title, Options} from "./components";
+import { ColumnContainer, TaskList, Title, Options } from "./components";
 import EditableTitle from "../shared/EditableTitle";
 import { removeColumn, renameColumn } from "./actions";
 
 interface Props {
   column: Column;
   index: number;
-  play: (youtubeId: string) => void;
+  play: (item: Item) => void;
   renameColumn: (columnId: string, newLabel: string) => void;
   removeColumn: (columnId: string) => void;
 }
@@ -43,13 +43,10 @@ const ColumnView = ({
           />
           <Droppable droppableId={column.id} type="item">
             {(provided, snapshot) => (
-              <TaskList
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
+              <TaskList ref={provided.innerRef} {...provided.droppableProps}>
                 {column.items.map((item, index) => (
                   <Card
-                    onPress={() => play(item.videoId)}
+                    onPress={() => play(item)}
                     index={index}
                     key={item.id}
                     item={item}

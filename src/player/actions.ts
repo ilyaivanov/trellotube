@@ -1,3 +1,5 @@
+import { Item } from "../types";
+
 export enum ACTIONS {
   PLAY = "PLAY"
 }
@@ -6,10 +8,10 @@ export type Action = PlayAction;
 
 interface PlayAction {
   type: ACTIONS.PLAY;
-  videoId: string;
+  item: Item;
 }
 
-export const play = (videoId: string): PlayAction => ({
+export const play = (item: Item): PlayAction => ({
   type: ACTIONS.PLAY,
-  videoId
+  item
 });

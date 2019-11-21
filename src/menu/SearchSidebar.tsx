@@ -13,7 +13,7 @@ import { SidebarVideosContainer } from "./components";
 export interface SearchProps {
   items: Item[];
   searchDone: (items: Item[]) => void;
-  play: (youtubeId: string) => void;
+  play: (item: Item) => void;
 }
 
 const SearchArea = ({ items, searchDone, play }: SearchProps) => {
@@ -41,7 +41,7 @@ const SearchArea = ({ items, searchDone, play }: SearchProps) => {
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {items.map((i, index) => (
               <Card
-                onPress={() => play(i.videoId)}
+                onPress={() => play(i)}
                 key={i.id}
                 index={index}
                 item={i}
