@@ -10,12 +10,14 @@ import storage from "redux-persist/lib/storage"; // defaults to localStorage for
 // @ts-ignore
 const rootReducer = reduceReducers(initialState(), boardReducer, playerReducer);
 
-const persistConfig = {
-  key: "MY_CONFIG",
-  storage
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(
+  {
+    key: "MY_CONFIG",
+    blacklist: ["videoBeingPlayed"],
+    storage
+  },
+  rootReducer
+);
 
 export const store = createStore(persistedReducer);
 const persistor = persistStore(store);

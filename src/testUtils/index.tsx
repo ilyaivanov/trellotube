@@ -6,7 +6,7 @@ import {
   RenderResult,
   waitForElement
 } from "@testing-library/react";
-import App from "../board";
+import App from "../CoreLayout";
 import "@testing-library/jest-dom/extend-expect";
 import { store } from "../store";
 import { Provider } from "react-redux";

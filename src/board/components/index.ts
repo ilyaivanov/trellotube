@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import c from './constants';
+import c from "./constants";
 
 const Options = styled.div`
   display: none;
 `;
 
 const ColumnContainer = styled.div`
-  background-color: lightgrey;
   margin-left: 8px;
   border-radius: ${c.BORDER_RADIUS}px;
   width: ${c.STACK_WIDTH}px;
@@ -29,8 +28,11 @@ const TaskList = styled.div<any>`
 const BoardContainer = styled.div`
   display: inline-flex;
   align-items: flex-start;
-  //to balance for margin-left of the rightmost item
-  margin: 8px 8px 8px ${c.SIDEBAR_WIDTH}px;
+  margin: 8px 8px 8px 8px;
+
+  &:first-of-type {
+    margin-left: 0;
+  }
 `;
 const Title = styled.h4`
   margin-bottom: 0;
@@ -61,7 +63,7 @@ const Img = styled.img`
 const Subtext = styled.div`
   color: #1e1e1e;
   font-size: 14px;
-  
+
   display: flex;
   align-items: center;
   padding-left: ${c.STACK_PADDING}px;

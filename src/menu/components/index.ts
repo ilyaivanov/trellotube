@@ -43,4 +43,4 @@ export const SidebarContainer = styled.div`
 export const SidebarVideosContainer = styled.div`
   padding-left: ${c.STACK_PADDING}px;
   padding-right: ${c.STACK_PADDING}px;
-`
+`;
