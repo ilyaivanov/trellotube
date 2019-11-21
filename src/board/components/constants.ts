@@ -15,5 +15,7 @@ export default {
 
   BORDER_RADIUS: 4,
 
-  SIDEBAR_WIDTH: stackWidth + stackPadding * 2
+  SIDEBAR_WIDTH: stackWidth + stackPadding * 2,
+
+
 };

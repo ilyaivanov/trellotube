@@ -47,6 +47,7 @@ const SearchArea = ({ items, searchDone, play }: SearchProps) => {
                 item={i}
               />
             ))}
+            {provided.placeholder}
           </div>
         )}
       </Droppable>
