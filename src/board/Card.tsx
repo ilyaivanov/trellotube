@@ -24,6 +24,7 @@ const Card = ({ item, index, onPress, currentItemId }: Props) => (
   <Draggable draggableId={item.id} index={index} type="item">
     {provided => (
       <TaskContainer
+        title={item.text}
         isPlaying={currentItemId === item.id}
         data-testid={"video-" + item.id}
         onClick={onPress}
