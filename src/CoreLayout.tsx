@@ -48,7 +48,7 @@ const RightSidebar = styled(Sidebar)`
 
 const MainContent = styled.div`
   min-height: calc(100vh - 40px);
-  background-color: lightgrey;
+  background-color: #f1f1f1;
 
   overflow: scroll;
   flex: 1;

@@ -44,7 +44,6 @@ const ColumnView = ({
           <Droppable droppableId={column.id} type="item">
             {(provided, snapshot) => (
               <TaskList
-                isDraggingOver={snapshot.isDraggingOver}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >

@@ -6,6 +6,7 @@ const Options = styled.div`
 `;
 
 const ColumnContainer = styled.div`
+  background-color: lightblue;
   margin-left: 8px;
   border-radius: ${c.BORDER_RADIUS}px;
   width: ${c.STACK_WIDTH}px;
@@ -18,9 +19,7 @@ const ColumnContainer = styled.div`
   }
 `;
 
-const TaskList = styled.div<any>`
-  background-color: ${(props: any) =>
-    props.isDraggingOver ? "lightgrey" : "lightgrey"};
+const TaskList = styled.div`
   flex-grow: 1;
   min-height: 50px;
 `;
