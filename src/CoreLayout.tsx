@@ -18,7 +18,7 @@ const Container = styled.div`
 `;
 
 const TopBar = styled.div`
-  min-height: 40px;
+  min-height: ${c.TOP_BAR_HEIGHT}px;
   background-color: lightcoral;
 `;
 const MainContainer = styled.div`

@@ -17,5 +17,6 @@ export default {
 
   SIDEBAR_WIDTH: stackWidth + stackPadding * 2,
 
+  TOP_BAR_HEIGHT: 40,
 
 };
