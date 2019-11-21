@@ -2,19 +2,26 @@ import React, { useState } from "react";
 import Youtube from "react-youtube";
 import { ApplicationState } from "../types";
 import { connect } from "react-redux";
+import styled from "styled-components";
+import c from "../board/components/constants";
 
 interface Props {
   videoId?: string;
-  onEnd: () => void;
 }
+const BottomBar = styled.div`
+  min-height: ${c.PLAYER_HEIGHT}px;
+  background-color: lightcoral;
+`;
 
-const Player = ({ videoId, onEnd }: Props) => {
+const Player = ({ videoId }: Props) => {
   const [player, setPlayer] = useState();
 
-  if (!videoId) return null;
-
   return (
-    <YoutubePlayerWrapper onReady={setPlayer} videoId={videoId} onEnd={onEnd} />
+    <BottomBar>
+      {videoId && (
+        <YoutubePlayerWrapper onReady={setPlayer} videoId={videoId} />
+      )}
+    </BottomBar>
   );
 };
 
@@ -23,7 +30,6 @@ const YoutubePlayerWrapper = (props: any) => (
     <Youtube
       {...props}
       onReady={e => props.onReady(e.target)}
-      onEnd={props.onEnd}
       opts={{
         height: "150",
         width: "400",

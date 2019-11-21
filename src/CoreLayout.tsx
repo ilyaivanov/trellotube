@@ -21,6 +21,8 @@ const TopBar = styled.div`
   min-height: ${c.TOP_BAR_HEIGHT}px;
   background-color: lightcoral;
 `;
+
+
 const MainContainer = styled.div`
   display: flex;
   overflow: scroll;
@@ -31,7 +33,6 @@ interface VisibilityProps {
 }
 
 const Sidebar = styled.div<VisibilityProps>`
-  min-height: calc(100vh - 40px);
   width: ${props => (props.isVisible ? c.SIDEBAR_WIDTH : 0)}px;
   transition: width 200ms;
   overflow: scroll;
@@ -47,7 +48,6 @@ const RightSidebar = styled(Sidebar)`
 `;
 
 const MainContent = styled.div`
-  min-height: calc(100vh - 40px);
   background-color: #f1f1f1;
 
   overflow: scroll;
@@ -106,9 +106,7 @@ const App = ({ endDrag }: Props) => {
             {createParagraphs(10)}
           </RightSidebar>
         </MainContainer>
-        <Player
-          onEnd={() => console.log("on video end, TODO: play next track")}
-        />
+        <Player/>
       </Container>
     </DragDropContext>
   );

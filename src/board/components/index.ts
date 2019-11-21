@@ -10,7 +10,10 @@ const ColumnContainer = styled.div`
   margin-left: 8px;
   border-radius: ${c.BORDER_RADIUS}px;
   width: ${c.STACK_WIDTH}px;
-  max-height: calc(100vh - ${c.STACK_PADDING * 2}px - ${c.TOP_BAR_HEIGHT}px);
+  max-height: calc(
+    100vh - ${c.STACK_PADDING * 2}px - ${c.TOP_BAR_HEIGHT}px -
+      ${c.PLAYER_HEIGHT}px
+  );
   overflow: scroll;
   display: flex;
   flex-direction: column;

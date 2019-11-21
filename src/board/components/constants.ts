@@ -18,5 +18,6 @@ export default {
   SIDEBAR_WIDTH: stackWidth + stackPadding * 2,
 
   TOP_BAR_HEIGHT: 40,
+  PLAYER_HEIGHT: 60,
 
 };
