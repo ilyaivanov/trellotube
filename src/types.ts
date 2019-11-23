@@ -3,6 +3,7 @@ export interface Item {
   videoId: string;
   imageUrl: string;
   id: string;
+  type: "video" | "playlist" | "channel";
 }
 
 export interface Column {

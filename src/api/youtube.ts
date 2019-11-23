@@ -20,11 +20,11 @@ export const searchVideos = (
       });
 
 export const searchSimilar = (videoId: string) =>
-  (IS_USING_FAKE_API)
+  IS_USING_FAKE_API
     ? Promise.resolve(createSampleVideos(20))
     : searchForVideos("search", {
         type: "video",
-        relatedToVideoId: logRequest(videoId, 'search.similar')
+        relatedToVideoId: logRequest(videoId, "search.similar")
       });
 
 const searchForVideos = (verb: string, props: {}): Promise<ResponseType> =>
@@ -43,7 +43,8 @@ const searchForVideos = (verb: string, props: {}): Promise<ResponseType> =>
           videoId: item.id.videoId || "",
           imageUrl: item.snippet.thumbnails.medium.url,
           text: item.snippet.title,
-          id: createId()
+          id: createId(),
+          type: "video"
         }))
     }));
 

@@ -35,7 +35,8 @@ export class SidebarPageObject {
       videoId: "someVideoId",
       id,
       text: "Sample",
-      imageUrl: ""
+      imageUrl: "",
+      type:'video'
     }));
     store.dispatch(findSimilarArtistsDone(artists));
   }

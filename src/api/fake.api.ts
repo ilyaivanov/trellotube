@@ -1,4 +1,5 @@
 import { createId } from "../shared/utils";
+import { Item } from "../types";
 
 export const IS_USING_FAKE_API = process.env.NODE_ENV !== "production";
 
@@ -19,11 +20,12 @@ const getRandomVideo = () => {
   };
 };
 
-const generateRandomVideos = (count: number) =>
+const generateRandomVideos = (count: number): Item[] =>
   Array.from(Array(count)).map(() => ({
     ...getRandomVideo(),
     text: "Sample",
-    id: createId()
+    id: createId(),
+    type: Math.random() > 0.5 ? "video" : "playlist"
   }));
 
 export const createSampleVideos = (count: number): any => ({
