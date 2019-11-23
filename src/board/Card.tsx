@@ -1,7 +1,13 @@
 import { ApplicationState, Item } from "../types";
 import { Draggable } from "react-beautiful-dnd";
 import React from "react";
-import { TaskContainer, Img, Subtext, FindSimilarButton, CardType } from "./components";
+import {
+  TaskContainer,
+  Img,
+  Subtext,
+  FindSimilarButton,
+  CardType
+} from "./components";
 import Truncate from "react-truncate";
 import { connect } from "react-redux";
 import { findSimilar } from "./actions";
@@ -47,7 +53,7 @@ const Card = ({ item, index, play, findSimilar, currentItemId }: Props) => {
               {decode(item.text)}
             </Truncate>
           </Subtext>
-          <CardType>V</CardType>
+          <CardType>{item.type === "video" ? "V" : "P"}</CardType>
           <FindSimilarButton onClick={onFindSimilar}>similar</FindSimilarButton>
         </TaskContainer>
       )}

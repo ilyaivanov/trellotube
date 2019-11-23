@@ -17,19 +17,8 @@ export const initialState = (): ApplicationState => ({
               text: "Short name",
               id: id(),
               videoId: "1",
-              imageUrl: "https://i.ytimg.com/vi/6Zo_FTUNDBI/mqdefault.jpg"
-            },
-            {
-              text: "Two lines of text but not that long",
-              id: id(),
-              videoId: "1",
-              imageUrl: "https://i.ytimg.com/vi/-xj2BmxEkcI/mqdefault.jpg"
-            },
-            {
-              text: "A very-very long text with lots of redundant infomation",
-              id: id(),
-              videoId: "1",
-              imageUrl: "https://i.ytimg.com/vi/ZchNI8bEnoY/mqdefault.jpg"
+              imageUrl: "https://i.ytimg.com/vi/6Zo_FTUNDBI/mqdefault.jpg",
+              type: "video"
             }
           ],
           name: "First",
@@ -42,12 +31,9 @@ export const initialState = (): ApplicationState => ({
               text: "Title 2",
               id: "MY_VIDEO_ID",
               videoId: "YOUTUBE_ID",
-              imageUrl: ""
-            },
-            { text: "Title 3", id: id(), videoId: "1", imageUrl: "" },
-            { text: "Title 4", id: id(), videoId: "1", imageUrl: "" },
-            { text: "Title 5", id: id(), videoId: "1", imageUrl: "" },
-            { text: "Title 6", id: id(), videoId: "1", imageUrl: "" }
+              imageUrl: "",
+              type: "video"
+            }
           ],
           name: "Second",
           type: "PLAYLIST"
@@ -55,9 +41,27 @@ export const initialState = (): ApplicationState => ({
         "3": {
           id: "3",
           items: [
-            { text: "Album 1.1", id: id(), videoId: "1", imageUrl: "" },
-            { text: "Album 2.2", id: id(), videoId: "1", imageUrl: "" },
-            { text: "Album 3.3", id: id(), videoId: "1", imageUrl: "" }
+            {
+              text: "Album 1.1",
+              id: id(),
+              videoId: "1",
+              imageUrl: "",
+              type: "video"
+            },
+            {
+              text: "Album 2.2",
+              id: id(),
+              videoId: "1",
+              imageUrl: "",
+              type: "video"
+            },
+            {
+              text: "Album 3.3",
+              id: id(),
+              videoId: "1",
+              imageUrl: "",
+              type: "video"
+            }
           ],
           name: "Third",
           type: "SEARCH"
@@ -69,7 +73,8 @@ export const initialState = (): ApplicationState => ({
               text: "Title 2",
               id: "MY_VIDEO_ID_AT_SEARCH",
               videoId: "YOUTUBE_ID_AT_SEARCH",
-              imageUrl: ""
+              imageUrl: "",
+              type: "video"
             }
           ],
           name: "SEARCH",
