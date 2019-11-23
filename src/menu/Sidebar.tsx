@@ -2,8 +2,7 @@ import React from "react";
 import SearchArea from "./SearchSidebar";
 import BoardsSidebar from "./BoardsSidebar";
 import SimilarSidebar from "./SimilarSidebar";
-
-export type SidebarState = "search" | "board" | "similar";
+import { SidebarState } from "../types";
 
 const Sidebar = ({ state }: { state: SidebarState }): JSX.Element => {
   if (state === "search") {

@@ -9,6 +9,7 @@ export const initialState = (): ApplicationState => ({
     BOARD_1: {
       boardId: "BOARD_1",
       boardName: "My Board",
+      boardOptions: {},
       columns: {
         "1": {
           id: "1",
@@ -38,7 +39,12 @@ export const initialState = (): ApplicationState => ({
         "2": {
           id: "2",
           items: [
-            { text: "Title 2", id: 'MY_VIDEO_ID', videoId: "YOUTUBE_ID", imageUrl: "" },
+            {
+              text: "Title 2",
+              id: "MY_VIDEO_ID",
+              videoId: "YOUTUBE_ID",
+              imageUrl: ""
+            },
             { text: "Title 3", id: id(), videoId: "1", imageUrl: "" },
             { text: "Title 4", id: id(), videoId: "1", imageUrl: "" },
             { text: "Title 5", id: id(), videoId: "1", imageUrl: "" },
@@ -59,7 +65,14 @@ export const initialState = (): ApplicationState => ({
         },
         SEARCH: {
           id: "SEARCH",
-          items: [{ text: "Title 2", id: 'MY_VIDEO_ID_AT_SEARCH', videoId: "YOUTUBE_ID_AT_SEARCH", imageUrl: "" },],
+          items: [
+            {
+              text: "Title 2",
+              id: "MY_VIDEO_ID_AT_SEARCH",
+              videoId: "YOUTUBE_ID_AT_SEARCH",
+              imageUrl: ""
+            }
+          ],
           name: "SEARCH",
           type: "SEARCH"
         }
@@ -69,6 +82,7 @@ export const initialState = (): ApplicationState => ({
     BOARD_2: {
       boardName: "ANOTHER BOARd",
       boardId: "BOARD_2",
+      boardOptions: {},
       columns: {
         SEARCH: {
           id: "SEARCH",
@@ -81,5 +95,9 @@ export const initialState = (): ApplicationState => ({
     }
   },
   boardsOrder: ["BOARD_1", "BOARD_2"],
-  selectedBoard: "BOARD_1"
+  selectedBoard: "BOARD_1",
+  userOptions: {
+    isLeftSidebarVisible: false,
+    leftSidebarContentType: "search"
+  }
 });

@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import boardReducer from "./board/reducer";
 import playerReducer from "./player/reducer";
 import menuReducer from "./menu/reducer";
@@ -17,6 +17,9 @@ const rootReducer = reduceReducers(
   playerReducer,
   menuReducer
 );
+const composeEnhancers: typeof compose =
+  //@ts-ignore
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const blacklist: (keyof ApplicationState)[] = ["itemBeingPlayed"];
 
@@ -29,6 +32,9 @@ export const persistedReducer = persistReducer(
   rootReducer
 );
 
-export const store = createStore(persistedReducer, applyMiddleware(thunk));
+export const store = createStore(
+  persistedReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 const persistor = persistStore(store);
 export default { store, persistor };

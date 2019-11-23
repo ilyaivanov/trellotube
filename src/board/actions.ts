@@ -1,7 +1,7 @@
-import { Item } from "../types";
+import { ApplicationState, Item } from "../types";
 import { DropResult } from "react-beautiful-dnd";
 import { createId } from "../shared/utils";
-import { findSimilarArtistsDone } from "../menu/actions";
+import { findSimilarArtistsDone, topBarButtonPressed } from "../menu/actions";
 import { searchSimilar } from "../api/youtube";
 
 export enum ACTIONS {
@@ -130,10 +130,20 @@ export const removeBoard = (boardId: string): RemoveBoard => ({
   boardId
 });
 
-export const findSimilar = (videoId: string) => (dispatch: any) => {
+export const findSimilar = (videoId: string) => (
+  dispatch: any,
+  getState: () => ApplicationState
+) => {
   dispatch({
     type: "FIND_SIMILAR_START"
   });
+
+  const { userOptions } = getState();
+  if (
+    !userOptions.isLeftSidebarVisible ||
+    userOptions.leftSidebarContentType !== "similar"
+  )
+    dispatch(topBarButtonPressed("similar"));
 
   setTimeout(() => {
     searchSimilar(videoId).then(({ items }) => {

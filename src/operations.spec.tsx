@@ -44,6 +44,7 @@ const createBoard = (...column: Column[]): Board => ({
     return res;
   }, {}),
   columnOrders: [],
+  boardOptions:{},
   boardId: 'dummy',
   boardName:'dummy'
 });

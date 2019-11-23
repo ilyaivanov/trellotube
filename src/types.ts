@@ -8,7 +8,7 @@ export interface Item {
 export interface Column {
   id: string;
   name: string;
-  type: "PLAYLIST" | "SEARCH" | 'SIMILAR';
+  type: "PLAYLIST" | "SEARCH" | "SIMILAR";
   items: Item[];
 }
 
@@ -21,13 +21,26 @@ export interface Board {
   boardName: string;
   columns: ColumnContainer;
   columnOrders: string[];
+  boardOptions: BoardOptions;
+}
+
+export interface BoardOptions {
+  isLoadingSimilar?: boolean;
 }
 
 export interface BoardsContainer {
   [key: string]: Board;
 }
 
+export type SidebarState = "search" | "board" | "similar";
+
+export interface UserOptions {
+  isLeftSidebarVisible: boolean;
+  leftSidebarContentType: SidebarState;
+}
+
 export interface ApplicationState {
+  userOptions: UserOptions;
   boards: BoardsContainer;
   boardsOrder: string[];
   selectedBoard: string;

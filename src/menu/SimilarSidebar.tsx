@@ -6,13 +6,19 @@ import Card from "../board/Card";
 import { Droppable } from "react-beautiful-dnd";
 import { SidebarVideosContainer } from "./components";
 
-const SimilarSidebar = ({ items }: { items: Item[] }) => {
+interface Props {
+  isLoading?: boolean;
+  items: Item[];
+}
+const SimilarSidebar = ({ items, isLoading }: Props) => {
   return (
     <>
       <h2>Similar</h2>
 
+      {isLoading && <h5>Loading...</h5>}
+
       <SidebarVideosContainer>
-        {items && (
+        {!isLoading && items && (
           <Droppable droppableId="SIMILAR" type="item">
             {(provided, snapshot) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -30,9 +36,11 @@ const SimilarSidebar = ({ items }: { items: Item[] }) => {
 };
 
 const mapState = (state: ApplicationState) => {
-  const similar = getSelectedBoard(state).columns["SIMILAR"];
+  const board = getSelectedBoard(state);
+  const similar = board.columns["SIMILAR"];
   return {
-    items: similar && similar.items
+    items: similar && similar.items,
+    isLoading: board.boardOptions && board.boardOptions.isLoadingSimilar
   };
 };
 

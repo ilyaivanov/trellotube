@@ -52,7 +52,7 @@ describe("App", () => {
   });
 
   it("when searching for items they should appear ", async () => {
-    app.enterSearch("some dummy term");
+    app.enterSearch("some dummy t1rm");
     await app.waitForVideoId("MYID_1");
     app.expectVideoIdToBeInTheBoard("MYID_1");
     app.expectVideoIdToBeInTheBoard("MYID_2");

@@ -1,11 +1,11 @@
 import { Provider } from "react-redux";
 import { store } from "../store";
-import Sidebar, { SidebarState } from "../menu/Sidebar";
+import Sidebar from "../menu/Sidebar";
 import { cleanup, render, RenderResult } from "@testing-library/react";
 import React from "react";
 import { reset } from "../board/actions";
 import { DragDropContext } from "react-beautiful-dnd";
-import { Item } from "../types";
+import {Item, SidebarState} from "../types";
 import { findSimilarArtistsDone } from "./actions";
 import "@testing-library/jest-dom/extend-expect";
 
