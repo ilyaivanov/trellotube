@@ -46,7 +46,12 @@ const Title = styled.h4`
   display: flex;
   justify-content: space-between;
 `;
-
+const FindSimilarButton = styled.button`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: none;
+`;
 const TaskContainer = styled.div<{ isPlaying: boolean }>`
   position: relative;
   display: flex;
@@ -57,6 +62,9 @@ const TaskContainer = styled.div<{ isPlaying: boolean }>`
   transition: background-color 400ms;
   margin-bottom: ${c.STACK_PADDING}px;
   box-shadow: 0 2px 1px -1px gray;
+  &:hover ${FindSimilarButton} {
+    display: inherit;
+  }
 `;
 
 const Img = styled.img`
@@ -85,5 +93,6 @@ export {
   Options,
   Subtext,
   Img,
-  TaskContainer
+  TaskContainer,
+  FindSimilarButton
 };

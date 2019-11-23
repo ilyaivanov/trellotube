@@ -1,12 +1,11 @@
 import { ApplicationState, Item } from "../types";
 import { Draggable } from "react-beautiful-dnd";
 import React from "react";
-import { TaskContainer, Img, Subtext } from "./components";
+import { TaskContainer, Img, Subtext, FindSimilarButton } from "./components";
 import Truncate from "react-truncate";
 import { connect } from "react-redux";
 import { findSimilar } from "./actions";
 import { play } from "../player/actions";
-import styled from "styled-components";
 
 interface Props {
   item: Item;
@@ -48,18 +47,12 @@ const Card = ({ item, index, play, findSimilar, currentItemId }: Props) => {
               {decode(item.text)}
             </Truncate>
           </Subtext>
-          <Button onClick={onFindSimilar}>similar</Button>
+          <FindSimilarButton onClick={onFindSimilar}>similar</FindSimilarButton>
         </TaskContainer>
       )}
     </Draggable>
   );
 };
-
-const Button = styled.button`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-`;
 
 const mapState = (state: ApplicationState) => ({
   currentItemId: state.itemBeingPlayed && state.itemBeingPlayed.id
