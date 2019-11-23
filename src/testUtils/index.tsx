@@ -6,8 +6,8 @@ import {
   RenderResult,
   waitForElement
 } from "@testing-library/react";
-import App from "../CoreLayout";
 import "@testing-library/jest-dom/extend-expect";
+import App from "../CoreLayout";
 import { store } from "../store";
 import { Provider } from "react-redux";
 import "jest-styled-components";

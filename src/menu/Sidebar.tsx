@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import SearchArea from "./SearchSidebar";
 import BoardsSidebar from "./BoardsSidebar";
-import { SidebarContainer } from "./components";
+import SimilarSidebar from "./SimilarSidebar";
 
-export type SidebarState = "search" | "board";
+export type SidebarState = "search" | "board" | "similar";
 
-const Sidebar = ({ state }: { state: SidebarState }) => {
-  return (
-    <>
-
-      {state === "search" ? <SearchArea /> : <BoardsSidebar />}
-    </>
-  );
+const Sidebar = ({ state }: { state: SidebarState }): JSX.Element => {
+  if (state === "search") {
+    return <SearchArea />;
+  } else if (state === "board") {
+    return <BoardsSidebar />;
+  } else return <SimilarSidebar />;
 };
 
 export default Sidebar;

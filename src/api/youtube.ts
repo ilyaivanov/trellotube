@@ -13,30 +13,39 @@ export const searchVideos = (
   pageToken?: string
 ): Promise<ResponseType> =>
   IS_USING_FAKE_API
-    ? Promise.resolve(createSampleVideos(10))
-    : fetch(
-        url("search", {
-          part: "snippet",
-          shart: "mostPopular",
-          maxResults: 10,
-          pageToken,
-          q: logRequest(term, "search")
-        })
-      )
-        .then(response => response.json())
-        .then((data: YoutubeSearchResponse) => ({
-          //TODO: extract duplication
-          // nextPageToken: data.nextPageToken,
-          // totalResults: data.pageInfo.totalResults,
-          items: data.items
-            .filter(item => isItemSupported(item.id.kind))
-            .map(item => ({
-              videoId: item.id.videoId || "",
-              imageUrl: item.snippet.thumbnails.medium.url,
-              text: item.snippet.title,
-              id: createId()
-            }))
-        }));
+    ? Promise.resolve(createSampleVideos(20))
+    : searchForVideos("search", {
+        shart: "mostPopular",
+        q: logRequest(term, "search")
+      });
+
+export const searchSimilar = (videoId: string) =>
+  (IS_USING_FAKE_API)
+    ? Promise.resolve(createSampleVideos(20))
+    : searchForVideos("search", {
+        type: "video",
+        relatedToVideoId: logRequest(videoId, 'search.similar')
+      });
+
+const searchForVideos = (verb: string, props: {}): Promise<ResponseType> =>
+  fetch(
+    url("search", {
+      part: "snippet",
+      maxResults: 20,
+      ...props
+    })
+  )
+    .then(response => response.json())
+    .then((data: YoutubeSearchResponse) => ({
+      items: data.items
+        .filter(item => isItemSupported(item.id.kind))
+        .map(item => ({
+          videoId: item.id.videoId || "",
+          imageUrl: item.snippet.thumbnails.medium.url,
+          text: item.snippet.title,
+          id: createId()
+        }))
+    }));
 
 const logRequest = (term: string, requestType: string) => {
   console.log(`Requesting Youtube ${requestType} for ${term}`);

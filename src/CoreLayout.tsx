@@ -91,6 +91,12 @@ const App = ({ endDrag }: Props) => {
           >
             search
           </button>
+          <button
+            data-testid="similar-button"
+            onClick={createHandlerForButton("similar")}
+          >
+            similar
+          </button>
           <button onClick={() => setIsRightVisible(!rightVisible)}>
             toggle right
           </button>

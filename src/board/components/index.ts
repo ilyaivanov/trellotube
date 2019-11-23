@@ -48,6 +48,7 @@ const Title = styled.h4`
 `;
 
 const TaskContainer = styled.div<{ isPlaying: boolean }>`
+  position: relative;
   display: flex;
   flex: 1;
   flex-direction: row;

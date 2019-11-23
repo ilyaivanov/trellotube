@@ -1,11 +1,15 @@
 import { Item } from "../types";
 import { DropResult } from "react-beautiful-dnd";
-import {createId} from "../shared/utils";
+import { createId } from "../shared/utils";
+import { findSimilarArtistsDone } from "../menu/actions";
+import { searchSimilar } from "../api/youtube";
 
 export enum ACTIONS {
   REMOVE_COLUMN = "REMOVE_COLUMN",
   CREATE_COLUMN = "CREATE_COLUMN",
   SEARCH_DONE = "SEARCH_DONE",
+  FIND_SIMILAR_START = "FIND_SIMILAR_START",
+  FIND_SIMILAR_DONE = "FIND_SIMILAR_DONE",
   SELECT_BOARD = "SELECT_BOARD",
   RENAME_COLUMN = "RENAME_COLUMN",
   DRAG_END = "DRAG_END",
@@ -125,6 +129,18 @@ export const removeBoard = (boardId: string): RemoveBoard => ({
   type: ACTIONS.REMOVE_BOARD,
   boardId
 });
+
+export const findSimilar = (videoId: string) => (dispatch: any) => {
+  dispatch({
+    type: "FIND_SIMILAR_START"
+  });
+
+  setTimeout(() => {
+    searchSimilar(videoId).then(({ items }) => {
+      dispatch(findSimilarArtistsDone(items));
+    });
+  }, 1000);
+};
 
 export const reset = (): Reset => ({
   type: ACTIONS.RESET

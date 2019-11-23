@@ -8,7 +8,7 @@ export interface Item {
 export interface Column {
   id: string;
   name: string;
-  type: "PLAYLIST" | "SEARCH";
+  type: "PLAYLIST" | "SEARCH" | 'SIMILAR';
   items: Item[];
 }
 
