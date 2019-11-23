@@ -52,6 +52,19 @@ const FindSimilarButton = styled.button`
   right: 0;
   display: none;
 `;
+
+const CardType = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 12px;
+  background-color: black;
+  opacity: 0.6;
+  font-weight: bold;
+  border-bottom-left-radius: ${c.BORDER_RADIUS}px;
+  color: white;
+`;
+
 const TaskContainer = styled.div<{ isPlaying: boolean }>`
   position: relative;
   display: flex;
@@ -94,5 +107,6 @@ export {
   Subtext,
   Img,
   TaskContainer,
-  FindSimilarButton
+  FindSimilarButton,
+  CardType
 };
