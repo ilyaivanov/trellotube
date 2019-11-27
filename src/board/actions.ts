@@ -16,6 +16,7 @@ export enum ACTIONS {
   CREATE_BOARD = "CREATE_BOARD",
   REMOVE_BOARD = "REMOVE_BOARD",
   RENAME_BOARD = "RENAME_BOARD",
+  CREATE_YOUTUBE_PLAYLIST = "CREATE_YOUTUBE_PLAYLIST",
   RESET = "RESET"
 }
 
@@ -35,8 +36,15 @@ export interface SelectBoard {
   boardId: string;
 }
 
+export interface CreateColumnConfig {
+  fromStart: boolean;
+  columnName: string;
+  isLoading: boolean;
+}
+
 export interface CreateColumnAction {
   type: ACTIONS.CREATE_COLUMN;
+  columnConfiguration: Partial<CreateColumnConfig>;
 }
 
 export interface SearchDone {
@@ -88,8 +96,9 @@ export const searchDone = (items: Item[]) => ({
   items
 });
 
-export const createColumn = () => ({
-  type: ACTIONS.CREATE_COLUMN
+export const createColumn = (columnConfiguration: Partial<CreateColumnConfig> = {}): CreateColumnAction => ({
+  type: ACTIONS.CREATE_COLUMN,
+  columnConfiguration,
 });
 
 export const selectBoard = (boardId: string) => ({
@@ -149,6 +158,18 @@ export const findSimilar = (videoId: string) => (
     searchSimilar(videoId).then(({ items }) => {
       dispatch(findSimilarArtistsDone(items));
     });
+  }, 1000);
+};
+
+export const loadPlaylist = (item: Item) => (dispatch: any) => {
+  dispatch({
+    type: "CREATE_YOUTUBE_PLAYLIST"
+  });
+
+  setTimeout(() => {
+    // searchSimilar(videoId).then(({ items }) => {
+    //   dispatch(findSimilarArtistsDone(items));
+    // });
   }, 1000);
 };
 

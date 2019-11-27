@@ -27,13 +27,16 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
     const selectedBoard = getSelectedBoard(state);
     const newColumn: Column = {
       items: [],
-      name: "New Column",
+      name: action.columnConfiguration.columnName || "New Column",
       id: createId(),
       type: "PLAYLIST"
     };
+    const orderModifier = action.columnConfiguration.fromStart
+      ? prepend
+      : append;
     const newBoard: Board = {
       ...selectedBoard,
-      columnOrders: selectedBoard.columnOrders.concat([newColumn.id])
+      columnOrders: orderModifier(selectedBoard.columnOrders, newColumn.id)
     };
     return updateBoard(state, updateColumnInBoard(newBoard, newColumn));
   }
@@ -152,3 +155,7 @@ export const getColumnsForSelectedBoard = (
   }
   return board.columnOrders.map(id => board.columns[id]);
 };
+
+//UTIL CANDIDATES
+const append = <T>(array: T[], item: T): T[] => array.concat([item]);
+const prepend = <T>(array: T[], item: T): T[] => [item].concat(array);
