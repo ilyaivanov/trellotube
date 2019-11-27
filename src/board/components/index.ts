@@ -46,7 +46,7 @@ const Title = styled.h4`
   display: flex;
   justify-content: space-between;
 `;
-const FindSimilarButton = styled.button`
+const CardButton = styled.button`
   position: absolute;
   bottom: 0;
   right: 0;
@@ -75,7 +75,7 @@ const TaskContainer = styled.div<{ isPlaying: boolean }>`
   transition: background-color 400ms;
   margin-bottom: ${c.STACK_PADDING}px;
   box-shadow: 0 2px 1px -1px gray;
-  &:hover ${FindSimilarButton} {
+  &:hover ${CardButton} {
     display: inherit;
   }
 `;
@@ -107,6 +107,6 @@ export {
   Subtext,
   Img,
   TaskContainer,
-  FindSimilarButton,
+  CardButton,
   CardType
 };

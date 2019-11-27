@@ -5,12 +5,12 @@ import {
   TaskContainer,
   Img,
   Subtext,
-  FindSimilarButton,
+  CardButton,
   CardType
 } from "./components";
 import Truncate from "react-truncate";
 import { connect } from "react-redux";
-import { findSimilar } from "./actions";
+import { findSimilar, loadPlaylist } from "./actions";
 import { play } from "../player/actions";
 
 interface Props {
@@ -18,6 +18,7 @@ interface Props {
   index: number;
   play: (item: Item) => void;
   findSimilar: (videoId: string) => void;
+  loadPlaylist: (item: Item) => void;
   currentItemId?: string;
 }
 
@@ -29,10 +30,21 @@ const decode = (text: string): string => {
   return dom.body.textContent || "";
 };
 
-const Card = ({ item, index, play, findSimilar, currentItemId }: Props) => {
+const Card = ({
+  item,
+  index,
+  play,
+  findSimilar,
+  loadPlaylist,
+  currentItemId
+}: Props) => {
   const onFindSimilar = (e: any) => {
     e.stopPropagation();
     findSimilar(item.videoId);
+  };
+  const onLoadPlaylist = (e: any) => {
+    e.stopPropagation();
+    loadPlaylist(item);
   };
 
   return (
@@ -54,7 +66,16 @@ const Card = ({ item, index, play, findSimilar, currentItemId }: Props) => {
             </Truncate>
           </Subtext>
           <CardType>{item.type === "video" ? "V" : "P"}</CardType>
-          <FindSimilarButton onClick={onFindSimilar}>similar</FindSimilarButton>
+          {item.type === "video" ? (
+            <CardButton onClick={onFindSimilar}>similar</CardButton>
+          ) : (
+            <CardButton
+              title="This will place playlist at the start of the board"
+              onClick={onLoadPlaylist}
+            >
+              load
+            </CardButton>
+          )}
         </TaskContainer>
       )}
     </Draggable>
@@ -67,5 +88,5 @@ const mapState = (state: ApplicationState) => ({
 
 export default connect(
   mapState,
-  { findSimilar, play }
+  { findSimilar, play, loadPlaylist }
 )(Card);

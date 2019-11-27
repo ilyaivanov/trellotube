@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware, compose, Store } from "redux";
 import boardReducer from "./board/reducer";
 import playerReducer from "./player/reducer";
 import menuReducer from "./menu/reducer";
@@ -32,9 +32,12 @@ export const persistedReducer = persistReducer(
   rootReducer
 );
 
-export const store = createStore(
-  persistedReducer,
-  composeEnhancers(applyMiddleware(thunk))
-);
+export const createTrelloTubeStore = (): Store<ApplicationState> =>
+  createStore(
+    persistedReducer,
+    composeEnhancers(applyMiddleware(thunk))
+  ) as any;
+
+export const store = createTrelloTubeStore();
 const persistor = persistStore(store);
 export default { store, persistor };
