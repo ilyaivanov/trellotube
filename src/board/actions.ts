@@ -2,7 +2,7 @@ import { ApplicationState, Item } from "../types";
 import { DropResult } from "react-beautiful-dnd";
 import { createId } from "../shared/utils";
 import { findSimilarArtistsDone, topBarButtonPressed } from "../menu/actions";
-import { searchSimilar } from "../api/youtube";
+import { loadPlaylistVideos, searchSimilar } from "../api/youtube";
 
 export enum ACTIONS {
   REMOVE_COLUMN = "REMOVE_COLUMN",
@@ -17,6 +17,7 @@ export enum ACTIONS {
   REMOVE_BOARD = "REMOVE_BOARD",
   RENAME_BOARD = "RENAME_BOARD",
   CREATE_YOUTUBE_PLAYLIST = "CREATE_YOUTUBE_PLAYLIST",
+  DONE_LOADING_PLAYLIST = "DONE_LOADING_PLAYLIST",
   RESET = "RESET"
 }
 
@@ -38,6 +39,7 @@ export interface SelectBoard {
 
 export interface CreateColumnConfig {
   fromStart: boolean;
+  columnId: string;
   columnName: string;
   isLoading: boolean;
 }
@@ -73,6 +75,11 @@ export interface RemoveBoard {
 export interface Reset {
   type: ACTIONS.RESET;
 }
+export interface DoneLoadingPlaylist {
+  type: ACTIONS.DONE_LOADING_PLAYLIST;
+  items: Item[];
+  playlistId: string;
+}
 
 export type Action =
   | RemoveAction
@@ -84,6 +91,7 @@ export type Action =
   | RenameBoard
   | RemoveBoard
   | Reset
+  | DoneLoadingPlaylist
   | SearchDone;
 
 export const removeColumn = (columnId: string) => ({
@@ -96,9 +104,11 @@ export const searchDone = (items: Item[]) => ({
   items
 });
 
-export const createColumn = (columnConfiguration: Partial<CreateColumnConfig> = {}): CreateColumnAction => ({
+export const createColumn = (
+  columnConfiguration: Partial<CreateColumnConfig> = {}
+): CreateColumnAction => ({
   type: ACTIONS.CREATE_COLUMN,
-  columnConfiguration,
+  columnConfiguration
 });
 
 export const selectBoard = (boardId: string) => ({
@@ -162,17 +172,26 @@ export const findSimilar = (videoId: string) => (
 };
 
 export const loadPlaylist = (item: Item) => (dispatch: any) => {
-  dispatch({
-    type: "CREATE_YOUTUBE_PLAYLIST"
-  });
+  const id = createId();
+  dispatch(
+    createColumn({ columnName: item.text, columnId: id, fromStart: true })
+  );
 
-  setTimeout(() => {
-    // searchSimilar(videoId).then(({ items }) => {
-    //   dispatch(findSimilarArtistsDone(items));
-    // });
-  }, 1000);
+  console.log(item.videoId);
+  loadPlaylistVideos(item.videoId).then(({ items }) => {
+    dispatch(doneLoadingPlaylist(id, items));
+  });
 };
 
 export const reset = (): Reset => ({
   type: ACTIONS.RESET
+});
+
+export const doneLoadingPlaylist = (
+  playlistId: string,
+  items: Item[]
+): DoneLoadingPlaylist => ({
+  type: ACTIONS.DONE_LOADING_PLAYLIST,
+  items,
+  playlistId
 });

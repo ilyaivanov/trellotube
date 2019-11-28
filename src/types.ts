@@ -1,9 +1,10 @@
+export type ItemType = "video" | "playlist" | "channel";
 export interface Item {
   text: string;
   videoId: string;
   imageUrl: string;
   id: string;
-  type: "video" | "playlist" | "channel";
+  type: ItemType;
 }
 
 export interface Column {

@@ -22,7 +22,11 @@ export interface ItemsItem {
   snippet: Snippet;
 }
 
-export type ItemKind = "youtube#channel" | "youtube#playlist" | "youtube#video";
+export type ItemKind =
+  | "youtube#channel"
+  | "youtube#playlist"
+  | "youtube#video"
+  | "youtube#playlistItem";
 
 interface Id {
   kind: ItemKind;
@@ -54,5 +58,4 @@ interface Thumbnail {
 }
 
 {
-
 }
