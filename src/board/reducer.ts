@@ -1,4 +1,10 @@
-import { ApplicationState, Board, BoardsContainer, Column } from "../types";
+import {
+  ApplicationState,
+  Board,
+  BoardsContainer,
+  Column,
+  Item
+} from "../types";
 import { Action, ACTIONS } from "./actions";
 import { handleDnd } from "../operations";
 import { initialState } from "../state";
@@ -28,7 +34,7 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
     const newColumn: Column = {
       items: [],
       name: action.columnConfiguration.columnName || "New Column",
-      id: createId(),
+      id: action.columnConfiguration.columnId || createId(),
       type: "PLAYLIST"
     };
     const orderModifier = action.columnConfiguration.fromStart
@@ -40,13 +46,18 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
     };
     return updateBoard(state, updateColumnInBoard(newBoard, newColumn));
   }
-  if (action.type === ACTIONS.SEARCH_DONE) {
-    const selectedBoard = getSelectedBoard(state);
-    const newSearch: Column = {
-      ...selectedBoard.columns["SEARCH"],
+  if (action.type === ACTIONS.DONE_LOADING_PLAYLIST) {
+    //TODO: this will trigger an error if I will select another board while playlist is being loaded
+    return updateColumnInSelectedBoard(state, {
+      id: action.playlistId,
       items: action.items
-    };
-    return updateBoard(state, updateColumnInBoard(selectedBoard, newSearch));
+    });
+  }
+  if (action.type === ACTIONS.SEARCH_DONE) {
+    return updateColumnInSelectedBoard(state, {
+      id: "SEARCH",
+      items: action.items
+    });
   }
   if (action.type === ACTIONS.SELECT_BOARD) {
     return {
@@ -55,12 +66,10 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
     };
   }
   if (action.type === ACTIONS.RENAME_COLUMN) {
-    const selectedBoard = getSelectedBoard(state);
-    const newColumn = {
-      ...selectedBoard.columns[action.columnId],
+    return updateColumnInSelectedBoard(state, {
+      id: action.columnId,
       name: action.newName
-    };
-    return updateBoard(state, updateColumnInBoard(selectedBoard, newColumn));
+    });
   }
   if (action.type === ACTIONS.DRAG_END) {
     //TODO: try to cover full cycle with specs
@@ -140,6 +149,21 @@ const createDefaultBoard = (boards: BoardsContainer, boardId: string) => {
     ...boards,
     [boardId]: newBoard
   };
+};
+
+type PartialColumnWithId = Partial<Column> & { id: string };
+const updateColumnInSelectedBoard = (
+  state: ApplicationState,
+  column: PartialColumnWithId
+) => {
+  const selectedBoard = getSelectedBoard(state);
+  return updateBoard(
+    state,
+    updateColumnInBoard(selectedBoard, {
+      ...selectedBoard.columns[column.id],
+      ...column
+    })
+  );
 };
 
 //SELECTOR CANDIDATES
