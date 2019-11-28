@@ -77,6 +77,9 @@ export class ApplicationSandbox {
     expect(this.app.queryByTestId(itemId)).not.toBeInTheDocument();
   }
 
+  expectItemByTextToBePresent(itemId: string, itemText: string) {
+    expect(this.app.getByTestId("video-" + itemId).innerHTML).toContain(itemText);
+  }
   selectBoard(boardId: string) {
     fireEvent.click(this.app.getByTestId("board-button-" + boardId));
   }

@@ -3,7 +3,7 @@ import { ItemKind, YoutubeSearchResponse } from "./types";
 import { Item, ItemType } from "../types";
 import { createId } from "../shared/utils";
 import { createSampleVideos, IS_USING_FAKE_API } from "./fake.api";
-
+import {myFetch} from './fetch';
 interface ResponseType {
   items: Item[];
 }
@@ -12,9 +12,7 @@ export const searchVideos = (
   term: string,
   pageToken?: string
 ): Promise<ResponseType> =>
-  IS_USING_FAKE_API
-    ? Promise.resolve(createSampleVideos(20))
-    : searchForVideos("search", {
+    searchForVideos("search", {
         shart: "mostPopular",
         q: logRequest(term, "search")
       });
@@ -37,14 +35,13 @@ export const loadPlaylistVideos = (playlistId: string) =>
       });
 
 const searchForVideos = (verb: string, props: {}): Promise<ResponseType> =>
-  fetch(
+  myFetch(
     url(verb, {
       part: "snippet",
       maxResults: 20,
       ...props
     })
   )
-    .then(response => response.json())
     .then((data: YoutubeSearchResponse) => {
       return {
         items: data.items
