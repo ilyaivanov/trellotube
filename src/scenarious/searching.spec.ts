@@ -70,6 +70,25 @@ describe("Having a default application", () => {
     );
   });
 
+  fit("when loading similar videos and the loading a playlist", async () => {
+    fetch.mockReturnValue(Promise.resolve(jordanPetersonResponse));
+    app.findSimilar("MY_VIDEO_ID");
+
+    await app.waitForVideoId("myId0");
+
+    fetch.mockClear();
+    fetch.mockReturnValue(Promise.resolve(playlistResponse));
+    app.loadPlaylist("myId0"); //2017 Personality and Its Transformations (University of Toronto)
+    await app.waitForVideoId("myId11"); //2017 Personality 01: Introduction
+    app.expectItemByTextToBePresent(
+      "myId11",
+      "2017 Personality 01: Introduction"
+    );
+    expect(myFetch).toHaveBeenCalledWith(
+      "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId=PL22J3VaeABQApSdW8X71Ihe34eKN6XhCi&key=AIzaSyAk1MbyIUnFinouWsMg46UwgHa8JjHBrsw"
+    );
+  });
+
   it("loading a playlist should add a new column", async () => {
     fetch.mockReturnValue(Promise.resolve(playlistResponse));
 
@@ -77,15 +96,9 @@ describe("Having a default application", () => {
 
     await app.waitForVideoId("myId1");
 
-    app.expectItemByTextToBePresent(
-      "myId1",
-      "2017 Personality 01"
-    );
+    app.expectItemByTextToBePresent("myId1", "2017 Personality 01");
 
-    app.expectItemByTextToBePresent(
-      "myId2",
-      "2017 Personality 02/03"
-    );
+    app.expectItemByTextToBePresent("myId2", "2017 Personality 02/03");
 
     expect(myFetch).toHaveBeenCalledWith(
       "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId=YOUTUBE_PLAYLIST_ID&key=AIzaSyAk1MbyIUnFinouWsMg46UwgHa8JjHBrsw"
