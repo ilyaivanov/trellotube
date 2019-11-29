@@ -164,11 +164,9 @@ export const findSimilar = (videoId: string) => (
   )
     dispatch(topBarButtonPressed("similar"));
 
-  setTimeout(() => {
-    searchSimilar(videoId).then(({ items }) => {
-      dispatch(findSimilarArtistsDone(items));
-    });
-  }, 1000);
+  searchSimilar(videoId).then(({ items }) => {
+    dispatch(findSimilarArtistsDone(items));
+  });
 };
 
 export const loadPlaylist = (item: Item) => (dispatch: any) => {
@@ -177,7 +175,6 @@ export const loadPlaylist = (item: Item) => (dispatch: any) => {
     createColumn({ columnName: item.text, columnId: id, fromStart: true })
   );
 
-  console.log(item.videoId);
   loadPlaylistVideos(item.videoId).then(({ items }) => {
     dispatch(doneLoadingPlaylist(id, items));
   });

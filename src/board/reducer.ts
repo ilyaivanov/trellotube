@@ -48,6 +48,7 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
   }
   if (action.type === ACTIONS.DONE_LOADING_PLAYLIST) {
     //TODO: this will trigger an error if I will select another board while playlist is being loaded
+    console.log(action.items);
     return updateColumnInSelectedBoard(state, {
       id: action.playlistId,
       items: action.items

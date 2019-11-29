@@ -78,7 +78,9 @@ export class ApplicationSandbox {
   }
 
   expectItemByTextToBePresent(itemId: string, itemText: string) {
-    expect(this.app.getByTestId("video-" + itemId).innerHTML).toContain(itemText);
+    expect(this.app.getByTestId("video-" + itemId).innerHTML).toContain(
+      itemText
+    );
   }
   selectBoard(boardId: string) {
     fireEvent.click(this.app.getByTestId("board-button-" + boardId));
@@ -86,6 +88,14 @@ export class ApplicationSandbox {
 
   getBoardElement(boardId: string) {
     return this.app.getByTestId("board-" + boardId);
+  }
+
+  findSimilar(itemId: string) {
+    fireEvent.click(this.app.getByTestId("video-find-similar-" + itemId));
+  }
+
+  loadPlaylist(itemId: string) {
+    fireEvent.click(this.app.getByTestId("video-load-playlist-" + itemId));
   }
 
   expectColumnToExist(columnId: string) {

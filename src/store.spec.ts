@@ -14,25 +14,27 @@ describe("Having a default state", () => {
 
   it("by default there should be three columns", () => {
     const selectedBoard = getSelectedBoard(store.getState());
-    expect(selectedBoard.columnOrders).toEqual(["1", "2", "3"]);
+    expect(selectedBoard.columnOrders).toEqual(["1", "2"]);
   });
 
   it("creating a column should add a new column to the end", () => {
     store.dispatch(createColumn());
 
     const selectedBoard = getSelectedBoard(store.getState());
-    expect(selectedBoard.columnOrders).toEqual(["1", "2", "3", "someNewId"]);
+    expect(selectedBoard.columnOrders).toEqual(["1", "2", "someNewId"]);
   });
 
   it("creating a column from the start should add new column from the beginning", () => {
     store.dispatch(createColumn({ fromStart: true }));
 
     const selectedBoard = getSelectedBoard(store.getState());
-    expect(selectedBoard.columnOrders).toEqual(["someNewId", "1", "2", "3"]);
+    expect(selectedBoard.columnOrders).toEqual(["someNewId", "1", "2"]);
   });
 
   it("setting a custom name should create a column with a custom name", () => {
-    store.dispatch(createColumn({ columnName: "My Custom Name", columnId: 'myId' }));
+    store.dispatch(
+      createColumn({ columnName: "My Custom Name", columnId: "myId" })
+    );
 
     const selectedBoard = getSelectedBoard(store.getState());
     expect(selectedBoard.columns["myId"].name).toEqual("My Custom Name");
