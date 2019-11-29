@@ -67,9 +67,15 @@ const Card = ({
           </Subtext>
           <CardType>{item.type === "video" ? "V" : "P"}</CardType>
           {item.type === "video" ? (
-            <CardButton onClick={onFindSimilar}>similar</CardButton>
+            <CardButton
+              data-testid={"video-find-similar-" + item.id}
+              onClick={onFindSimilar}
+            >
+              similar
+            </CardButton>
           ) : (
             <CardButton
+              data-testid={"video-load-playlist-" + item.id}
               title="This will place playlist at the start of the board"
               onClick={onLoadPlaylist}
             >

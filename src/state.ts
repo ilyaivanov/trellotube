@@ -33,38 +33,17 @@ export const initialState = (): ApplicationState => ({
               videoId: "YOUTUBE_ID",
               imageUrl: "",
               type: "video"
+            },
+            {
+              text: "Some Playlist",
+              id: "MY_PLAYLIST_ID",
+              videoId: "YOUTUBE_PLAYLIST_ID",
+              imageUrl: "",
+              type: "playlist"
             }
           ],
           name: "Second",
           type: "PLAYLIST"
-        },
-        "3": {
-          id: "3",
-          items: [
-            {
-              text: "Album 1.1",
-              id: id(),
-              videoId: "1",
-              imageUrl: "",
-              type: "video"
-            },
-            {
-              text: "Album 2.2",
-              id: id(),
-              videoId: "1",
-              imageUrl: "",
-              type: "video"
-            },
-            {
-              text: "Album 3.3",
-              id: id(),
-              videoId: "1",
-              imageUrl: "",
-              type: "video"
-            }
-          ],
-          name: "Third",
-          type: "SEARCH"
         },
         SEARCH: {
           id: "SEARCH",
@@ -81,7 +60,7 @@ export const initialState = (): ApplicationState => ({
           type: "SEARCH"
         }
       },
-      columnOrders: ["1", "2", "3"]
+      columnOrders: ["1", "2"]
     },
     BOARD_2: {
       boardName: "ANOTHER BOARd",
