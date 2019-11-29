@@ -57,7 +57,6 @@ const getId = (item: any) => {
 };
 
 const logRequest = (term: string, requestType: string) => {
-  console.log(`Requesting Youtube ${requestType} for ${term}`);
   return term;
 };
 
