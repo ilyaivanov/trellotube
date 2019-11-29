@@ -1,11 +1,11 @@
-import {Board, Column, ColumnContainer} from "./types";
-import {handleDnd} from "./operations";
-import {DraggableLocation, DropResult} from "react-beautiful-dnd";
+import { Board, Column, ColumnContainer } from "./types";
+import { handleDnd } from "./operations";
+import { DraggableLocation, DropResult } from "react-beautiful-dnd";
 
 it("dragging within the column", () => {
   const event: DropResult = createDropResult(
-    {index: 0, droppableId: "BOARD_1"},
-    {index: 1, droppableId: "BOARD_1"}
+    { index: 0, droppableId: "BOARD_1" },
+    { index: 1, droppableId: "BOARD_1" }
   );
 
   const board = createBoard(createColumn("BOARD_1", ["CARD_1", "CARD_2"]));
@@ -16,8 +16,8 @@ it("dragging within the column", () => {
 
 it("dragging between two columns", () => {
   const event: DropResult = createDropResult(
-    {index: 0, droppableId: "COLUMN_1"},
-    {index: 1, droppableId: "COLUMN_2"}
+    { index: 0, droppableId: "COLUMN_1" },
+    { index: 1, droppableId: "COLUMN_2" }
   );
 
   const board = createBoard(
@@ -44,8 +44,9 @@ const createBoard = (...column: Column[]): Board => ({
     return res;
   }, {}),
   columnOrders: [],
-  boardId: 'dummy',
-  boardName:'dummy'
+  boardOptions: {},
+  boardId: "dummy",
+  boardName: "dummy"
 });
 
 const createColumn = (columnId: string, itemsNames: string[]): Column => ({
@@ -56,7 +57,8 @@ const createColumn = (columnId: string, itemsNames: string[]): Column => ({
     id: i,
     text: i,
     videoId: "",
-    imageUrl: ""
+    imageUrl: "",
+    type: "video"
   }))
 });
 

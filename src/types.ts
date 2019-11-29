@@ -1,14 +1,16 @@
+export type ItemType = "video" | "playlist" | "channel";
 export interface Item {
   text: string;
   videoId: string;
   imageUrl: string;
   id: string;
+  type: ItemType;
 }
 
 export interface Column {
   id: string;
   name: string;
-  type: "PLAYLIST" | "SEARCH";
+  type: "PLAYLIST" | "SEARCH" | "SIMILAR";
   items: Item[];
 }
 
@@ -21,14 +23,28 @@ export interface Board {
   boardName: string;
   columns: ColumnContainer;
   columnOrders: string[];
+  boardOptions: BoardOptions;
+}
+
+export interface BoardOptions {
+  isLoadingSimilar?: boolean;
 }
 
 export interface BoardsContainer {
   [key: string]: Board;
 }
 
+export type SidebarState = "search" | "board" | "similar";
+
+export interface UserOptions {
+  isLeftSidebarVisible: boolean;
+  leftSidebarContentType: SidebarState;
+}
+
 export interface ApplicationState {
+  userOptions: UserOptions;
   boards: BoardsContainer;
   boardsOrder: string[];
   selectedBoard: string;
+  itemBeingPlayed?: Item;
 }
