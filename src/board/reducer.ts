@@ -53,10 +53,10 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
     });
   }
   if (action.type === ACTIONS.SEARCH_DONE) {
-    return updateColumnInSelectedBoard(state, {
-      id: "SEARCH",
-      items: action.items
-    });
+    return {
+      ...state,
+      searchResults: action.items
+    };
   }
   if (action.type === ACTIONS.SELECT_BOARD) {
     return {
@@ -71,11 +71,7 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
     });
   }
   if (action.type === ACTIONS.DRAG_END) {
-    //TODO: try to cover full cycle with specs
-    //probably trigger action in unit tests and check DOM state.
-    //there is no way right now to trigger dnd from DOM
-    const selectedBoard = getSelectedBoard(state);
-    return updateBoard(state, handleDnd(selectedBoard, action.dropResult));
+    return handleDnd(state, action.dropResult);
   }
   if (action.type === ACTIONS.CREATE_BOARD) {
     return {
@@ -151,7 +147,7 @@ const createDefaultBoard = (boards: BoardsContainer, boardId: string) => {
 };
 
 type PartialColumnWithId = Partial<Column> & { id: string };
-const updateColumnInSelectedBoard = (
+export const updateColumnInSelectedBoard = (
   state: ApplicationState,
   column: PartialColumnWithId
 ) => {

@@ -12,7 +12,7 @@ export interface Item {
 export interface Column {
   id: string;
   name: string;
-  type: "PLAYLIST" | "SEARCH" | "SIMILAR";
+  type: "PLAYLIST";
   items: Item[];
 }
 
@@ -49,4 +49,10 @@ export interface ApplicationState {
   boardsOrder: string[];
   selectedBoard: string;
   itemBeingPlayed?: Item;
+  searchResults: Item[];
+  similarState: SimilarState;
+}
+export interface SimilarState {
+  items: Item[];
+  isLoading: boolean;
 }

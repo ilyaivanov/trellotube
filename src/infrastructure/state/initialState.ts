@@ -1,8 +1,5 @@
 import { ApplicationState } from "../types";
 
-let _id = 100;
-const id = () => _id++ + "";
-
 export const initialState = (): ApplicationState => ({
   boards: {
     BOARD_1: {
@@ -15,7 +12,7 @@ export const initialState = (): ApplicationState => ({
           items: [
             {
               text: "Short name",
-              id: id(),
+              id: "Column1 Item1",
               videoId: "1",
               imageUrl: "https://i.ytimg.com/vi/6Zo_FTUNDBI/mqdefault.jpg",
               type: "video"
@@ -44,20 +41,6 @@ export const initialState = (): ApplicationState => ({
           ],
           name: "Second",
           type: "PLAYLIST"
-        },
-        SEARCH: {
-          id: "SEARCH",
-          items: [
-            {
-              text: "Title 2",
-              id: "MY_VIDEO_ID_AT_SEARCH",
-              videoId: "YOUTUBE_ID_AT_SEARCH",
-              imageUrl: "",
-              type: "video"
-            }
-          ],
-          name: "SEARCH",
-          type: "SEARCH"
         }
       },
       columnOrders: ["1", "2"]
@@ -66,14 +49,7 @@ export const initialState = (): ApplicationState => ({
       boardName: "ANOTHER BOARd",
       boardId: "BOARD_2",
       boardOptions: {},
-      columns: {
-        SEARCH: {
-          id: "SEARCH",
-          items: [],
-          name: "SEARCH",
-          type: "SEARCH"
-        }
-      },
+      columns: {},
       columnOrders: []
     }
   },
@@ -82,5 +58,26 @@ export const initialState = (): ApplicationState => ({
   userOptions: {
     isLeftSidebarVisible: false,
     leftSidebarContentType: "search"
+  },
+  searchResults: [
+    {
+      text: "Title 2",
+      id: "MY_VIDEO_ID_AT_SEARCH",
+      videoId: "YOUTUBE_ID_AT_SEARCH",
+      imageUrl: "",
+      type: "video"
+    }
+  ],
+  similarState: {
+    items: [
+      {
+        text: "Title 2",
+        id: "MY_VIDEO_ID_AT_SIMILAR",
+        videoId: "YOUTUBE_ID_AT_SIMILAR",
+        imageUrl: "",
+        type: "video"
+      }
+    ],
+    isLoading: false
   }
 });

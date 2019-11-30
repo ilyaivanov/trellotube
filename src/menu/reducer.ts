@@ -2,10 +2,10 @@ import {
   ApplicationState,
   Board,
   BoardOptions,
-  Column,
   UserOptions
 } from "../infrastructure/types";
 import { Action } from "./actions";
+import {ACTIONS} from "../board/actions";
 
 export default (state: ApplicationState, action: Action): ApplicationState => {
   const selectedBoard = getSelectedBoard(state);
@@ -32,20 +32,15 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
     }
   }
 
-  if (action.type === "FIND_SIMILAR_DONE") {
-    const withoutLoad = updateBoardOptions(state, selectedBoard, {
-      isLoadingSimilar: false
-    });
-
-    return updateBoard(
-      withoutLoad,
-      updateColumnInBoard(getSelectedBoard(withoutLoad), {
-        id: "SIMILAR",
-        items: action.items,
-        type: "SIMILAR",
-        name: "Similar"
-      })
-    );
+  if (action.type === ACTIONS.FIND_SIMILAR_DONE) {
+    return {
+      ...state,
+      similarState:{
+        ...state.similarState,
+        isLoading: false,
+        items: action.items
+      }
+    }
   }
   return state;
 };
@@ -86,14 +81,6 @@ const updateBoard = (state: ApplicationState, board: Board) => ({
   boards: {
     ...state.boards,
     [board.boardId]: board
-  }
-});
-
-const updateColumnInBoard = (board: Board, column: Column): Board => ({
-  ...board,
-  columns: {
-    ...board.columns,
-    [column.id]: column
   }
 });
 

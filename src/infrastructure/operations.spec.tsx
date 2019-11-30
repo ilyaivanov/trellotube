@@ -1,67 +1,61 @@
-import { Board, Column, ColumnContainer } from "./types";
-import { handleDnd } from "./operations";
+import { ApplicationState } from "./types";
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
+import { createTrelloTubeStore } from "./state/store";
+import { endDrag } from "../board/actions";
+import { getSelectedBoard } from "../menu/reducer";
 
 it("dragging within the column", () => {
+  const store = createTrelloTubeStore();
+
+  expect(getItems(store.getState(), "2")).toEqual([
+    "MY_VIDEO_ID",
+    "MY_PLAYLIST_ID"
+  ]);
+
   const event: DropResult = createDropResult(
-    { index: 0, droppableId: "BOARD_1" },
-    { index: 1, droppableId: "BOARD_1" }
+    { index: 0, droppableId: "2" },
+    { index: 1, droppableId: "2" }
   );
-
-  const board = createBoard(createColumn("BOARD_1", ["CARD_1", "CARD_2"]));
-  const result = handleDnd(board, event);
-
-  expect(getItems(result, "BOARD_1")).toEqual(["CARD_2", "CARD_1"]);
-});
-
-it("dragging between two columns", () => {
-  const event: DropResult = createDropResult(
-    { index: 0, droppableId: "COLUMN_1" },
-    { index: 1, droppableId: "COLUMN_2" }
-  );
-
-  const board = createBoard(
-    createColumn("COLUMN_1", ["CARD_1_1", "CARD_1_2"]),
-    createColumn("COLUMN_2", ["CARD_2_1", "CARD_2_2"])
-  );
-
-  const result = handleDnd(board, event);
-
-  expect(getItems(result, "COLUMN_1")).toEqual(["CARD_1_2"]);
-  expect(getItems(result, "COLUMN_2")).toEqual([
-    "CARD_2_1",
-    "CARD_1_1",
-    "CARD_2_2"
+  store.dispatch(endDrag(event));
+  expect(getItems(store.getState(), "2")).toEqual([
+    "MY_PLAYLIST_ID",
+    "MY_VIDEO_ID"
   ]);
 });
 
-const getItems = (board: Board, columnId: string) =>
-  board.columns[columnId].items.map(i => i.id);
-
-const createBoard = (...column: Column[]): Board => ({
-  columns: column.reduce((res: ColumnContainer, c) => {
-    res[c.id] = c;
-    return res;
-  }, {}),
-  columnOrders: [],
-  boardOptions: {},
-  boardId: "dummy",
-  boardName: "dummy"
+it("dragging between two columns", () => {
+  const store = createTrelloTubeStore();
+  const event: DropResult = createDropResult(
+    { index: 0, droppableId: "2" },
+    { index: 1, droppableId: "1" }
+  );
+  store.dispatch(endDrag(event));
+  expect(getItems(store.getState(), "1")).toEqual(["Column1 Item1", "MY_VIDEO_ID"]);
+  expect(getItems(store.getState(), "2")).toEqual(["MY_PLAYLIST_ID"]);
 });
 
-const createColumn = (columnId: string, itemsNames: string[]): Column => ({
-  type: "PLAYLIST",
-  name: "TESTING COLUMN " + columnId,
-  id: columnId,
-  items: itemsNames.map(i => ({
-    id: i,
-    text: i,
-    videoId: "",
-    imageUrl: "",
-    type: "video"
-  }))
+it("dragging between search and column", () => {
+  const store = createTrelloTubeStore();
+  const event: DropResult = createDropResult(
+    { index: 0, droppableId: "SEARCH" },
+    { index: 0, droppableId: "1" }
+  );
+  store.dispatch(endDrag(event));
+  expect(getItems(store.getState(), "1")).toEqual(["MY_VIDEO_ID_AT_SEARCH", "Column1 Item1"]);
 });
 
+it("dragging between similar and column", () => {
+  const store = createTrelloTubeStore();
+  const event: DropResult = createDropResult(
+    { index: 0, droppableId: "SIMILAR" },
+    { index: 0, droppableId: "1" }
+  );
+  store.dispatch(endDrag(event));
+  expect(getItems(store.getState(), "1")).toEqual(["MY_VIDEO_ID_AT_SIMILAR", "Column1 Item1"]);
+});
+
+
+//ADD COLUMN DND
 const createDropResult = (
   source: DraggableLocation,
   destination: DraggableLocation
@@ -73,3 +67,5 @@ const createDropResult = (
   mode: "FLUID",
   destination
 });
+const getItems = (state: ApplicationState, columnId: string) =>
+  getSelectedBoard(state).columns[columnId].items.map(i => i.id);

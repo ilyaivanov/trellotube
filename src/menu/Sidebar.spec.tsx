@@ -56,4 +56,14 @@ describe("App", () => {
     app.expectVideoIdToBeInTheBoard("MYID_1");
     app.expectVideoIdToBeInTheBoard("MYID_2");
   });
+
+  it("when searching for a term and switching to a different board search results should be the same", async () => {
+    app.enterSearch("some dummy t1rm");
+    await app.waitForVideoId("MYID_1");
+    app.expectVideoIdToBeInTheBoard("MYID_1");
+    app.switchToBoard();
+    app.selectBoard('BOARD_2');
+    app.switchToSearch();
+    app.expectVideoIdToBeInTheBoard("MYID_1");
+  });
 });

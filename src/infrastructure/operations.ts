@@ -1,29 +1,40 @@
-import {Board, Item} from "./types";
-import {DraggableLocation, DropResult} from "react-beautiful-dnd";
+import { ApplicationState } from "./types";
+import { DropResult } from "react-beautiful-dnd";
+import { getSelectedBoard } from "../menu/reducer";
+import { updateColumnInSelectedBoard } from "../board/reducer";
 
-export const handleDnd = (board: Board, result: DropResult): Board => {
-  const {destination, source} = result;
-  if (!destination) return board;
+export const handleDnd = (
+  state: ApplicationState,
+  result: DropResult
+): ApplicationState => {
+  const { destination, source } = result;
+  if (!destination) return state;
 
   if (
     destination.droppableId === source.droppableId &&
     destination.index === source.index
   )
-    return board;
+    return state;
 
   if (source.droppableId === "board") {
+    const board = getSelectedBoard(state);
     const columnOrders = [...board.columnOrders];
     columnOrders.splice(source.index, 1);
     columnOrders.splice(destination.index, 0, result.draggableId);
     return {
-      ...board,
-      columnOrders
+      ...state,
+      boards: {
+        ...state.boards,
+        [board.boardId]: {
+          ...board,
+          columnOrders
+        }
+      }
     };
   }
 
-  const oldItem = getItemBeingDragged(board, source);
-
-  const without = removeItemFromBoard(board, source.droppableId, source.index);
+  const oldItem = getItemsFor(state, source.droppableId)[source.index];
+  const without = removeItemFromBoard(state, source.droppableId, source.index);
 
   return insertIntoColumn(
     without,
@@ -33,47 +44,76 @@ export const handleDnd = (board: Board, result: DropResult): Board => {
   );
 };
 
-const getColumn = (board: Board, columnId: string) => board.columns[columnId];
-
-const getItemBeingDragged = (board: Board, source: DraggableLocation) =>
-  board.columns[source.droppableId].items[source.index];
-
 const removeItemFromBoard = (
-  board: Board,
+  state: ApplicationState,
   columnId: string,
   itemIndex: number
-): Board => {
-  const column = getColumn(board, columnId);
-  const items = [...column.items];
-  items.splice(itemIndex, 1);
-  return updateItemInColumn(board, columnId, items);
+): ApplicationState => {
+  if (columnId === "SEARCH")
+    return {
+      ...state,
+      searchResults: remove(state.searchResults, itemIndex)
+    };
+  if (columnId === "SIMILAR")
+    return {
+      ...state,
+      similarState: {
+        ...state.similarState,
+        items: remove(state.similarState.items, itemIndex)
+      }
+    };
+  return updateColumnInSelectedBoard(state, {
+    id: columnId,
+    items: remove(getSelectedBoard(state).columns[columnId].items, itemIndex)
+  });
 };
 
 const insertIntoColumn = (
-  board: Board,
+  state: ApplicationState,
   columnId: string,
   itemIndex: number,
   item: any
-) => {
-  const column = getColumn(board, columnId);
-  const items = [...column.items];
-  items.splice(itemIndex, 0, item);
-  return updateItemInColumn(board, columnId, items);
+): ApplicationState => {
+  if (columnId === "SEARCH") {
+    return {
+      ...state,
+      searchResults: insert(state.searchResults, itemIndex, item)
+    };
+  }
+  if (columnId === "SIMILAR") {
+    return {
+      ...state,
+      similarState: {
+        ...state.similarState,
+        items: insert(state.similarState.items, itemIndex, item)
+      }
+    };
+  }
+  const newItems = insert(
+    getSelectedBoard(state).columns[columnId].items,
+    itemIndex,
+    item
+  );
+  return updateColumnInSelectedBoard(state, {
+    id: columnId,
+    items: newItems
+  });
 };
 
-const updateItemInColumn = (
-  board: Board,
-  columnId: string,
-  items: Item[]
-): Board => {
-  return {
-    ...board,
-    columns: {
-      ...board.columns,
-      [columnId]: {
-        ...getColumn(board, columnId),
-        items
-      }
-    }
-  };
+const insert = <T>(items: T[], index: number, item: T) => {
+  const copy = [...items];
+  copy.splice(index, 0, item);
+  return copy;
+};
+
+const remove = <T>(items: T[], index: number) => {
+  const copy = [...items];
+  copy.splice(index, 1);
+  return copy;
+};
+
+const getItemsFor = (state: ApplicationState, columnId: string) => {
+  if (columnId === "SEARCH") return state.searchResults;
+  if (columnId === "SIMILAR") return state.similarState.items;
+  return getSelectedBoard(state).columns[columnId].items;
 };

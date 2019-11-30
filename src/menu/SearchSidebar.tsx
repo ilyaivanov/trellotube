@@ -48,7 +48,7 @@ const SearchArea = ({ items, searchDone }: SearchProps) => {
   );
 };
 const mapState = (state: ApplicationState) => ({
-  items: state.boards[state.selectedBoard].columns["SEARCH"].items
+  items: state.searchResults
 });
 export default connect(
   mapState,

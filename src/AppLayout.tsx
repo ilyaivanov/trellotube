@@ -7,9 +7,13 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import { endDrag } from "./board/actions";
 import c from "./board/components/constants";
-import { ApplicationState, SidebarState, UserOptions } from "./infrastructure/types";
+import {
+  ApplicationState,
+  SidebarState,
+  UserOptions
+} from "./infrastructure/types";
 import { topBarButtonPressed } from "./menu/actions";
-
+import { persistor } from "./infrastructure/state/store";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -84,6 +88,7 @@ const App = ({ endDrag, topBarButtonPressed, options }: Props) => (
         >
           similar
         </button>
+        <button style={{float:'right'}} onClick={() => persistor.purge()}>clear-store</button>
       </TopBar>
       <MainContainer>
         <LeftSidebar isVisible={options.isLeftSidebarVisible}>

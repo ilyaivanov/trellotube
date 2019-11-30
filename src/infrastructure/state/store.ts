@@ -39,5 +39,4 @@ export const createTrelloTubeStore = (): Store<ApplicationState> =>
   ) as any;
 
 export const store = createTrelloTubeStore();
-const persistor = persistStore(store);
-export default { store, persistor };
+export const persistor = persistStore(store);
