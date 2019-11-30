@@ -70,6 +70,10 @@ export class ApplicationSandbox {
     fireEvent.click(this.app.getByTestId("search-button"));
   }
 
+  switchToSimilar() {
+    fireEvent.click(this.app.getByTestId("similar-button"));
+  }
+
   expectItemToBePresent(itemId: string) {
     expect(this.app.queryByTestId(itemId)).toBeInTheDocument();
   }

@@ -16,6 +16,13 @@ export const initialState = (): ApplicationState => ({
               videoId: "Column1 Video1 YoutubeLink",
               imageUrl: "https://i.ytimg.com/vi/6Zo_FTUNDBI/mqdefault.jpg",
               type: "video"
+            },
+            {
+              text: "Short name",
+              id: "Column1 Video2",
+              videoId: "Column1 Video2 YoutubeLink",
+              imageUrl: "https://i.ytimg.com/vi/6Zo_FTUNDBI/mqdefault.jpg",
+              type: "video"
             }
           ],
           name: "First",
@@ -79,5 +86,5 @@ export const initialState = (): ApplicationState => ({
       }
     ],
     isLoading: false
-  },
+  }
 });
