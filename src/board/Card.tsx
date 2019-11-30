@@ -1,4 +1,4 @@
-import { ApplicationState, Item } from "../types";
+import { ApplicationState, Item } from "../infrastructure/types";
 import { Draggable } from "react-beautiful-dnd";
 import React from "react";
 import {
@@ -11,7 +11,7 @@ import {
 import Truncate from "react-truncate";
 import { connect } from "react-redux";
 import { findSimilar, loadPlaylist } from "./actions";
-import { play } from "../player/actions";
+import { play } from "../infrastructure/actions";
 
 interface Props {
   item: Item;
@@ -59,7 +59,7 @@ const Card = ({
           {...provided.dragHandleProps}
           {...provided.draggableProps}
         >
-          <Img src={item.imageUrl}></Img>
+          <Img src={item.imageUrl}/>
           <Subtext>
             <Truncate width={220 - 74 - 10} lines={2}>
               {decode(item.text)}

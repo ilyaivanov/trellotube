@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { ApplicationState, Item } from "../types";
+import { ApplicationState, Item } from "../infrastructure/types";
 import { getSelectedBoard } from "./reducer";
 import Card from "../board/Card";
 import { Droppable } from "react-beautiful-dnd";
@@ -20,7 +20,7 @@ const SimilarSidebar = ({ items, isLoading }: Props) => {
       <SidebarVideosContainer>
         {!isLoading && items && (
           <Droppable droppableId="SIMILAR" type="item">
-            {(provided, snapshot) => (
+            {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 {items.map((i, index) => (
                   <Card key={i.id} index={index} item={i} />

@@ -4,7 +4,7 @@ import {
   BoardOptions,
   Column,
   UserOptions
-} from "../types";
+} from "../infrastructure/types";
 import { Action } from "./actions";
 
 export default (state: ApplicationState, action: Action): ApplicationState => {

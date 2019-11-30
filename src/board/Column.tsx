@@ -1,10 +1,10 @@
 import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { Column, Item } from "../types";
+import { Column } from "../infrastructure/types";
 import Card from "./Card";
 import { connect } from "react-redux";
 import { ColumnContainer, TaskList, Title, Options } from "./components";
-import EditableTitle from "../shared/EditableTitle";
+import EditableTitle from "../infrastructure/EditableTitle";
 import { removeColumn, renameColumn } from "./actions";
 
 interface Props {
@@ -34,7 +34,7 @@ const ColumnView = ({ column, index, removeColumn, renameColumn }: Props) => {
             Options={Options}
           />
           <Droppable droppableId={column.id} type="item">
-            {(provided, snapshot) => (
+            {(provided) => (
               <TaskList ref={provided.innerRef} {...provided.droppableProps}>
                 {column.items.map((item, index) => (
                   <Card index={index} key={item.id} item={item} />

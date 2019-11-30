@@ -1,14 +1,14 @@
 import { ApplicationSandbox } from "../testUtils";
-import utils from "../shared/utils";
-import { myFetch } from "../api/fetch";
-import { jordanPetersonResponse } from "../api/responses.fake";
-import playlistResponse from "../api/getPlaylistVideos";
+import utils from "../utils";
+import { myFetch } from "../networking/fetch";
+import { jordanPetersonResponse } from "../networking/sampleResponses/responses.fake";
+import playlistResponse from "../networking/sampleResponses/getPlaylistVideos";
 
-jest.mock("../shared/utils", () => ({
+jest.mock("../utils", () => ({
   createId: () => undefined
 }));
 
-jest.mock("../api/fetch", () => ({
+jest.mock("../networking/fetch", () => ({
   myFetch: jest.fn()
 }));
 
@@ -70,7 +70,7 @@ describe("Having a default application", () => {
     );
   });
 
-  fit("when loading similar videos and the loading a playlist", async () => {
+  it("when loading similar videos and the loading a playlist", async () => {
     fetch.mockReturnValue(Promise.resolve(jordanPetersonResponse));
     app.findSimilar("MY_VIDEO_ID");
 

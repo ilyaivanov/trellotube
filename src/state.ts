@@ -1,4 +1,4 @@
-import { ApplicationState } from "./types";
+import { ApplicationState } from "./infrastructure/types";
 
 let _id = 100;
 const id = () => _id++ + "";

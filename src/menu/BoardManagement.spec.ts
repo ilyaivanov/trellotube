@@ -1,4 +1,4 @@
-import { ApplicationSandbox } from "../testUtils";
+import { ApplicationSandbox } from "../infrastructure/testUtils";
 
 describe("", () => {
   let app: ApplicationSandbox;

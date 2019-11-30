@@ -3,12 +3,11 @@ import {
   Board,
   BoardsContainer,
   Column,
-  Item
-} from "../types";
+} from "../infrastructure/types";
 import { Action, ACTIONS } from "./actions";
 import { handleDnd } from "../operations";
 import { initialState } from "../state";
-import { createId } from "../shared/utils";
+import { createId } from "../infrastructure/utils";
 
 export default (state: ApplicationState, action: Action): ApplicationState => {
   if (action.type === ACTIONS.RESET) {

@@ -1,7 +1,6 @@
-import React from "react";
-import { ApplicationSandbox } from "../testUtils";
+import { ApplicationSandbox } from "../infrastructure/testUtils";
 
-jest.mock("../api/youtube", () => ({
+jest.mock("../infrastructure/networking/youtube", () => ({
   searchVideos: () =>
     Promise.resolve({
       items: [

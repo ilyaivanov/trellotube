@@ -3,12 +3,11 @@ import styled from "styled-components";
 import AppSidebar from "./menu/Sidebar";
 import Player from "./player/Player";
 import Board from "./board";
-import { createParagraphs } from "./api/dummyText";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import { endDrag } from "./board/actions";
 import c from "./board/components/constants";
-import { ApplicationState, SidebarState, UserOptions } from "./types";
+import { ApplicationState, SidebarState, UserOptions } from "./infrastructure/types";
 import { topBarButtonPressed } from "./menu/actions";
 
 const Container = styled.div`
@@ -26,6 +25,7 @@ const TopBar = styled.div`
 
 const MainContainer = styled.div`
   display: flex;
+  flex: 1;
   overflow: scroll;
 `;
 
@@ -92,7 +92,7 @@ const App = ({ endDrag, topBarButtonPressed, options }: Props) => (
         <MainContent>
           <Board />
         </MainContent>
-        <RightSidebar isVisible={false}>{createParagraphs(10)}</RightSidebar>
+        <RightSidebar isVisible={false}>Right Sidebar</RightSidebar>
       </MainContainer>
       <Player />
     </Container>
