@@ -16,7 +16,6 @@ export enum ACTIONS {
   CREATE_BOARD = "CREATE_BOARD",
   REMOVE_BOARD = "REMOVE_BOARD",
   RENAME_BOARD = "RENAME_BOARD",
-  CREATE_YOUTUBE_PLAYLIST = "CREATE_YOUTUBE_PLAYLIST",
   DONE_LOADING_PLAYLIST = "DONE_LOADING_PLAYLIST",
   RESET = "RESET"
 }
@@ -153,10 +152,6 @@ export const findSimilar = (videoId: string) => (
   dispatch: any,
   getState: () => ApplicationState
 ) => {
-  dispatch({
-    type: "FIND_SIMILAR_START"
-  });
-
   const { userOptions } = getState();
   if (
     !userOptions.isLeftSidebarVisible ||

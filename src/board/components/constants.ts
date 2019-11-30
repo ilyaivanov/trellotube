@@ -19,5 +19,4 @@ export default {
 
   TOP_BAR_HEIGHT: 40,
   PLAYER_HEIGHT: 60,
-
 };

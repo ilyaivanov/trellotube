@@ -1,6 +1,6 @@
 import { ApplicationState, Item } from "../infrastructure/types";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { useDebounce } from "../hooks";
+import { useDebounce } from "../infrastructure/hooks";
 import { searchVideos } from "../infrastructure/networking/youtube";
 import { Droppable } from "react-beautiful-dnd";
 import Card from "../board/Card";

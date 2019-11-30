@@ -1,10 +1,10 @@
 import { createTrelloTubeStore } from "./store";
-import { createColumn, doneLoadingPlaylist } from "./board/actions";
-import { getSelectedBoard } from "./menu/reducer";
+import { createColumn, doneLoadingPlaylist } from "../../board/actions";
+import { getSelectedBoard } from "../../menu/reducer";
 import { Store } from "redux";
-import { ApplicationState, Item } from "./infrastructure/types";
+import { ApplicationState, Item } from "../types";
 
-jest.mock("./infrastructure/utils", () => ({
+jest.mock("../utils", () => ({
   createId: () => "someNewId"
 }));
 
