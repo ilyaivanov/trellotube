@@ -1,8 +1,8 @@
 import { createTrelloTubeStore } from "./store";
 import { createColumn, doneLoadingPlaylist } from "../../board/actions";
-import { getSelectedBoard } from "../../menu/reducer";
 import { Store } from "redux";
 import { ApplicationState, Item } from "../types";
+import {getSelectedBoard} from "../board.utils";
 
 jest.mock("../utils", () => ({
   createId: () => "someNewId"

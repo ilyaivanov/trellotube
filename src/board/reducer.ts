@@ -2,12 +2,14 @@ import {
   ApplicationState,
   Board,
   BoardsContainer,
-  Column,
+  Column
 } from "../infrastructure/types";
 import { Action, ACTIONS } from "./actions";
 import { handleDnd } from "../infrastructure/operations";
 import { initialState } from "../infrastructure/state/initialState";
 import { createId } from "../infrastructure/utils";
+import { append, prepend } from "../infrastructure/array";
+import {getSelectedBoard} from "../infrastructure/board.utils";
 
 export default (state: ApplicationState, action: Action): ApplicationState => {
   if (action.type === ACTIONS.RESET) {
@@ -162,9 +164,6 @@ export const updateColumnInSelectedBoard = (
 };
 
 //SELECTOR CANDIDATES
-export const getSelectedBoard = (state: ApplicationState) =>
-  state.boards[state.selectedBoard];
-
 export const getColumnsForSelectedBoard = (
   state: ApplicationState
 ): Column[] => {
@@ -174,7 +173,3 @@ export const getColumnsForSelectedBoard = (
   }
   return board.columnOrders.map(id => board.columns[id]);
 };
-
-//UTIL CANDIDATES
-const append = <T>(array: T[], item: T): T[] => array.concat([item]);
-const prepend = <T>(array: T[], item: T): T[] => [item].concat(array);

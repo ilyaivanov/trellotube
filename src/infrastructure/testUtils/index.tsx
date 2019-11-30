@@ -210,6 +210,9 @@ export class ApplicationSandbox {
     this.clickByTestId("video-" + videoId);
   }
 
+  hitPlayNext = () => this.clickByTestId("player-play-next");
+  hitPlayPrev = () => this.clickByTestId("player-play-prev");
+
   expectVideoToBePlaying(youtubeId: string) {
     this.expectItemToBePresent("playing-video-" + youtubeId);
   }

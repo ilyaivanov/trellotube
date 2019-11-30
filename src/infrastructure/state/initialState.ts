@@ -12,8 +12,8 @@ export const initialState = (): ApplicationState => ({
           items: [
             {
               text: "Short name",
-              id: "Column1 Item1",
-              videoId: "1",
+              id: "Column1 Video1",
+              videoId: "Column1 Video1 YoutubeLink",
               imageUrl: "https://i.ytimg.com/vi/6Zo_FTUNDBI/mqdefault.jpg",
               type: "video"
             }
@@ -79,5 +79,5 @@ export const initialState = (): ApplicationState => ({
       }
     ],
     isLoading: false
-  }
+  },
 });

@@ -27,14 +27,4 @@ describe("Having a board", () => {
 
     app.expectColumnToHaveName("1", "NEW COLUMN");
   });
-
-  it("plan hitting a play in column button a video should be player", () => {
-    app.hitPlayVideo("MY_VIDEO_ID");
-    app.expectVideoToBePlaying("YOUTUBE_ID");
-  });
-
-  it("plan hitting a play in search button a video should be player", () => {
-    app.hitPlayVideo("MY_VIDEO_ID_AT_SEARCH");
-    app.expectVideoToBePlaying("YOUTUBE_ID_AT_SEARCH");
-  });
 });

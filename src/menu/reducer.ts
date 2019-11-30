@@ -6,6 +6,7 @@ import {
 } from "../infrastructure/types";
 import { Action } from "./actions";
 import {ACTIONS} from "../board/actions";
+import {getSelectedBoard} from "../infrastructure/board.utils";
 
 export default (state: ApplicationState, action: Action): ApplicationState => {
   const selectedBoard = getSelectedBoard(state);
@@ -84,5 +85,3 @@ const updateBoard = (state: ApplicationState, board: Board) => ({
   }
 });
 
-export const getSelectedBoard = (state: ApplicationState) =>
-  state.boards[state.selectedBoard];

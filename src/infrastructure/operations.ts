@@ -1,7 +1,7 @@
 import { ApplicationState } from "./types";
 import { DropResult } from "react-beautiful-dnd";
-import { getSelectedBoard } from "../menu/reducer";
 import { updateColumnInSelectedBoard } from "../board/reducer";
+import {getItemsFor, getSelectedBoard} from "./board.utils";
 
 export const handleDnd = (
   state: ApplicationState,
@@ -112,8 +112,3 @@ const remove = <T>(items: T[], index: number) => {
   return copy;
 };
 
-const getItemsFor = (state: ApplicationState, columnId: string) => {
-  if (columnId === "SEARCH") return state.searchResults;
-  if (columnId === "SIMILAR") return state.similarState.items;
-  return getSelectedBoard(state).columns[columnId].items;
-};
