@@ -1,8 +1,8 @@
-import { ApplicationState, Item } from "../types";
+import { ApplicationState, Item } from "../infrastructure/types";
 import { DropResult } from "react-beautiful-dnd";
-import { createId } from "../shared/utils";
+import { createId } from "../infrastructure/utils";
 import { findSimilarArtistsDone, topBarButtonPressed } from "../menu/actions";
-import { loadPlaylistVideos, searchSimilar } from "../api/youtube";
+import { loadPlaylistVideos, searchSimilar } from "../infrastructure/networking/youtube";
 
 export enum ACTIONS {
   REMOVE_COLUMN = "REMOVE_COLUMN",

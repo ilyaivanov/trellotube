@@ -5,7 +5,7 @@ import { cleanup, render, RenderResult } from "@testing-library/react";
 import React from "react";
 import { reset } from "../board/actions";
 import { DragDropContext } from "react-beautiful-dnd";
-import {Item, SidebarState} from "../types";
+import {Item, SidebarState} from "../infrastructure/types";
 import { findSimilarArtistsDone } from "./actions";
 import "@testing-library/jest-dom/extend-expect";
 

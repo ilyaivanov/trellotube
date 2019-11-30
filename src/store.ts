@@ -6,7 +6,7 @@ import { initialState } from "./state";
 import reduceReducers from "reduce-reducers";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { ApplicationState } from "./types"; // defaults to localStorage for web
+import { ApplicationState } from "./infrastructure/types"; // defaults to localStorage for web
 import thunk from "redux-thunk";
 
 //even if I provide default state, TS still argues that I need to handle undefined as input within reducer

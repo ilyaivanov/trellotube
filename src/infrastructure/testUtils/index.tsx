@@ -7,19 +7,19 @@ import {
   waitForElement
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import App from "../CoreLayout";
-import { store } from "../store";
+import App from "../../CoreLayout";
+import { store } from "../../store";
 import { Provider } from "react-redux";
 import "jest-styled-components";
-import { reset } from "../board/actions";
+import { reset } from "../../board/actions";
 
 jest.mock("react-truncate", () => ({ children }: any) => children);
 
-jest.mock("../menu/constants", () => ({
+jest.mock("../../menu/constants", () => ({
   SEARCH_DELAY: 0
 }));
 
-jest.mock("../shared/utils", () => ({
+jest.mock("../utils", () => ({
   createId: () => "someNewId"
 }));
 

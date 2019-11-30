@@ -1,15 +1,15 @@
-import { YOUTUBE_KEY } from "../keys";
+import { YOUTUBE_KEY } from "../../keys";
 import { ItemKind, YoutubeSearchResponse } from "./types";
 import { Item, ItemType } from "../types";
-import { createId } from "../shared/utils";
+import { createId } from "../utils";
 import { myFetch } from "./fetch";
 interface ResponseType {
   items: Item[];
 }
 
 export const searchVideos = (
-  term: string,
-  pageToken?: string
+  term: string
+  // pageToken?: string
 ): Promise<ResponseType> =>
   searchForVideos("search", {
     shart: "mostPopular",
@@ -57,6 +57,7 @@ const getId = (item: any) => {
 };
 
 const logRequest = (term: string, requestType: string) => {
+  console.log(requestType, term);
   return term;
 };
 

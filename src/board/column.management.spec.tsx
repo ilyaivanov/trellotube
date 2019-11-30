@@ -1,5 +1,4 @@
-import { ApplicationSandbox } from "../testUtils";
-import React from "react";
+import { ApplicationSandbox } from "../infrastructure/testUtils";
 
 describe("Having a board", () => {
   let app: ApplicationSandbox;

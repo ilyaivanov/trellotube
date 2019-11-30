@@ -1,4 +1,4 @@
-import {Board, Item} from "./types";
+import {Board, Item} from "./infrastructure/types";
 import {DraggableLocation, DropResult} from "react-beautiful-dnd";
 
 export const handleDnd = (board: Board, result: DropResult): Board => {

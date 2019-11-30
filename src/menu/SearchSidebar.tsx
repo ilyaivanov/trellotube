@@ -1,7 +1,7 @@
-import { ApplicationState, Item } from "../types";
+import { ApplicationState, Item } from "../infrastructure/types";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useDebounce } from "../hooks";
-import { searchVideos } from "../api/youtube";
+import { searchVideos } from "../infrastructure/networking/youtube";
 import { Droppable } from "react-beautiful-dnd";
 import Card from "../board/Card";
 import { SEARCH_DELAY } from "./constants";
@@ -24,7 +24,7 @@ const SearchArea = ({ items, searchDone }: SearchProps) => {
     if (debounced) {
       searchVideos(debounced).then(response => searchDone(response.items));
     }
-  }, [debounced]);
+  }, [debounced, searchDone]);
 
   return (
     <SidebarVideosContainer>
@@ -35,7 +35,7 @@ const SearchArea = ({ items, searchDone }: SearchProps) => {
         onChange={onSearch}
       />
       <Droppable droppableId="SEARCH" type="item">
-        {(provided, snapshot) => (
+        {(provided) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {items.map((i, index) => (
               <Card key={i.id} index={index} item={i} />

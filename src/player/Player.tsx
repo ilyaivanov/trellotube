@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Youtube from "react-youtube";
-import { ApplicationState } from "../types";
+import { ApplicationState } from "../infrastructure/types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import c from "../board/components/constants";
@@ -14,7 +14,7 @@ const BottomBar = styled.div`
 `;
 
 const Player = ({ videoId }: Props) => {
-  const [player, setPlayer] = useState();
+  const [, setPlayer] = useState();
 
   return (
     <BottomBar>

@@ -1,4 +1,4 @@
-import { Item, SidebarState } from "../types";
+import { Item, SidebarState } from "../infrastructure/types";
 export type Action =
   | FindSimilarArtistsDone
   | FindSimilarArtistsStart

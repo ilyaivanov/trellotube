@@ -1,4 +1,4 @@
-import { ApplicationState, Board } from "../types";
+import { ApplicationState } from "../infrastructure/types";
 import React from "react";
 import { connect } from "react-redux";
 import {
@@ -8,7 +8,7 @@ import {
   removeBoard
 } from "../board/actions";
 import { BoardItemView, BoardOptions } from "./components";
-import EditableTitle from "../shared/EditableTitle";
+import EditableTitle from "../infrastructure/EditableTitle";
 
 interface Props {
   app: ApplicationState;

@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useEffect, useState } from "react";
+import React, { KeyboardEvent, useState } from "react";
 interface Props {
   dragHandleProps: {} | null;
   label: string;
