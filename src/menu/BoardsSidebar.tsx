@@ -8,7 +8,7 @@ import {
   removeBoard
 } from "../board/actions";
 import { BoardItemView, BoardOptions } from "./components";
-import EditableTitle from "../infrastructure/EditableTitle";
+import EditableTitle from "../infrastructure/components/EditableTitle";
 
 interface Props {
   app: ApplicationState;

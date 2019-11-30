@@ -5,8 +5,8 @@ import {
   Column,
 } from "../infrastructure/types";
 import { Action, ACTIONS } from "./actions";
-import { handleDnd } from "../operations";
-import { initialState } from "../state";
+import { handleDnd } from "../infrastructure/operations";
+import { initialState } from "../infrastructure/state/initialState";
 import { createId } from "../infrastructure/utils";
 
 export default (state: ApplicationState, action: Action): ApplicationState => {

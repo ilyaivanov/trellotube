@@ -1,4 +1,4 @@
-import { YOUTUBE_KEY } from "../../keys";
+import { YOUTUBE_KEY } from "../keys";
 import { ItemKind, YoutubeSearchResponse } from "./types";
 import { Item, ItemType } from "../types";
 import { createId } from "../utils";

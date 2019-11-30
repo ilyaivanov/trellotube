@@ -7,8 +7,8 @@ import {
   waitForElement
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import App from "../../CoreLayout";
-import { store } from "../../store";
+import App from "../../AppLayout";
+import { store } from "../state/store";
 import { Provider } from "react-redux";
 import "jest-styled-components";
 import { reset } from "../../board/actions";
