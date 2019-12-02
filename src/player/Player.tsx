@@ -42,7 +42,11 @@ const Player = ({ videoId, nextItem, prevItem, play }: Props) => {
         next
       </button>
       {videoId && (
-        <YoutubePlayerWrapper onReady={setPlayer} videoId={videoId} />
+        <YoutubePlayerWrapper
+          onEnd={() => nextItem && play(nextItem)}
+          onReady={setPlayer}
+          videoId={videoId}
+        />
       )}
     </BottomBar>
   );
