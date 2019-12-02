@@ -120,7 +120,7 @@ const getColumnIdForVideo = (
     board.columns[column].items.find(item => item.id === itemId)
   );
   if (!column) return "";
-  return column[0];
+  return column;
 };
 
 export default connect(

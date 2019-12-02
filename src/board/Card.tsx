@@ -1,4 +1,4 @@
-import { ApplicationState, Item } from "../infrastructure/types";
+import {ApplicationState, Item, PlaylistItem} from "../infrastructure/types";
 import { Draggable } from "react-beautiful-dnd";
 import React from "react";
 import {
@@ -18,7 +18,7 @@ interface Props {
   index: number;
   play: (item: Item) => void;
   findSimilar: (videoId: string) => void;
-  loadPlaylist: (item: Item) => void;
+  loadPlaylist: (item: PlaylistItem) => void;
   currentItemId?: string;
 }
 
@@ -42,9 +42,9 @@ const Card = ({
     e.stopPropagation();
     findSimilar(item.videoId);
   };
-  const onLoadPlaylist = (e: any) => {
+  const onLoadPlaylist = (e: any, playlist: PlaylistItem) => {
     e.stopPropagation();
-    loadPlaylist(item);
+    loadPlaylist(playlist);
   };
 
   return (
@@ -77,7 +77,7 @@ const Card = ({
             <CardButton
               data-testid={"video-load-playlist-" + item.id}
               title="This will place playlist at the start of the board"
-              onClick={onLoadPlaylist}
+              onClick={e => onLoadPlaylist(e, item)}
             >
               load
             </CardButton>

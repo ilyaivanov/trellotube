@@ -1,5 +1,5 @@
 import { YOUTUBE_KEY } from "../keys";
-import { ItemKind, YoutubeSearchResponse } from "./types";
+import { ItemKind, ItemsItem, YoutubeSearchResponse } from "./types";
 import { Item, ItemType } from "../types";
 import { createId } from "../utils";
 import { myFetch } from "./fetch";
@@ -40,16 +40,27 @@ const searchForVideos = (verb: string, props: {}): Promise<ResponseType> =>
     return {
       items: data.items
         .filter(item => isItemSupported(getId(item).kind))
-        .map(item => ({
-          //PLAYLIST HAVE DIFFERENT VIDEO IDS
-          videoId: getId(item).videoId || getId(item).playlistId || "",
-          imageUrl: item.snippet.thumbnails.medium.url,
-          text: item.snippet.title,
-          id: createId(),
-          type: mapType(getId(item).kind)
-        }))
+        .map(mapItem)
     };
   });
+
+const mapItem = (item: ItemsItem): Item => {
+  const base = {
+    imageUrl: item.snippet.thumbnails.medium.url,
+    text: item.snippet.title,
+    id: createId(),
+    type: mapType(getId(item).kind)
+  };
+  if (base.type === "video") {
+    //@ts-ignore
+    base.videoId = getId(item).videoId;
+  } else {
+    //@ts-ignore
+    base.playlistId = getId(item).playlistId;
+  }
+  // @ts-ignore
+  return base;
+};
 
 const getId = (item: any) => {
   if (item.kind === "youtube#playlistItem") return item.snippet.resourceId;

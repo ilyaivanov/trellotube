@@ -1,4 +1,4 @@
-import { ApplicationState, Item } from "../infrastructure/types";
+import {ApplicationState, Item, PlaylistItem} from "../infrastructure/types";
 import { DropResult } from "react-beautiful-dnd";
 import { createId } from "../infrastructure/utils";
 import { findSimilarArtistsDone, topBarButtonPressed } from "../menu/actions";
@@ -164,13 +164,13 @@ export const findSimilar = (videoId: string) => (
   });
 };
 
-export const loadPlaylist = (item: Item) => (dispatch: any) => {
+export const loadPlaylist = (item: PlaylistItem) => (dispatch: any) => {
   const id = createId();
   dispatch(
     createColumn({ columnName: item.text, columnId: id, fromStart: true })
   );
 
-  loadPlaylistVideos(item.videoId).then(({ items }) => {
+  loadPlaylistVideos(item.playlistId).then(({ items }) => {
     dispatch(doneLoadingPlaylist(id, items));
   });
 };

@@ -1,5 +1,5 @@
 export type ItemType = "video" | "playlist" | "channel";
-export interface Item {
+interface BaseItem {
   text: string;
   videoId: string;
   imageUrl: string;
@@ -7,7 +7,17 @@ export interface Item {
   type: ItemType;
 }
 
+export interface VideoItem extends BaseItem {
+  type: "video";
+  videoId: string;
+}
 
+export interface PlaylistItem extends BaseItem {
+  type: "playlist";
+  playlistId: string;
+}
+
+export type Item = VideoItem | PlaylistItem;
 
 export interface Column {
   id: string;

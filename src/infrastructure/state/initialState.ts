@@ -1,5 +1,6 @@
 import { ApplicationState } from "../types";
 
+// @ts-ignore
 export const initialState = (): ApplicationState => ({
   boards: {
     BOARD_1: {
@@ -38,10 +39,11 @@ export const initialState = (): ApplicationState => ({
               imageUrl: "",
               type: "video"
             },
+            //@ts-ignore
             {
               text: "Some Playlist",
               id: "MY_PLAYLIST_ID",
-              videoId: "YOUTUBE_PLAYLIST_ID",
+              playlistId: "YOUTUBE_PLAYLIST_ID",
               imageUrl: "",
               type: "playlist"
             }
