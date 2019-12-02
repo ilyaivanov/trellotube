@@ -231,7 +231,7 @@ export class ApplicationSandbox {
   checkThatBoardIsSelected(boardId: string) {
     expect(this.app.getByTestId("board-button-" + boardId)).toHaveStyleRule(
       "color",
-      "purple"
+      "lightpink"
     );
   }
 
