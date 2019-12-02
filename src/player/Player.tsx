@@ -4,31 +4,43 @@ import { ApplicationState, Item } from "../infrastructure/types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import c from "../board/components/constants";
-import { getNextItem } from "../infrastructure/array";
+import { getNextItem, getPreviousItem } from "../infrastructure/array";
 import { getItemsFor, getSelectedBoard } from "../infrastructure/board.utils";
 import { play } from "../infrastructure/actions";
 
 interface Props {
   videoId?: string;
   nextItem?: Item;
+  prevItem?: Item;
   play: (item: Item) => void;
 }
 const BottomBar = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   min-height: ${c.PLAYER_HEIGHT}px;
   background-color: lightcoral;
 `;
 
-const Player = ({ videoId, nextItem, play }: Props) => {
+const Player = ({ videoId, nextItem, prevItem, play }: Props) => {
   const [, setPlayer] = useState();
 
-  console.log(nextItem);
   return (
     <BottomBar>
-      {nextItem && (
-        <button data-testid="player-play-next" onClick={() => play(nextItem)}>
-          next
-        </button>
-      )}
+      <button
+        disabled={!prevItem}
+        data-testid="player-play-next"
+        onClick={() => prevItem && play(prevItem)}
+      >
+        previous
+      </button>
+      <button
+        disabled={!nextItem}
+        data-testid="player-play-next"
+        onClick={() => nextItem && play(nextItem)}
+      >
+        next
+      </button>
       {videoId && (
         <YoutubePlayerWrapper onReady={setPlayer} videoId={videoId} />
       )}
@@ -64,7 +76,8 @@ const mapState = (state: ApplicationState) => {
 
   return {
     videoId: videoId,
-    nextItem: getNextPlayItem(state)
+    nextItem: getNextPlayItem(state),
+    prevItem: getPrevPlayItem(state)
   };
 };
 
@@ -78,6 +91,16 @@ const getNextPlayItem = (state: ApplicationState): Item | undefined => {
   }
 };
 
+const getPrevPlayItem = (state: ApplicationState): Item | undefined => {
+  const itemId = state.itemBeingPlayed && state.itemBeingPlayed.id;
+  if (itemId) {
+    return getPreviousItem(
+      getItemsFor(state, getColumnIdForVideo(state, itemId)),
+      item => item.id === itemId
+    );
+  }
+};
+
 //WARNING: this might get triggered on each state update while
 //having a big complexity. Consider using reselect here for memo
 const getColumnIdForVideo = (
@@ -85,7 +108,8 @@ const getColumnIdForVideo = (
   itemId: string
 ): string => {
   if (state.searchResults.find(c => c.id === itemId)) return "SEARCH";
-  if (state.similarState && state.similarState.items.find(c => c.id === itemId)) return "SIMILAR";
+  if (state.similarState && state.similarState.items.find(c => c.id === itemId))
+    return "SIMILAR";
 
   const board = getSelectedBoard(state);
   const column = board.columnOrders.find(column =>
