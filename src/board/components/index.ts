@@ -71,7 +71,7 @@ const TaskContainer = styled.div<{ isPlaying: boolean }>`
   flex: 1;
   flex-direction: row;
   border-radius: ${c.BORDER_RADIUS}px;
-  background-color: ${props => (props.isPlaying ? "lightpink" : "white")};
+  background-color: ${props => (props.isPlaying ? c.ACCENT_COLOR : "white")};
   transition: background-color 400ms;
   margin-bottom: ${c.STACK_PADDING}px;
   box-shadow: 0 2px 1px -1px gray;

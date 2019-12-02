@@ -15,15 +15,17 @@ export const BoardOptions = styled.div`
 
 export const BoardItemView = styled.div<Props>`
   cursor: pointer;
-  &:hover {
-    background-color: ${c.ACCENT_COLOR};
-  }
+
   padding-left: 20px;
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: ${props => (props.isSelected ? "purple" : "black")};
+  color: ${props => (props.isSelected ? c.ACCENT_COLOR : "black")};
+  &:hover {
+    background-color: ${c.ACCENT_COLOR};
+    color: black;
+  }
   &:hover ${BoardOptions} {
     display: flex;
   }
