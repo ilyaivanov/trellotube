@@ -29,6 +29,12 @@ describe("having an app with a video being played", () => {
     app.hitPlayVideo(IDS.videos.similar.video1.id);
     app.expectVideoToBePlaying(IDS.videos.similar.video1.youtubeLink);
   });
+
+  it("play previous video button should play video1 when video2 is being played", () => {
+    app.hitPlayVideo(IDS.videos.column1.video2.id);
+    app.hitPlayPrev();
+    app.expectVideoToBePlaying(IDS.videos.column1.video1.youtubeLink);
+  });
 });
 
 const IDS = {

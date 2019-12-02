@@ -29,7 +29,7 @@ const Player = ({ videoId, nextItem, prevItem, play }: Props) => {
     <BottomBar>
       <button
         disabled={!prevItem}
-        data-testid="player-play-next"
+        data-testid="player-play-prev"
         onClick={() => prevItem && play(prevItem)}
       >
         previous
