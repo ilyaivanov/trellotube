@@ -6,7 +6,7 @@ import Board from "./board";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import { endDrag } from "./board/actions";
-import c from "./board/components/constants";
+import c from "./infrastructure/constants";
 import {
   ApplicationState,
   SidebarState,
@@ -15,6 +15,7 @@ import {
 import { topBarButtonPressed } from "./menu/actions";
 import { persistor } from "./infrastructure/state/store";
 const Container = styled.div`
+  background-color: ${c.MAIN_COLOR};
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -24,7 +25,7 @@ const Container = styled.div`
 
 const TopBar = styled.div`
   min-height: ${c.TOP_BAR_HEIGHT}px;
-  background-color: lightcoral;
+  background-color: ${c.MENU_COLOR};
 `;
 
 const MainContainer = styled.div`
@@ -45,16 +46,14 @@ const Sidebar = styled.div<VisibilityProps>`
 
 const LeftSidebar = styled(Sidebar)`
   position: relative;
-  background-color: lightblue;
+  background-color: ${c.MENU_COLOR};
 `;
 
 const RightSidebar = styled(Sidebar)`
-  background-color: lightseagreen;
+  background-color: ${c.MENU_COLOR};
 `;
 
 const MainContent = styled.div`
-  background-color: #f1f1f1;
-
   overflow: scroll;
   flex: 1;
 `;

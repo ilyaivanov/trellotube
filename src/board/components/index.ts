@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import c from "./constants";
+import c from "../../infrastructure/constants";
 
 const Options = styled.div`
   display: none;
 `;
 
 const ColumnContainer = styled.div`
-  background-color: lightblue;
+  background-color: ${c.COLUMN_COLOR};
   margin-left: 8px;
   border-radius: ${c.BORDER_RADIUS}px;
   width: ${c.STACK_WIDTH}px;

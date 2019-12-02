@@ -19,4 +19,10 @@ export default {
 
   TOP_BAR_HEIGHT: 40,
   PLAYER_HEIGHT: 60,
+
+
+  MAIN_COLOR: '#71797E',
+  MENU_COLOR: 'rgba(0,0,0,0.15)',
+  ACCENT_COLOR: 'lightpink',
+  COLUMN_COLOR: '#E6E7ED',
 };

@@ -3,7 +3,7 @@ import Youtube from "react-youtube";
 import { ApplicationState, Item } from "../infrastructure/types";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import c from "../board/components/constants";
+import c from "../infrastructure/constants";
 import { getNextItem, getPreviousItem } from "../infrastructure/array";
 import { getItemsFor, getSelectedBoard } from "../infrastructure/board.utils";
 import { play } from "../infrastructure/actions";
@@ -19,7 +19,7 @@ const BottomBar = styled.div`
   justify-content: center;
   align-items: center;
   min-height: ${c.PLAYER_HEIGHT}px;
-  background-color: lightcoral;
+  background-color: ${c.MENU_COLOR};
 `;
 
 const Player = ({ videoId, nextItem, prevItem, play }: Props) => {

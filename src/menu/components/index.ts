@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import c from "../../board/components/constants";
+import c from "../../infrastructure/constants";
 
 interface Props {
   isSelected?: boolean;
@@ -16,7 +16,7 @@ export const BoardOptions = styled.div`
 export const BoardItemView = styled.div<Props>`
   cursor: pointer;
   &:hover {
-    background-color: lightpink;
+    background-color: ${c.ACCENT_COLOR};
   }
   padding-left: 20px;
   height: 50px;
