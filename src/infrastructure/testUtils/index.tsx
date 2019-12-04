@@ -86,9 +86,8 @@ export class ApplicationSandbox {
       itemText
     );
   }
-  selectBoard(boardId: string) {
-    fireEvent.click(this.app.getByTestId("board-button-" + boardId));
-  }
+  selectBoard = (boardId: string) =>
+    this.clickByTestId("board-button-" + boardId);
 
   getBoardElement(boardId: string) {
     return this.app.getByTestId("board-" + boardId);

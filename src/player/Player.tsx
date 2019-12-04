@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import c from "../infrastructure/constants";
 import { getNextItem, getPreviousItem } from "../infrastructure/array";
-import { getItemsFor, getSelectedBoard } from "../infrastructure/board.utils";
+import { getItemsFor } from "../infrastructure/board.utils";
 import { play } from "../infrastructure/actions";
 
 interface Props {
@@ -115,7 +115,12 @@ const getColumnIdForVideo = (
   if (state.similarState && state.similarState.items.find(c => c.id === itemId))
     return "SIMILAR";
 
-  const board = getSelectedBoard(state);
+  const boardId = state.boardsOrder.find(id =>
+    state.boards[id].columnOrders.find(colId =>
+      state.boards[id].columns[colId].items.find(item => item.id === itemId)
+    )
+  );
+  const board = state.boards[boardId as string];
   const column = board.columnOrders.find(column =>
     board.columns[column].items.find(item => item.id === itemId)
   );
