@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/trellotube/static/css/main.5084738e.chunk.css",
-    "main.js": "/trellotube/static/js/main.a3e3100a.chunk.js",
-    "main.js.map": "/trellotube/static/js/main.a3e3100a.chunk.js.map",
+    "main.css": "/trellotube/static/css/main.14eec8da.chunk.css",
+    "main.js": "/trellotube/static/js/main.767ce058.chunk.js",
+    "main.js.map": "/trellotube/static/js/main.767ce058.chunk.js.map",
     "runtime-main.js": "/trellotube/static/js/runtime-main.8e4dc8dc.js",
     "runtime-main.js.map": "/trellotube/static/js/runtime-main.8e4dc8dc.js.map",
-    "static/js/2.8c62a8cc.chunk.js": "/trellotube/static/js/2.8c62a8cc.chunk.js",
-    "static/js/2.8c62a8cc.chunk.js.map": "/trellotube/static/js/2.8c62a8cc.chunk.js.map",
+    "static/js/2.7a8d4ffc.chunk.js": "/trellotube/static/js/2.7a8d4ffc.chunk.js",
+    "static/js/2.7a8d4ffc.chunk.js.map": "/trellotube/static/js/2.7a8d4ffc.chunk.js.map",
     "index.html": "/trellotube/index.html",
-    "precache-manifest.da9045594d5bf5f8a92821edf4fbc74f.js": "/trellotube/precache-manifest.da9045594d5bf5f8a92821edf4fbc74f.js",
+    "precache-manifest.86a501c5f35574466a88e3c5c766f073.js": "/trellotube/precache-manifest.86a501c5f35574466a88e3c5c766f073.js",
     "service-worker.js": "/trellotube/service-worker.js",
-    "static/css/main.5084738e.chunk.css.map": "/trellotube/static/css/main.5084738e.chunk.css.map"
+    "static/css/main.14eec8da.chunk.css.map": "/trellotube/static/css/main.14eec8da.chunk.css.map"
   },
   "entrypoints": [
     "static/js/runtime-main.8e4dc8dc.js",
-    "static/js/2.8c62a8cc.chunk.js",
-    "static/css/main.5084738e.chunk.css",
-    "static/js/main.a3e3100a.chunk.js"
+    "static/js/2.7a8d4ffc.chunk.js",
+    "static/css/main.14eec8da.chunk.css",
+    "static/js/main.767ce058.chunk.js"
   ]
 }
