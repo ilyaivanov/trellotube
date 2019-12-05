@@ -1,63 +1,21 @@
-import { Provider } from "react-redux";
-import { store } from "../infrastructure/state/store";
-import Sidebar from "../menu/Sidebar";
-import { cleanup, render, RenderResult } from "@testing-library/react";
-import React from "react";
-import { reset } from "../board/actions";
-import { DragDropContext } from "react-beautiful-dnd";
-import {Item, SidebarState} from "../infrastructure/types";
-import { findSimilarArtistsDone } from "./actions";
 import "@testing-library/jest-dom/extend-expect";
+import { ApplicationSandbox } from "../infrastructure/testUtils";
 
 jest.mock("react-truncate", () => ({ children }: any) => children);
 
-export class SidebarPageObject {
-  private app: RenderResult;
+describe("Having a Sidebar", () => {
+  let app: ApplicationSandbox;
 
-  constructor(state: SidebarState) {
-    const app = (
-      <Provider store={store}>
-        <DragDropContext onDragEnd={() => 42}>
-          <Sidebar state={state} />
-        </DragDropContext>
-      </Provider>
-    );
-    this.app = render(app);
-  }
+  beforeEach(() => (app = new ApplicationSandbox()));
 
-  resetState() {
-    store.dispatch(reset());
-    cleanup();
-  }
-
-  triggerLoadArtistsEnd(...ids: string[]) {
-    const artists: Item[] = ids.map(id => ({
-      videoId: "someVideoId",
-      id,
-      text: "Sample",
-      imageUrl: "",
-      type:'video'
-    }));
-    store.dispatch(findSimilarArtistsDone(artists));
-  }
-
-  expectItemToExist(itemId: string) {
-    expect(this.app.getByTestId("video-" + itemId)).toBeInTheDocument();
-  }
-}
-
-fdescribe("Having a Sidebar", () => {
-  let similarSidebar: SidebarPageObject;
-
-  beforeEach(() => (similarSidebar = new SidebarPageObject("similar")));
-
-  afterEach(() => similarSidebar && similarSidebar.resetState());
+  afterEach(() => app && app.resetState());
 
   describe("when two similar videos has been loaded", () => {
     it("and show those videos", async () => {
-      similarSidebar.triggerLoadArtistsEnd("itemId1", "itemId2");
-      similarSidebar.expectItemToExist("itemId1");
-      similarSidebar.expectItemToExist("itemId2");
+      app.switchToSimilar();
+      app.triggerLoadArtistsEnd("itemId1", "itemId2");
+      app.expectItemToExist("itemId1");
+      app.expectItemToExist("itemId2");
     });
   });
 });

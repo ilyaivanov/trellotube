@@ -13,7 +13,6 @@ import {
   UserOptions
 } from "./infrastructure/types";
 import { topBarButtonPressed } from "./menu/actions";
-import { persistor } from "./infrastructure/state/store";
 const Container = styled.div`
   background-color: ${c.MAIN_COLOR};
   display: flex;
@@ -62,9 +61,15 @@ interface Props {
   endDrag: (result: DropResult) => void;
   topBarButtonPressed: (state: SidebarState) => void;
   options: UserOptions;
+  onClearPress: () => void;
 }
 
-const App = ({ endDrag, topBarButtonPressed, options }: Props) => (
+const App = ({
+  endDrag,
+  topBarButtonPressed,
+  options,
+  onClearPress
+}: Props) => (
   <DragDropContext onDragEnd={endDrag}>
     <Container>
       <TopBar>
@@ -87,7 +92,9 @@ const App = ({ endDrag, topBarButtonPressed, options }: Props) => (
         >
           similar
         </button>
-        <button style={{float:'right'}} onClick={() => persistor.purge()}>clear-store</button>
+        <button style={{ float: "right" }} onClick={onClearPress}>
+          clear-store
+        </button>
       </TopBar>
       <MainContainer>
         <LeftSidebar isVisible={options.isLeftSidebarVisible}>
