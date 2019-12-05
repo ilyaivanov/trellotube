@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/trellotube/static/css/main.14eec8da.chunk.css",
-    "main.js": "/trellotube/static/js/main.767ce058.chunk.js",
-    "main.js.map": "/trellotube/static/js/main.767ce058.chunk.js.map",
+    "main.js": "/trellotube/static/js/main.7be60794.chunk.js",
+    "main.js.map": "/trellotube/static/js/main.7be60794.chunk.js.map",
     "runtime-main.js": "/trellotube/static/js/runtime-main.8e4dc8dc.js",
     "runtime-main.js.map": "/trellotube/static/js/runtime-main.8e4dc8dc.js.map",
     "static/js/2.7a8d4ffc.chunk.js": "/trellotube/static/js/2.7a8d4ffc.chunk.js",
     "static/js/2.7a8d4ffc.chunk.js.map": "/trellotube/static/js/2.7a8d4ffc.chunk.js.map",
     "index.html": "/trellotube/index.html",
-    "precache-manifest.86a501c5f35574466a88e3c5c766f073.js": "/trellotube/precache-manifest.86a501c5f35574466a88e3c5c766f073.js",
+    "precache-manifest.18fff58eb2e169cb0ae10efdc1968537.js": "/trellotube/precache-manifest.18fff58eb2e169cb0ae10efdc1968537.js",
     "service-worker.js": "/trellotube/service-worker.js",
     "static/css/main.14eec8da.chunk.css.map": "/trellotube/static/css/main.14eec8da.chunk.css.map"
   },
@@ -16,6 +16,6 @@
     "static/js/runtime-main.8e4dc8dc.js",
     "static/js/2.7a8d4ffc.chunk.js",
     "static/css/main.14eec8da.chunk.css",
-    "static/js/main.767ce058.chunk.js"
+    "static/js/main.7be60794.chunk.js"
   ]
 }
