@@ -8,10 +8,14 @@ import {
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import App from "../../AppLayout";
-import { store } from "../state/store";
+import { createReducer, getMiddlewares } from "../state/store";
 import { Provider } from "react-redux";
+import { applyMiddleware, createStore, Store, compose } from "redux";
 import "jest-styled-components";
 import { reset } from "../../board/actions";
+import { initialState } from "./initialTestingState";
+import { ApplicationState, Item } from "../types";
+import { findSimilarArtistsDone } from "../../menu/actions";
 
 jest.mock("react-truncate", () => ({ children }: any) => children);
 
@@ -31,10 +35,16 @@ foo.default = ({ videoId }: any) => (
 
 export class ApplicationSandbox {
   private app: RenderResult;
+  private store: Store<ApplicationState>;
   constructor() {
+    // @ts-ignore
+    this.store = createStore(
+      createReducer(initialState()),
+      compose(applyMiddleware(...getMiddlewares()))
+    );
     const app = (
-      <Provider store={store}>
-        <App />
+      <Provider store={this.store}>
+        <App onClearPress={() => 42} />
       </Provider>
     );
     this.app = render(app);
@@ -42,7 +52,7 @@ export class ApplicationSandbox {
 
   resetState() {
     cleanup();
-    store.dispatch(reset());
+    this.store.dispatch(reset());
   }
 
   enterSearch(value: string) {
@@ -239,6 +249,21 @@ export class ApplicationSandbox {
       "color",
       "black"
     );
+  }
+
+  triggerLoadArtistsEnd(...ids: string[]) {
+    const artists: Item[] = ids.map(id => ({
+      videoId: "someVideoId",
+      id,
+      text: "Sample",
+      imageUrl: "",
+      type: "video"
+    }));
+    this.store.dispatch(findSimilarArtistsDone(artists));
+  }
+
+  expectItemToExist(itemId: string) {
+    expect(this.app.getByTestId("video-" + itemId)).toBeInTheDocument();
   }
 
   private clickByTestId(testId: string) {
