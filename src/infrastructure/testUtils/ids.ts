@@ -25,7 +25,15 @@ export const ids = {
   },
   boards: {
     board1: {
-      id: "BOARD_1"
+      id: "BOARD_1",
+      columns: {
+        column1: {
+          id: "1"
+        },
+        column2: {
+          id: "2"
+        }
+      }
     },
     board2: {
       id: "BOARD_2"
