@@ -121,7 +121,7 @@ const getColumnIdForVideo = (
     )
   );
   const board = state.boards[boardId as string];
-  const column = board.columnOrders.find(column =>
+  const column = board && board.columnOrders.find(column =>
     board.columns[column].items.find(item => item.id === itemId)
   );
   if (!column) return "";

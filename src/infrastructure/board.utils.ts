@@ -1,10 +1,14 @@
-import { ApplicationState } from "./types";
+import { ApplicationState, Item } from "./types";
 
-export const getItemsFor = (state: ApplicationState, columnId: string) => {
+export const getItemsFor = (
+  state: ApplicationState,
+  columnId: string
+): Item[] => {
   if (columnId === "SEARCH") return state.searchResults;
   if (columnId === "SIMILAR") return state.similarState.items;
   const boardId = getBoardWithColumn(state, columnId);
-  return state.boards[boardId].columns[columnId].items;
+  if (boardId) return state.boards[boardId].columns[columnId].items;
+  else return [];
 };
 
 export const getSelectedBoard = (state: ApplicationState) =>
