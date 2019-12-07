@@ -8,113 +8,71 @@ import { Item, SidebarState } from "../infrastructure/types";
 import { createId } from "../infrastructure/utils";
 import { initialState } from "../infrastructure/state/initialState";
 
-
-enum ACTION {
-  TOP_BAR_BUTTON_PRESSED = "TOP_BAR_BUTTON_PRESSED",
+const TOP_BAR_BUTTON_PRESSED = "TOP_BAR_BUTTON_PRESSED",
   FIND_SIMILAR_DONE = "FIND_SIMILAR_DONE",
   SELECT_BOARD = "SELECT_BOARD",
   REMOVE_BOARD = "REMOVE_BOARD",
   RENAME_BOARD = "RENAME_BOARD",
   CREATE_BOARD = "CREATE_BOARD",
-  SEARCH_DONE = "SEARCH_DONE"
-}
+  SEARCH_DONE = "SEARCH_DONE";
 
-export interface FindSimilarArtistsDone {
-  type: ACTION.FIND_SIMILAR_DONE;
-  items: Item[];
-}
+export const searchDone = (items: Item[]) =>
+  ({
+    type: SEARCH_DONE,
+    items
+  } as const);
 
-export interface TopBarButtonPressed {
-  type: ACTION.TOP_BAR_BUTTON_PRESSED;
-  buttonPressedType: SidebarState;
-}
+export const removeBoard = (boardId: string) =>
+  ({
+    type: REMOVE_BOARD,
+    boardId
+  } as const);
 
+export const findSimilarArtistsDone = (items: Item[]) =>
+  ({
+    type: FIND_SIMILAR_DONE,
+    items
+  } as const);
 
-export interface SearchDone {
-  type: ACTION.SEARCH_DONE;
-  items: Item[];
-}
+export const topBarButtonPressed = (buttonPressedType: SidebarState) =>
+  ({
+    type: TOP_BAR_BUTTON_PRESSED,
+    buttonPressedType
+  } as const);
 
-export interface RenameBoard {
-  type: ACTION.RENAME_BOARD;
-  boardId: string;
-  newText: string;
-}
+export const createAndSelectNewBoard = () =>
+  ({
+    type: CREATE_BOARD,
+    boardId: createId()
+  } as const);
 
-export interface CreateBoard {
-  type: ACTION.CREATE_BOARD;
-  boardId: string;
-}
+export const renameBoard = (boardId: string, boardName: string) =>
+  ({
+    type: RENAME_BOARD,
+    boardId,
+    newText: boardName
+  } as const);
 
-export interface RemoveBoard {
-  type: ACTION.REMOVE_BOARD;
-  boardId: string;
-}
-
-export const searchDone = (items: Item[]) => ({
-  type: ACTION.SEARCH_DONE,
-  items
-});
-
-export const removeBoard = (boardId: string): RemoveBoard => ({
-  type: ACTION.REMOVE_BOARD,
-  boardId
-});
-export const findSimilarArtistsDone = (
-  items: Item[]
-): FindSimilarArtistsDone => ({
-  type: ACTION.FIND_SIMILAR_DONE,
-  items
-});
-
-export const topBarButtonPressed = (
-  buttonPressedType: SidebarState
-): TopBarButtonPressed => ({
-  type: ACTION.TOP_BAR_BUTTON_PRESSED,
-  buttonPressedType
-});
-
-export const createAndSelectNewBoard = (): CreateBoard => {
-  const newID = createId();
-  return {
-    type: ACTION.CREATE_BOARD,
-    boardId: newID
-  };
-};
-
-export const renameBoard = (
-  boardId: string,
-  boardName: string
-): RenameBoard => ({
-  type: ACTION.RENAME_BOARD,
-  boardId,
-  newText: boardName
-});
+export const selectBoard = (boardId: string) =>
+  ({
+    type: SELECT_BOARD,
+    boardId
+  } as const);
 
 export type Action =
-  | FindSimilarArtistsDone
-  | TopBarButtonPressed
-  | SelectBoard
-  | RemoveBoard
-  | CreateBoard
-  | RenameBoard
-  | SearchDone;
-
-export interface SelectBoard {
-  type: ACTION.SELECT_BOARD;
-  boardId: string;
-}
-
-export const selectBoard = (boardId: string): SelectBoard => ({
-  type: ACTION.SELECT_BOARD,
-  boardId
-});
+  | ReturnType<typeof searchDone>
+  | ReturnType<typeof removeBoard>
+  | ReturnType<typeof findSimilarArtistsDone>
+  | ReturnType<typeof topBarButtonPressed>
+  | ReturnType<typeof createAndSelectNewBoard>
+  | ReturnType<typeof renameBoard>
+  | ReturnType<typeof selectBoard>;
 
 export const menuReducer = (
   state: ApplicationState,
   action: Action
 ): ApplicationState => {
-  if (action.type === ACTION.TOP_BAR_BUTTON_PRESSED) {
+  if (action.type === TOP_BAR_BUTTON_PRESSED) {
     const leftVisible = state.userOptions.isLeftSidebarVisible;
     const sidebarState = state.userOptions.leftSidebarContentType;
     const newSidebarState = action.buttonPressedType;
@@ -131,19 +89,19 @@ export const menuReducer = (
       });
     }
   }
-  if (action.type === ACTION.SEARCH_DONE) {
+  if (action.type === SEARCH_DONE) {
     return {
       ...state,
       searchResults: action.items
     };
   }
-  if (action.type === ACTION.SELECT_BOARD) {
+  if (action.type === SELECT_BOARD) {
     return {
       ...state,
       selectedBoard: action.boardId
     };
   }
-  if (action.type === ACTION.FIND_SIMILAR_DONE) {
+  if (action.type === FIND_SIMILAR_DONE) {
     return {
       ...state,
       similarState: {
@@ -153,7 +111,7 @@ export const menuReducer = (
       }
     };
   }
-  if (action.type === ACTION.REMOVE_BOARD) {
+  if (action.type === REMOVE_BOARD) {
     const boards = state.boards;
     //TODO: warning mutation
     delete boards[action.boardId];
@@ -169,7 +127,7 @@ export const menuReducer = (
       boards
     };
   }
-  if (action.type === ACTION.CREATE_BOARD) {
+  if (action.type === CREATE_BOARD) {
     return {
       ...state,
       boardsOrder: state.boardsOrder.concat([action.boardId]),
@@ -177,7 +135,7 @@ export const menuReducer = (
       selectedBoard: action.boardId
     };
   }
-  if (action.type === ACTION.RENAME_BOARD) {
+  if (action.type === RENAME_BOARD) {
     return updateBoard(state, {
       ...state.boards[action.boardId],
       boardName: action.newText
