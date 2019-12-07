@@ -7,6 +7,8 @@ import {
 import { Item, SidebarState } from "../infrastructure/types";
 import { createId } from "../infrastructure/utils";
 import { initialState } from "../infrastructure/state/initialState";
+
+
 enum ACTION {
   TOP_BAR_BUTTON_PRESSED = "TOP_BAR_BUTTON_PRESSED",
   FIND_SIMILAR_DONE = "FIND_SIMILAR_DONE",
@@ -27,10 +29,6 @@ export interface TopBarButtonPressed {
   buttonPressedType: SidebarState;
 }
 
-export interface SelectBoard {
-  type: ACTION.SELECT_BOARD;
-  boardId: string;
-}
 
 export interface SearchDone {
   type: ACTION.SEARCH_DONE;
@@ -58,10 +56,6 @@ export const searchDone = (items: Item[]) => ({
   items
 });
 
-export const selectBoard = (boardId: string) => ({
-  type: ACTION.SELECT_BOARD,
-  boardId
-});
 export const removeBoard = (boardId: string): RemoveBoard => ({
   type: ACTION.REMOVE_BOARD,
   boardId
@@ -105,6 +99,16 @@ export type Action =
   | CreateBoard
   | RenameBoard
   | SearchDone;
+
+export interface SelectBoard {
+  type: ACTION.SELECT_BOARD;
+  boardId: string;
+}
+
+export const selectBoard = (boardId: string): SelectBoard => ({
+  type: ACTION.SELECT_BOARD,
+  boardId
+});
 
 export const menuReducer = (
   state: ApplicationState,
