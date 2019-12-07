@@ -58,9 +58,11 @@ export interface ApplicationState {
   boards: BoardsContainer;
   boardsOrder: string[];
   selectedBoard: string;
-  itemBeingPlayed?: Item;
   searchResults: Item[];
   similarState: SimilarState;
+
+  //handled in player
+  itemBeingPlayed?: Item;
 }
 export interface SimilarState {
   items: Item[];
