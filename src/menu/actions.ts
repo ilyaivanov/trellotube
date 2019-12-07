@@ -1,8 +1,5 @@
 import { Item, SidebarState } from "../infrastructure/types";
-export type Action =
-  | FindSimilarArtistsDone
-  | FindSimilarArtistsStart
-  | TopBarButtonPressed;
+export type Action = FindSimilarArtistsDone | TopBarButtonPressed;
 
 export interface FindSimilarArtistsDone {
   type: "FIND_SIMILAR_DONE";
@@ -12,11 +9,6 @@ export interface FindSimilarArtistsDone {
 export interface TopBarButtonPressed {
   type: "TOP_BAR_BUTTON_PRESSED";
   buttonPressedType: SidebarState;
-}
-
-export interface FindSimilarArtistsStart {
-  type: "FIND_SIMILAR_START";
-  items: Item[];
 }
 
 export const findSimilarArtistsDone = (
