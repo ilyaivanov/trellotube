@@ -2,11 +2,13 @@ import {
   ApplicationState,
   Board,
   BoardsContainer,
-  UserOptions
+  UserOptions,
+  Item,
+  SidebarState
 } from "../infrastructure/types";
-import { Item, SidebarState } from "../infrastructure/types";
 import { createId } from "../infrastructure/utils";
 import { initialState } from "../infrastructure/state/initialState";
+import {updateBoard} from "../infrastructure/board.utils";
 
 const TOP_BAR_BUTTON_PRESSED = "TOP_BAR_BUTTON_PRESSED",
   FIND_SIMILAR_DONE = "FIND_SIMILAR_DONE",
@@ -143,6 +145,7 @@ export const menuReducer = (
   }
   return state;
 };
+
 const createDefaultBoard = (boards: BoardsContainer, boardId: string) => {
   const newBoard: Board = JSON.parse(
     //TODO: Extract into separate function without ugly BOARD_2
@@ -155,13 +158,7 @@ const createDefaultBoard = (boards: BoardsContainer, boardId: string) => {
     [boardId]: newBoard
   };
 };
-const updateBoard = (state: ApplicationState, board: Board) => ({
-  ...state,
-  boards: {
-    ...state.boards,
-    [board.boardId]: board
-  }
-});
+
 const selectOtherBoard = (
   boards: string[],
   selectedBoard: string,

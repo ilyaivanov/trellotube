@@ -1,7 +1,7 @@
 import { ApplicationState } from "./types";
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
 import { createTrelloTubeStore } from "./state/store";
-import { endDrag } from "../board/actions";
+import { endDrag } from "../board/state";
 import { getSelectedBoard } from "./board.utils";
 
 it("dragging within the column", () => {

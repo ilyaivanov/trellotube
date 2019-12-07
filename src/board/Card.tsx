@@ -10,7 +10,7 @@ import {
 } from "./components";
 import Truncate from "react-truncate";
 import { connect } from "react-redux";
-import { findSimilar, loadPlaylist } from "./actions";
+import { findSimilar, loadPlaylist } from "./state";
 import { play } from "../player/state";
 
 interface Props {
