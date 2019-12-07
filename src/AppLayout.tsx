@@ -5,7 +5,7 @@ import Player from "./player/Player";
 import Board from "./board";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { connect } from "react-redux";
-import { endDrag } from "./board/actions";
+import { endDrag } from "./board/state";
 import c from "./infrastructure/constants";
 import {
   ApplicationState,

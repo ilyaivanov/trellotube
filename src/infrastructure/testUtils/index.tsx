@@ -12,7 +12,7 @@ import { createReducer, getMiddlewares } from "../state/store";
 import { Provider } from "react-redux";
 import { applyMiddleware, createStore, Store, compose } from "redux";
 import "jest-styled-components";
-import { reset } from "../../board/actions";
+import { reset } from "../../board/state";
 import { initialState } from "./initialTestingState";
 import { ApplicationState, Item } from "../types";
 import { findSimilarArtistsDone } from "../../menu/state";
