@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose, Store } from "redux";
 import boardReducer from "../../board/reducer";
-import { reducer } from "../../player/state";
+import { playerReducer } from "../../player/state";
 import {menuReducer} from "../../menu/state";
 import { initialState } from "./initialState";
 import reduceReducers from "reduce-reducers";
@@ -12,7 +12,7 @@ import thunk from "redux-thunk";
 export const createReducer = (initialState: ApplicationState) =>
   //even if I provide default state, TS still argues that I need to handle undefined as input within reducer
   // @ts-ignore
-  reduceReducers(initialState, boardReducer, reducer, menuReducer);
+  reduceReducers(initialState, boardReducer, playerReducer, menuReducer);
 
 export const getMiddlewares = () => [thunk];
 
