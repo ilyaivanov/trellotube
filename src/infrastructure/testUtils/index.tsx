@@ -15,7 +15,7 @@ import "jest-styled-components";
 import { reset } from "../../board/actions";
 import { initialState } from "./initialTestingState";
 import { ApplicationState, Item } from "../types";
-import { findSimilarArtistsDone } from "../../menu/actions";
+import { findSimilarArtistsDone } from "../../menu/state";
 
 jest.mock("react-truncate", () => ({ children }: any) => children);
 

@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose, Store } from "redux";
 import boardReducer from "../../board/reducer";
 import { reducer } from "../../player/state";
-import menuReducer from "../../menu/reducer";
+import {menuReducer} from "../../menu/state";
 import { initialState } from "./initialState";
 import reduceReducers from "reduce-reducers";
 import { persistReducer } from "redux-persist";

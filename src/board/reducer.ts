@@ -54,18 +54,7 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
       items: action.items
     });
   }
-  if (action.type === ACTIONS.SEARCH_DONE) {
-    return {
-      ...state,
-      searchResults: action.items
-    };
-  }
-  if (action.type === ACTIONS.SELECT_BOARD) {
-    return {
-      ...state,
-      selectedBoard: action.boardId
-    };
-  }
+
   if (action.type === ACTIONS.RENAME_COLUMN) {
     return updateColumnInSelectedBoard(state, {
       id: action.columnId,

@@ -12,7 +12,7 @@ import {
   SidebarState,
   UserOptions
 } from "./infrastructure/types";
-import { topBarButtonPressed } from "./menu/actions";
+import { topBarButtonPressed } from "./menu/state";
 const Container = styled.div`
   background-color: ${c.MAIN_COLOR};
   display: flex;

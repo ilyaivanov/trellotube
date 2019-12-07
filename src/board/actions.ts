@@ -1,15 +1,12 @@
 import {ApplicationState, Item, PlaylistItem} from "../infrastructure/types";
 import { DropResult } from "react-beautiful-dnd";
 import { createId } from "../infrastructure/utils";
-import { findSimilarArtistsDone, topBarButtonPressed } from "../menu/actions";
 import { loadPlaylistVideos, searchSimilar } from "../infrastructure/networking/youtube";
+import {findSimilarArtistsDone, topBarButtonPressed} from "../menu/state";
 
 export enum ACTIONS {
   REMOVE_COLUMN = "REMOVE_COLUMN",
   CREATE_COLUMN = "CREATE_COLUMN",
-  SEARCH_DONE = "SEARCH_DONE",
-  FIND_SIMILAR_DONE = "FIND_SIMILAR_DONE",
-  SELECT_BOARD = "SELECT_BOARD",
   RENAME_COLUMN = "RENAME_COLUMN",
   DRAG_END = "DRAG_END",
   CREATE_BOARD = "CREATE_BOARD",
@@ -30,10 +27,6 @@ export interface RenameColumn {
   newName: string;
 }
 
-export interface SelectBoard {
-  type: ACTIONS.SELECT_BOARD;
-  boardId: string;
-}
 
 export interface CreateColumnConfig {
   fromStart: boolean;
@@ -45,11 +38,6 @@ export interface CreateColumnConfig {
 export interface CreateColumnAction {
   type: ACTIONS.CREATE_COLUMN;
   columnConfiguration: Partial<CreateColumnConfig>;
-}
-
-export interface SearchDone {
-  type: ACTIONS.SEARCH_DONE;
-  items: Item[];
 }
 
 export interface EndDrag {
@@ -82,24 +70,17 @@ export interface DoneLoadingPlaylist {
 export type Action =
   | RemoveAction
   | CreateColumnAction
-  | SelectBoard
   | RenameColumn
   | EndDrag
   | CreateBoard
   | RenameBoard
   | RemoveBoard
   | Reset
-  | DoneLoadingPlaylist
-  | SearchDone;
+  | DoneLoadingPlaylist;
 
 export const removeColumn = (columnId: string) => ({
   type: ACTIONS.REMOVE_COLUMN,
   columnId
-});
-
-export const searchDone = (items: Item[]) => ({
-  type: ACTIONS.SEARCH_DONE,
-  items
 });
 
 export const createColumn = (
@@ -109,10 +90,7 @@ export const createColumn = (
   columnConfiguration
 });
 
-export const selectBoard = (boardId: string) => ({
-  type: ACTIONS.SELECT_BOARD,
-  boardId
-});
+
 
 export const renameColumn = (columnId: string, newName: string) => ({
   type: ACTIONS.RENAME_COLUMN,
