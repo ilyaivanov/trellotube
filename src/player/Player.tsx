@@ -6,7 +6,7 @@ import styled from "styled-components";
 import c from "../infrastructure/constants";
 import { getNextItem, getPreviousItem } from "../infrastructure/array";
 import { getItemsFor } from "../infrastructure/board.utils";
-import { play } from "../infrastructure/actions";
+import { play } from "./state";
 
 interface Props {
   videoId?: string;
@@ -121,9 +121,11 @@ const getColumnIdForVideo = (
     )
   );
   const board = state.boards[boardId as string];
-  const column = board && board.columnOrders.find(column =>
-    board.columns[column].items.find(item => item.id === itemId)
-  );
+  const column =
+    board &&
+    board.columnOrders.find(column =>
+      board.columns[column].items.find(item => item.id === itemId)
+    );
   if (!column) return "";
   return column;
 };
