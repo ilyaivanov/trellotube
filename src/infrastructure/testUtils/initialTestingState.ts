@@ -1,5 +1,7 @@
 import { ApplicationState } from "../types";
 
+
+//TODO: main goal of this is to take ids.ts and create a default state based on them
 // @ts-ignore
 export const initialState = (): ApplicationState => ({
   boards: {
