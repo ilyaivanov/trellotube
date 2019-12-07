@@ -1,15 +1,10 @@
-import {
-  ApplicationState,
-  Board,
-  BoardsContainer,
-  Column
-} from "../infrastructure/types";
+import { ApplicationState, Board, Column } from "../infrastructure/types";
 import { Action, ACTIONS } from "./actions";
 import { handleDnd } from "../infrastructure/operations";
 import { initialState } from "../infrastructure/state/initialState";
 import { createId } from "../infrastructure/utils";
 import { append, prepend } from "../infrastructure/array";
-import {getSelectedBoard} from "../infrastructure/board.utils";
+import { getSelectedBoard } from "../infrastructure/board.utils";
 
 export default (state: ApplicationState, action: Action): ApplicationState => {
   if (action.type === ACTIONS.RESET) {
@@ -64,46 +59,7 @@ export default (state: ApplicationState, action: Action): ApplicationState => {
   if (action.type === ACTIONS.DRAG_END) {
     return handleDnd(state, action.dropResult);
   }
-  if (action.type === ACTIONS.CREATE_BOARD) {
-    return {
-      ...state,
-      boardsOrder: state.boardsOrder.concat([action.boardId]),
-      boards: createDefaultBoard(state.boards, action.boardId),
-      selectedBoard: action.boardId
-    };
-  }
-  if (action.type === ACTIONS.RENAME_BOARD) {
-    return updateBoard(state, {
-      ...state.boards[action.boardId],
-      boardName: action.newText
-    });
-  }
-  if (action.type === ACTIONS.REMOVE_BOARD) {
-    const boards = state.boards;
-    //TODO: warning mutation
-    delete boards[action.boardId];
-
-    return {
-      ...state,
-      boardsOrder: state.boardsOrder.filter(b => b !== action.boardId),
-      selectedBoard: selectOtherBoard(
-        state.boardsOrder,
-        state.selectedBoard,
-        action.boardId
-      ),
-      boards
-    };
-  }
   return state;
-};
-
-const selectOtherBoard = (
-  boards: string[],
-  selectedBoard: string,
-  boardBeingRemoved: string
-) => {
-  if (selectedBoard !== boardBeingRemoved) return selectedBoard;
-  return boards.filter(b => b !== selectedBoard)[0];
 };
 
 //REDUCER HELPERS (candidates for nested reducers)
@@ -123,19 +79,6 @@ const updateColumnInBoard = (board: Board, column: Column): Board => ({
     [column.id]: column
   }
 });
-
-const createDefaultBoard = (boards: BoardsContainer, boardId: string) => {
-  const newBoard: Board = JSON.parse(
-    //TODO: Extract into separate function without ugly BOARD_2
-    JSON.stringify(initialState().boards["BOARD_2"])
-  );
-  newBoard.boardName = "New Board";
-  newBoard.boardId = boardId;
-  return {
-    ...boards,
-    [boardId]: newBoard
-  };
-};
 
 type PartialColumnWithId = Partial<Column> & { id: string };
 export const updateColumnInSelectedBoard = (
