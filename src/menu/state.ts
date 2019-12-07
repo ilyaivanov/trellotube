@@ -1,10 +1,10 @@
 import {
   ApplicationState,
   Board,
-  BoardsContainer,
   UserOptions,
   Item,
-  SidebarState
+  SidebarState,
+  BoardState
 } from "../infrastructure/types";
 import { createId } from "../infrastructure/utils";
 import { updateBoard } from "../infrastructure/board.utils";
@@ -115,37 +115,41 @@ export const menuReducer = (
   if (action.type === REMOVE_BOARD) {
     const boards = state.boards;
     //TODO: warning mutation
-    delete boards[action.boardId];
+    delete boards.items[action.boardId];
 
     return {
       ...state,
-      boardsOrder: state.boardsOrder.filter(b => b !== action.boardId),
       selectedBoard: selectOtherBoard(
-        state.boardsOrder,
+        state.boards.order,
         state.selectedBoard,
         action.boardId
       ),
-      boards
+      boards: {
+        ...boards,
+        order: state.boards.order.filter(b => b !== action.boardId)
+      }
     };
   }
   if (action.type === CREATE_BOARD) {
     return {
       ...state,
-      boardsOrder: state.boardsOrder.concat([action.boardId]),
       boards: createDefaultBoard(state.boards, action.boardId),
       selectedBoard: action.boardId
     };
   }
   if (action.type === RENAME_BOARD) {
     return updateBoard(state, {
-      ...state.boards[action.boardId],
+      ...state.boards.items[action.boardId],
       boardName: action.newText
     });
   }
   return state;
 };
 
-const createDefaultBoard = (boards: BoardsContainer, boardId: string) => {
+const createDefaultBoard = (
+  boards: BoardState,
+  boardId: string
+): BoardState => {
   const newBoard: Board = {
     columnOrders: [],
     columns: {},
@@ -155,7 +159,11 @@ const createDefaultBoard = (boards: BoardsContainer, boardId: string) => {
   };
   return {
     ...boards,
-    [boardId]: newBoard
+    items: {
+      ...boards.items,
+      [boardId]: newBoard
+    },
+    order: boards.order.concat([boardId])
   };
 };
 
