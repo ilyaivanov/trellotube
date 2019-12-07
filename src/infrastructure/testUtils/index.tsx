@@ -8,7 +8,7 @@ import {
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import App from "../../AppLayout";
-import { createReducer, getMiddlewares } from "../state/store";
+import { createReducer, getMiddlewares } from "../store/store";
 import { Provider } from "react-redux";
 import { applyMiddleware, createStore, Store, compose } from "redux";
 import "jest-styled-components";

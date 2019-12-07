@@ -1,6 +1,6 @@
 import { ApplicationState } from "./types";
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
-import { createTrelloTubeStore } from "./state/store";
+import { createTrelloTubeStore } from "./store/store";
 import { endDrag } from "../board/state";
 import { getSelectedBoard } from "./board.utils";
 
