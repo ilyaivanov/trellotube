@@ -5,7 +5,6 @@ import {
   Item,
   PlaylistItem
 } from "../infrastructure/types";
-import { handleDnd } from "../infrastructure/operations";
 import { initialState } from "../infrastructure/store/initialState";
 import { createId } from "../infrastructure/utils";
 import { append, prepend } from "../infrastructure/array";
@@ -21,6 +20,7 @@ import {
   searchSimilar
 } from "../infrastructure/networking/youtube";
 import { findSimilarArtistsDone, topBarButtonPressed } from "../menu/state";
+import { handleDnd } from "./dnd";
 
 const REMOVE_COLUMN = "REMOVE_COLUMN",
   CREATE_COLUMN = "CREATE_COLUMN",
@@ -168,3 +168,4 @@ export const boardReducer = (
   }
   return state;
 };
+

@@ -115,12 +115,12 @@ const getColumnIdForVideo = (
   if (state.similarState && state.similarState.items.find(c => c.id === itemId))
     return "SIMILAR";
 
-  const boardId = state.boardsOrder.find(id =>
-    state.boards[id].columnOrders.find(colId =>
-      state.boards[id].columns[colId].items.find(item => item.id === itemId)
+  const boardId = state.boards.order.find(id =>
+    state.boards.items[id].columnOrders.find(colId =>
+      state.boards.items[id].columns[colId].items.find(item => item.id === itemId)
     )
   );
-  const board = state.boards[boardId as string];
+  const board = state.boards.items[boardId as string];
   const column =
     board &&
     board.columnOrders.find(column =>

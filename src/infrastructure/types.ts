@@ -30,6 +30,39 @@ export interface ColumnContainer {
   [key: string]: Column;
 }
 
+export type SidebarState = "search" | "board" | "similar";
+
+export interface UserOptions {
+  isLeftSidebarVisible: boolean;
+  leftSidebarContentType: SidebarState;
+}
+
+export interface ApplicationState {
+  userOptions: UserOptions;
+  selectedBoard: string;
+  searchResults: Item[];
+  similarState: SimilarState;
+
+  boards: BoardState;
+
+  //handled in player
+  itemBeingPlayed?: Item;
+}
+export interface SimilarState {
+  items: Item[];
+  isLoading: boolean;
+}
+
+
+//BOARDS
+export interface BoardState {
+  order: string[];
+  items: BoardsContainer;
+}
+export interface BoardsContainer {
+  [key: string]: Board;
+}
+
 export interface Board {
   boardId: string;
   boardName: string;
@@ -40,31 +73,4 @@ export interface Board {
 
 export interface BoardOptions {
   isLoadingSimilar?: boolean;
-}
-
-export interface BoardsContainer {
-  [key: string]: Board;
-}
-
-export type SidebarState = "search" | "board" | "similar";
-
-export interface UserOptions {
-  isLeftSidebarVisible: boolean;
-  leftSidebarContentType: SidebarState;
-}
-
-export interface ApplicationState {
-  userOptions: UserOptions;
-  boards: BoardsContainer;
-  boardsOrder: string[];
-  selectedBoard: string;
-  searchResults: Item[];
-  similarState: SimilarState;
-
-  //handled in player
-  itemBeingPlayed?: Item;
-}
-export interface SimilarState {
-  items: Item[];
-  isLoading: boolean;
 }
