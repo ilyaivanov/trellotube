@@ -1,7 +1,10 @@
-import { ApplicationState } from "./types";
+import { ApplicationState } from "../infrastructure/types";
 import { DropResult } from "react-beautiful-dnd";
-import { updateColumnInSelectedBoard } from "../board/reducer";
-import {getItemsFor, getSelectedBoard} from "./board.utils";
+import {
+  getItemsFor,
+  updateColumnInSelectedBoard,
+  getSelectedBoard
+} from "../infrastructure/board.utils";
 
 export const handleDnd = (
   state: ApplicationState,
@@ -111,4 +114,3 @@ const remove = <T>(items: T[], index: number) => {
   copy.splice(index, 1);
   return copy;
 };
-

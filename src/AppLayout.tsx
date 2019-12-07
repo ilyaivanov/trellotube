@@ -5,15 +5,14 @@ import Player from "./player/Player";
 import Board from "./board";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { connect } from "react-redux";
-import { endDrag } from "./board/actions";
+import { endDrag } from "./board/state";
 import c from "./infrastructure/constants";
 import {
   ApplicationState,
   SidebarState,
   UserOptions
 } from "./infrastructure/types";
-import { topBarButtonPressed } from "./menu/actions";
-import { persistor } from "./infrastructure/state/store";
+import { topBarButtonPressed } from "./menu/state";
 const Container = styled.div`
   background-color: ${c.MAIN_COLOR};
   display: flex;
@@ -62,9 +61,15 @@ interface Props {
   endDrag: (result: DropResult) => void;
   topBarButtonPressed: (state: SidebarState) => void;
   options: UserOptions;
+  onClearPress: () => void;
 }
 
-const App = ({ endDrag, topBarButtonPressed, options }: Props) => (
+const App = ({
+  endDrag,
+  topBarButtonPressed,
+  options,
+  onClearPress
+}: Props) => (
   <DragDropContext onDragEnd={endDrag}>
     <Container>
       <TopBar>
@@ -87,7 +92,9 @@ const App = ({ endDrag, topBarButtonPressed, options }: Props) => (
         >
           similar
         </button>
-        <button style={{float:'right'}} onClick={() => persistor.purge()}>clear-store</button>
+        <button style={{ float: "right" }} onClick={onClearPress}>
+          clear-store
+        </button>
       </TopBar>
       <MainContainer>
         <LeftSidebar isVisible={options.isLeftSidebarVisible}>

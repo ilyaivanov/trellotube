@@ -5,7 +5,7 @@ import Card from "./Card";
 import { connect } from "react-redux";
 import { ColumnContainer, TaskList, Title, Options } from "./components";
 import EditableTitle from "../infrastructure/components/EditableTitle";
-import { removeColumn, renameColumn } from "./actions";
+import { removeColumn, renameColumn } from "./state";
 
 interface Props {
   column: Column;

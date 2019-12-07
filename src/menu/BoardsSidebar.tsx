@@ -1,14 +1,14 @@
 import { ApplicationState } from "../infrastructure/types";
 import React from "react";
 import { connect } from "react-redux";
-import {
-  selectBoard,
-  createAndSelectNewBoard,
-  renameBoard,
-  removeBoard
-} from "../board/actions";
 import { BoardItemView, BoardOptions } from "./components";
 import EditableTitle from "../infrastructure/components/EditableTitle";
+import {
+  selectBoard,
+  removeBoard,
+  createAndSelectNewBoard,
+  renameBoard
+} from "./state";
 
 interface Props {
   app: ApplicationState;
@@ -26,7 +26,7 @@ const BoardsSidebar = ({
   removeBoard
 }: Props) => (
   <div data-testid="board-view">
-    {app.boardsOrder.map(boardId => (
+    {app.boards.order.map(boardId => (
       <EditableTitle
         //TODO fix performance problem here
         dragHandleProps={{
@@ -36,7 +36,7 @@ const BoardsSidebar = ({
         id={boardId}
         key={boardId}
         testIdGroupName="board-button"
-        label={app.boards[boardId].boardName}
+        label={app.boards.items[boardId].boardName}
         onRename={renameBoard}
         onRemove={removeBoard}
         Title={BoardItemView}

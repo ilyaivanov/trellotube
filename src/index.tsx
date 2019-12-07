@@ -2,13 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
-import { store } from "./infrastructure/state/store";
+import { createTrelloTubeStore } from "./infrastructure/store/store";
 import { Provider } from "react-redux";
 import App from "./AppLayout";
+import { persistStore } from "redux-persist";
+
+const store = createTrelloTubeStore();
+const persistor = persistStore(store);
 
 const app = (
   <Provider store={store}>
-    <App />
+    <App onClearPress={() => persistor.purge()} />
   </Provider>
 );
 
@@ -18,5 +22,3 @@ ReactDOM.render(app, document.getElementById("root"));
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
-
-

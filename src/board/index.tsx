@@ -3,9 +3,9 @@ import { Droppable } from "react-beautiful-dnd";
 import ColumnView from "./Column";
 import { ApplicationState, Column } from "../infrastructure/types";
 import { connect } from "react-redux";
-import { createColumn, selectBoard } from "./actions";
-import { getColumnsForSelectedBoard } from "./reducer";
+import { createColumn } from "./state";
 import { BoardContainer } from "./components";
+import { getColumnsForSelectedBoard } from "../infrastructure/board.utils";
 
 interface Props {
   createColumn: any;
@@ -36,7 +36,6 @@ const mapState = (state: ApplicationState) => ({
 export default connect(
   mapState,
   {
-    createColumn,
-    selectBoard
+    createColumn
   }
 )(App);
