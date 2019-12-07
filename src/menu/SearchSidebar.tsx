@@ -6,7 +6,7 @@ import { Droppable } from "react-beautiful-dnd";
 import Card from "../board/Card";
 import { SEARCH_DELAY } from "./constants";
 import { connect } from "react-redux";
-import { searchDone } from "../board/actions";
+import { searchDone } from "./state";
 import { SidebarVideosContainer } from "./components";
 
 export interface SearchProps {

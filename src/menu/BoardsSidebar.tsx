@@ -2,13 +2,13 @@ import { ApplicationState } from "../infrastructure/types";
 import React from "react";
 import { connect } from "react-redux";
 import {
-  selectBoard,
   createAndSelectNewBoard,
   renameBoard,
   removeBoard
 } from "../board/actions";
 import { BoardItemView, BoardOptions } from "./components";
 import EditableTitle from "../infrastructure/components/EditableTitle";
+import {selectBoard} from "./state";
 
 interface Props {
   app: ApplicationState;
