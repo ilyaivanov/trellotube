@@ -6,7 +6,7 @@ import {
   PlaylistItem
 } from "../infrastructure/types";
 import { handleDnd } from "../infrastructure/operations";
-import { initialState } from "../infrastructure/state/initialState";
+import { initialState } from "../infrastructure/store/initialState";
 import { createId } from "../infrastructure/utils";
 import { append, prepend } from "../infrastructure/array";
 import {
