@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { ApplicationState, Item } from "../infrastructure/types";
+import { ApplicationState, Item } from "../state/types";
 import Card from "../board/Card";
 import { Droppable } from "react-beautiful-dnd";
 import { SidebarVideosContainer } from "./components";

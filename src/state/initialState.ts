@@ -1,4 +1,4 @@
-import { ApplicationState } from "../types";
+import { ApplicationState } from "./types";
 
 // @ts-ignore
 export const initialState = (): ApplicationState => ({

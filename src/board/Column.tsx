@@ -1,11 +1,11 @@
 import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { Column } from "../infrastructure/types";
+import { Column } from "../state/types";
 import Card from "./Card";
 import { connect } from "react-redux";
 import { ColumnContainer, TaskList, Title, Options } from "./components";
 import EditableTitle from "../infrastructure/components/EditableTitle";
-import { removeColumn, renameColumn } from "./state";
+import { removeColumn, renameColumn } from "../state";
 
 interface Props {
   column: Column;

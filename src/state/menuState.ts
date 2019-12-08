@@ -5,9 +5,9 @@ import {
   Item,
   SidebarState,
   BoardState
-} from "../infrastructure/types";
+} from "./types";
 import { createId } from "../infrastructure/utils";
-import { updateBoard } from "../infrastructure/board.utils";
+import { updateBoard } from "./board.utils";
 
 const TOP_BAR_BUTTON_PRESSED = "TOP_BAR_BUTTON_PRESSED",
   FIND_SIMILAR_DONE = "FIND_SIMILAR_DONE",

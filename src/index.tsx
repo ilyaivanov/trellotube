@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
-import { createTrelloTubeStore } from "./infrastructure/store/store";
+import { createTrelloTubeStore } from "./state/store";
 import { Provider } from "react-redux";
 import App from "./AppLayout";
 import { persistStore } from "redux-persist";

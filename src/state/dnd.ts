@@ -1,10 +1,11 @@
-import { ApplicationState } from "../infrastructure/types";
+import { ApplicationState } from "./types";
 import { DropResult } from "react-beautiful-dnd";
+
 import {
   getItemsFor,
   updateColumnInSelectedBoard,
   getSelectedBoard
-} from "../infrastructure/board.utils";
+} from "./board.utils";
 
 export const handleDnd = (
   state: ApplicationState,
@@ -28,9 +29,12 @@ export const handleDnd = (
       ...state,
       boards: {
         ...state.boards,
-        [board.boardId]: {
-          ...board,
-          columnOrders
+        items: {
+          ...state.boards.items,
+          [board.boardId]: {
+            ...board,
+            columnOrders
+          }
         }
       }
     };

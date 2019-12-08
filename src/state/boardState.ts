@@ -4,8 +4,8 @@ import {
   Column,
   Item,
   PlaylistItem
-} from "../infrastructure/types";
-import { initialState } from "../infrastructure/store/initialState";
+} from "./types";
+import { initialState } from "./initialState";
 import { createId } from "../infrastructure/utils";
 import { append, prepend } from "../infrastructure/array";
 import {
@@ -13,13 +13,13 @@ import {
   updateBoard,
   updateColumnInBoard,
   updateColumnInSelectedBoard
-} from "../infrastructure/board.utils";
+} from "./board.utils";
 import { DropResult } from "react-beautiful-dnd";
 import {
   loadPlaylistVideos,
   searchSimilar
 } from "../infrastructure/networking/youtube";
-import { findSimilarArtistsDone, topBarButtonPressed } from "../menu/state";
+import { findSimilarArtistsDone, topBarButtonPressed } from "../state";
 import { handleDnd } from "./dnd";
 
 const REMOVE_COLUMN = "REMOVE_COLUMN",

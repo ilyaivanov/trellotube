@@ -1,5 +1,5 @@
-import { ApplicationState } from "../infrastructure/types";
-import { Item } from "../infrastructure/types";
+import { ApplicationState } from "./types";
+import { Item } from "./types";
 
 const PLAY = "PLAY";
 

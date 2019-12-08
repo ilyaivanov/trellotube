@@ -1,11 +1,11 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import ColumnView from "./Column";
-import { ApplicationState, Column } from "../infrastructure/types";
+import { ApplicationState, Column } from "../state/types";
 import { connect } from "react-redux";
-import { createColumn } from "./state";
+import { createColumn } from "../state";
 import { BoardContainer } from "./components";
-import { getColumnsForSelectedBoard } from "../infrastructure/board.utils";
+import { getColumnsForSelectedBoard } from "../state/board.utils";
 
 interface Props {
   createColumn: any;

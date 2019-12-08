@@ -5,14 +5,13 @@ import Player from "./player/Player";
 import Board from "./board";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { connect } from "react-redux";
-import { endDrag } from "./board/state";
+import { endDrag, topBarButtonPressed } from "./state";
 import c from "./infrastructure/constants";
 import {
   ApplicationState,
   SidebarState,
   UserOptions
-} from "./infrastructure/types";
-import { topBarButtonPressed } from "./menu/state";
+} from "./state/types";
 const Container = styled.div`
   background-color: ${c.MAIN_COLOR};
   display: flex;

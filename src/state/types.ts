@@ -53,14 +53,17 @@ export interface SimilarState {
   isLoading: boolean;
 }
 
+//ITEMS
+
+//COLUMNS
+export interface ColumnState {
+
+}
 
 //BOARDS
 export interface BoardState {
   order: string[];
-  items: BoardsContainer;
-}
-export interface BoardsContainer {
-  [key: string]: Board;
+  items: Container<Board>;
 }
 
 export interface Board {
@@ -73,4 +76,8 @@ export interface Board {
 
 export interface BoardOptions {
   isLoadingSimilar?: boolean;
+}
+
+export interface Container<T> {
+  [key: string]: T;
 }

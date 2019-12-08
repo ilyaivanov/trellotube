@@ -8,14 +8,13 @@ import {
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import App from "../../AppLayout";
-import { createReducer, getMiddlewares } from "../store/store";
+import { createReducer, getMiddlewares } from "../../state/store";
 import { Provider } from "react-redux";
 import { applyMiddleware, createStore, Store, compose } from "redux";
 import "jest-styled-components";
-import { reset } from "../../board/state";
-import { ApplicationState, Item } from "../types";
-import { findSimilarArtistsDone } from "../../menu/state";
-import { initialState } from "../store/initialState";
+import { reset, findSimilarArtistsDone } from "../../state";
+import { ApplicationState, Item } from "../../state/types";
+import { initialState } from "../../state/initialState";
 
 jest.mock("react-truncate", () => ({ children }: any) => children);
 

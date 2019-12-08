@@ -1,6 +1,6 @@
 import { YOUTUBE_KEY } from "../keys";
 import { ItemKind, ItemsItem, YoutubeSearchResponse } from "./types";
-import { Item, ItemType } from "../types";
+import { Item, ItemType } from "../../state/types";
 import { createId } from "../utils";
 import { myFetch } from "./fetch";
 interface ResponseType {

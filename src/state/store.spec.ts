@@ -1,10 +1,12 @@
 import { createTrelloTubeStore } from "./store";
-import { createColumn, doneLoadingPlaylist } from "../../board/state";
+import { createColumn, doneLoadingPlaylist, endDrag } from "./index";
 import { Store } from "redux";
-import { ApplicationState, Item } from "../types";
-import {getSelectedBoard} from "../board.utils";
+import { ApplicationState, Item } from "./types";
+import { getSelectedBoard } from "./board.utils";
+import { DropResult } from "react-beautiful-dnd";
+import { getColumnsForSelectedBorder } from "./selectors";
 
-jest.mock("../utils", () => ({
+jest.mock("../infrastructure/utils", () => ({
   createId: () => "someNewId"
 }));
 
@@ -58,5 +60,19 @@ describe("Having a default state", () => {
 
     expect(selectedBoard.columns["someNewId"].items).toHaveLength(1);
     expect(selectedBoard.columns["someNewId"].items[0].id).toEqual("newItem1");
+  });
+
+  it("swaping two boards should change their positions", () => {
+    const dropResult: DropResult = {
+      draggableId: "1",
+      type: "column",
+      source: { index: 0, droppableId: "board" },
+      destination: { droppableId: "board", index: 1 },
+      mode: "FLUID",
+      reason: "DROP"
+    };
+    expect(getColumnsForSelectedBorder(store.getState())).toEqual(["1", "2"]);
+    store.dispatch(endDrag(dropResult));
+    expect(getColumnsForSelectedBorder(store.getState())).toEqual(["2", "1"]);
   });
 });

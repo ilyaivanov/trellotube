@@ -12,7 +12,6 @@ export const getItemsFor = (
 };
 
 export const getSelectedBoard = (state: ApplicationState) => {
-  console.log(state.boards);
   return state.boards.items[state.selectedBoard];
 };
 

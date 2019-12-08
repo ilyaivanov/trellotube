@@ -1,4 +1,4 @@
-import { ApplicationState, Item } from "../infrastructure/types";
+import { ApplicationState, Item } from "../state/types";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useDebounce } from "../infrastructure/hooks";
 import { searchVideos } from "../infrastructure/networking/youtube";
@@ -6,7 +6,7 @@ import { Droppable } from "react-beautiful-dnd";
 import Card from "../board/Card";
 import { SEARCH_DELAY } from "./constants";
 import { connect } from "react-redux";
-import { searchDone } from "./state";
+import { searchDone } from "../state";
 import { SidebarVideosContainer } from "./components";
 
 export interface SearchProps {

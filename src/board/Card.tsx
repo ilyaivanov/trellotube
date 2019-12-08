@@ -1,4 +1,4 @@
-import { ApplicationState, Item, PlaylistItem } from "../infrastructure/types";
+import { ApplicationState, Item, PlaylistItem } from "../state/types";
 import { Draggable } from "react-beautiful-dnd";
 import React from "react";
 import {
@@ -10,8 +10,7 @@ import {
 } from "./components";
 import Truncate from "react-truncate";
 import { connect } from "react-redux";
-import { findSimilar, loadPlaylist } from "./state";
-import { play } from "../player/state";
+import { findSimilar, play, loadPlaylist } from "../state";
 
 interface Props {
   item: Item;

@@ -1,8 +1,8 @@
-import { ApplicationState } from "../infrastructure/types";
+import { ApplicationState } from "./types";
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
-import { createTrelloTubeStore } from "../infrastructure/store/store";
-import { endDrag } from "./state";
-import { getSelectedBoard } from "../infrastructure/board.utils";
+import { createTrelloTubeStore } from "./store";
+import { endDrag } from "./index";
+import { getSelectedBoard } from "./board.utils";
 
 it("dragging within the column", () => {
   const store = createTrelloTubeStore();

@@ -1,4 +1,4 @@
-import { ApplicationState } from "../infrastructure/types";
+import { ApplicationState } from "../state/types";
 import React from "react";
 import { connect } from "react-redux";
 import { BoardItemView, BoardOptions } from "./components";
@@ -8,7 +8,7 @@ import {
   removeBoard,
   createAndSelectNewBoard,
   renameBoard
-} from "./state";
+} from "../state";
 
 interface Props {
   app: ApplicationState;

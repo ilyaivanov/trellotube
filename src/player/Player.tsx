@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Youtube from "react-youtube";
-import { ApplicationState, Item } from "../infrastructure/types";
+import { ApplicationState, Item } from "../state/types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import c from "../infrastructure/constants";
 import { getNextItem, getPreviousItem } from "../infrastructure/array";
-import { getItemsFor } from "../infrastructure/board.utils";
-import { play } from "./state";
+import { getItemsFor } from "../state/board.utils";
+import { play } from "../state";
 
 interface Props {
   videoId?: string;
