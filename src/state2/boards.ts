@@ -1,6 +1,7 @@
 import { Action, AppState, Container } from "./index";
 import { DropResult } from "react-beautiful-dnd";
 import { handleDrop } from "./dnd";
+import {ExtraColumn, SET_EXTRA_ITEMS} from "./menu";
 const SELECT_BOARD = "SELECT_BOARD",
   END_DROP = "END_DROP";
 
@@ -40,6 +41,7 @@ export interface Column {
   items: string[];
 }
 export interface Item {
+  id: string;
   name: string;
 }
 
@@ -72,12 +74,15 @@ const initialState: BoardsState = {
   },
   items: {
     "10": {
+      id: "10",
       name: "Stack1 - First Item"
     },
     "11": {
+      id: "11",
       name: "Stack2 - First Item"
     },
     "12": {
+      id: "12",
       name: "Stack2 - Second Item"
     }
   }
@@ -121,6 +126,14 @@ export const getSelectedBoard = (state: AppState): BoardDetailsViewModel => {
   };
 };
 
+export const getExtraItems = (type: ExtraColumn, state: AppState): ItemViewModel[] =>
+  state.menu.extraColumns[type]
+    ? state.menu.extraColumns[type].map(id => ({
+        id,
+        name: state.boardsState.items[id].name
+      }))
+    : [];
+
 export const boardsReducer = (
   boards = initialState,
   action: Action
@@ -134,5 +147,16 @@ export const boardsReducer = (
   if (action.type === END_DROP) {
     return handleDrop(boards, action.dropResult);
   }
+
+  if (action.type === SET_EXTRA_ITEMS) {
+    return {
+      ...boards,
+      items: {
+        ...boards.items,
+        ...action.items.reduce((o, i) => ({ ...o, [i.id]: i }), {})
+      }
+    };
+  }
+
   return boards;
 };

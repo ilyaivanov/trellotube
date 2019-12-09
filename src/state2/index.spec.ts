@@ -6,10 +6,12 @@ import {
   selectBoard,
   getSelectedBoard,
   endDrag,
-  AppState
+  AppState,
+  setItemsFor
 } from "./index";
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
 import { Simulate } from "react-dom/test-utils";
+import { getExtraItems, Item } from "./boards";
 
 describe("Having a default store", () => {
   let store: ReturnType<typeof createMyStore>;
@@ -117,6 +119,19 @@ describe("Having a default store", () => {
       expect(getNames(getSelectedBoard(store.getState()).stacks)).toEqual(
         expectedStacksAfterDrop
       );
+    });
+  });
+
+  describe("Having an additional column", () => {
+    it("should set and retrieve those items", () => {
+      const items: Item[] = [
+        { name: "Loaded Item 1", id: "101" },
+        { name: "Loaded Item 2", id: "102" }
+      ];
+      store.dispatch(setItemsFor("SEARCH", items));
+
+      const searchItems = getNames(getExtraItems("SEARCH", store.getState()));
+      expect(searchItems).toEqual(["Loaded Item 1", "Loaded Item 2"]);
     });
   });
 });
