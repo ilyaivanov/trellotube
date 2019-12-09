@@ -3,7 +3,8 @@ import {
   getBoards,
   isLeftSidebarVisible,
   setSidebarVisibility,
-  selectBoard
+  selectBoard,
+  getSelectedBoard
 } from "./index";
 
 describe("Having a default store", () => {
@@ -40,5 +41,27 @@ describe("Having a default store", () => {
         expect(getStoreBoards()[0].isSelected).toEqual(false);
       });
     });
+
+    describe("selected board", () => {
+      it("should be First Board", () => {
+        expect(getSelectedBoard(store.getState()).name).toEqual("First Board");
+      });
+      it("should have two stacks", () => {
+        const expectedStacks = ["Stack1 Board1", "Stack2 Board1"];
+        const receivedStackNames = getNames(
+          getSelectedBoard(store.getState()).stacks
+        );
+        expect(receivedStackNames).toEqual(expectedStacks);
+      });
+      it("first stack should have proper ids", () => {
+        expect(getSelectedBoard(store.getState()).stacks[0].id).toEqual("1");
+      });
+      it("first stack should have one item", () => {
+        const firstStack = getSelectedBoard(store.getState()).stacks[0];
+        expect(getNames(firstStack.items)).toEqual(["Stack1 - First Item"]);
+      });
+    });
   });
 });
+
+const getNames = (items: { name: string }[]) => items.map(i => i.name);

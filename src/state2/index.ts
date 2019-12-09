@@ -1,7 +1,7 @@
 import { combineReducers, createStore, Store } from "redux";
 import { optionsReducer, setSidebarVisibility } from "./userOptions";
 import {boardsReducer, selectBoard} from "./boards";
-export { selectBoard, getBoards } from "./boards";
+export { selectBoard, getBoards, getSelectedBoard } from "./boards";
 export { setSidebarVisibility } from "./userOptions";
 
 export type Action =
