@@ -75,7 +75,7 @@ export const findSimilar = (videoId: string) => (
     dispatch(topBarButtonPressed("similar"));
 
   searchSimilar(videoId).then(({ items }) => {
-    dispatch(findSimilarArtistsDone(items));
+    dispatch(findSimilarArtistsDone(items as any));
   });
 };
 
@@ -86,7 +86,7 @@ export const loadPlaylist = (item: PlaylistItem) => (dispatch: any) => {
   );
 
   loadPlaylistVideos(item.playlistId).then(({ items }) => {
-    dispatch(doneLoadingPlaylist(id, items));
+    dispatch(doneLoadingPlaylist(id, items as any));
   });
 };
 

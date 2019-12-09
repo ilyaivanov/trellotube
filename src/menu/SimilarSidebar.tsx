@@ -22,7 +22,7 @@ const SimilarSidebar = ({ items, isLoading }: Props) => {
             {provided => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 {items.map((i, index) => (
-                  <Card key={i.id} index={index} item={i} />
+                  <Card key={i.id} index={index} item={i as any} />
                 ))}
                 {provided.placeholder}
               </div>

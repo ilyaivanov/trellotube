@@ -37,7 +37,7 @@ const ColumnView = ({ column, index, removeColumn, renameColumn }: Props) => {
             {(provided) => (
               <TaskList ref={provided.innerRef} {...provided.droppableProps}>
                 {column.items.map((item, index) => (
-                  <Card index={index} key={item.id} item={item} />
+                  <Card index={index} key={item.id} item={item as any} />
                 ))}
                 {provided.placeholder}
               </TaskList>

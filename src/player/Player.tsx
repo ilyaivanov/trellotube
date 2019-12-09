@@ -7,6 +7,7 @@ import c from "../infrastructure/constants";
 import { getNextItem, getPreviousItem } from "../infrastructure/array";
 import { getItemsFor } from "../state/board.utils";
 import { play } from "../state";
+import { AppState } from "../state2";
 
 interface Props {
   videoId?: string;
@@ -75,13 +76,13 @@ const style = {
   bottom: 15 + 60
 } as {};
 
-const mapState = (state: ApplicationState) => {
-  const videoId = state.itemBeingPlayed && state.itemBeingPlayed.videoId;
-
+const mapState = (state: AppState) => {
+  const item = state.player.itemBeingPlayed;
+  const videoId = item && state.boardsState.items[item].videoId;
   return {
-    videoId: videoId,
-    nextItem: getNextPlayItem(state),
-    prevItem: getPrevPlayItem(state)
+    videoId
+    // nextItem: getNextPlayItem(state),
+    // prevItem: getPrevPlayItem(state)
   };
 };
 
@@ -117,7 +118,9 @@ const getColumnIdForVideo = (
 
   const boardId = state.boards.order.find(id =>
     state.boards.items[id].columnOrders.find(colId =>
-      state.boards.items[id].columns[colId].items.find(item => item.id === itemId)
+      state.boards.items[id].columns[colId].items.find(
+        item => item.id === itemId
+      )
     )
   );
   const board = state.boards.items[boardId as string];

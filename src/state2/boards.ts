@@ -1,7 +1,7 @@
 import { Action, AppState, Container } from "./index";
 import { DropResult } from "react-beautiful-dnd";
 import { handleDrop } from "./dnd";
-import {ExtraColumn, SET_EXTRA_ITEMS} from "./menu";
+import { ExtraColumn, SET_EXTRA_ITEMS } from "./menu";
 const SELECT_BOARD = "SELECT_BOARD",
   END_DROP = "END_DROP";
 
@@ -43,6 +43,8 @@ export interface Column {
 export interface Item {
   id: string;
   name: string;
+  videoId: string;
+  imageUrl: string;
 }
 
 const initialState: BoardsState = {
@@ -75,15 +77,21 @@ const initialState: BoardsState = {
   items: {
     "10": {
       id: "10",
-      name: "Stack1 - First Item"
+      name: "Stack1 - First Item",
+      imageUrl: "https://i.ytimg.com/vi/b5SSHK-mIF8/mqdefault.jpg",
+      videoId: "b5SSHK-mIF8"
     },
     "11": {
       id: "11",
-      name: "Stack2 - First Item"
+      name: "Stack2 - First Item",
+      imageUrl: "https://i.ytimg.com/vi/b5SSHK-mIF8/mqdefault.jpg",
+      videoId: "b5SSHK-mIF8"
     },
     "12": {
       id: "12",
-      name: "Stack2 - Second Item"
+      name: "Stack2 - Second Item",
+      imageUrl: "https://i.ytimg.com/vi/b5SSHK-mIF8/mqdefault.jpg",
+      videoId: "b5SSHK-mIF8"
     }
   }
 };
@@ -100,7 +108,11 @@ export interface BoardViewModel extends BaseViewModel {
 interface StackViewModel extends BaseViewModel {
   items: ItemViewModel[];
 }
-interface ItemViewModel extends BaseViewModel {}
+export interface ItemViewModel extends BaseViewModel {
+  videoId: string;
+  imageUrl: string;
+  isPlaying?:boolean;
+}
 
 interface BoardDetailsViewModel extends BaseViewModel {
   stacks: StackViewModel[];
@@ -118,19 +130,22 @@ export const getSelectedBoard = (state: AppState): BoardDetailsViewModel => {
         name: column.name,
         id: s,
         items: column.items.map(id => ({
-          id,
-          name: state.boardsState.items[id].name
+          ...state.boardsState.items[id],
+          id
         }))
       };
     })
   };
 };
 
-export const getExtraItems = (type: ExtraColumn, state: AppState): ItemViewModel[] =>
+export const getExtraItems = (
+  type: ExtraColumn,
+  state: AppState
+): ItemViewModel[] =>
   state.menu.extraColumns[type]
     ? state.menu.extraColumns[type].map(id => ({
-        id,
-        name: state.boardsState.items[id].name
+        ...state.boardsState.items[id],
+        id
       }))
     : [];
 

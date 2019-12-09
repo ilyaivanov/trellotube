@@ -1,16 +1,23 @@
 import React from "react";
-// import AppSidebar from "./menu/Sidebar";
-// import Player from "./player/Player";
+import AppSidebar from "./menu/Sidebar";
+import Player from "./player/Player";
 // import Board from "./board";
 import { DragDropContext } from "react-beautiful-dnd";
 import { connect } from "react-redux";
-import {AppDispatch, setRightbarState, endDrag, AppState, setRightbarVisibility} from "./state2";
+import {
+  AppDispatch,
+  setRightbarState,
+  endDrag,
+  AppState,
+  setRightbarVisibility
+} from "./state2";
 import {
   Container,
   TopBar,
   MainContainer,
   MainContent,
-  LeftSidebar
+  LeftSidebar,
+  RightSidebar
 } from "./AppLayout.components";
 import { RightSidebarState } from "./state2/menu";
 
@@ -29,9 +36,7 @@ const App = ({
 }: Props) => (
   <DragDropContext onDragEnd={e => dispatch(endDrag(e))}>
     <Container>
-      {/* eslint-disable-next-line react/jsx-no-undef */}
       <TopBar>
-        {/*  TopBar*/}
         <button
           data-testid="boards-button"
           onClick={() => dispatch(setRightbarState("BOARDS"))}
@@ -56,16 +61,18 @@ const App = ({
       </TopBar>
       <MainContainer>
         <LeftSidebar isVisible={isRightSidebarVisible}>
-          {rightSidebarState}
-          <button style={{ position: "absolute", top: 5, right: 5 }} onClick={() => dispatch(setRightbarVisibility(false))}>
+          <button
+            style={{ position: "absolute", top: 5, right: 5 }}
+            onClick={() => dispatch(setRightbarVisibility(false))}
+          >
             hide
           </button>
-          {/*<AppSidebar state={options.leftSidebarContentType} />*/}
+          <AppSidebar state={rightSidebarState} />
         </LeftSidebar>
         <MainContent>{/*    <Board />*/}</MainContent>
-        {/*  <RightSidebar isVisible={false}>Right Sidebar</RightSidebar>*/}
+        <RightSidebar isVisible={false}>Right Sidebar</RightSidebar>
       </MainContainer>
-      {/*<Player />*/}
+      <Player />
     </Container>
   </DragDropContext>
 );

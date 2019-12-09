@@ -1,4 +1,4 @@
-import { ApplicationState, Item, PlaylistItem } from "../state/types";
+import { ItemViewModel} from "../state2/boards";
 import { Draggable } from "react-beautiful-dnd";
 import React from "react";
 import {
@@ -10,15 +10,17 @@ import {
 } from "./components";
 import Truncate from "react-truncate";
 import { connect } from "react-redux";
-import { findSimilar, play, loadPlaylist } from "../state";
+import {AppDispatch, AppState, play} from "../state2";
+// import { findSimilar, play, loadPlaylist } from "../state";
 
 interface Props {
-  item: Item;
+  item: ItemViewModel;
   index: number;
-  play: (item: Item) => void;
-  findSimilar: (videoId: string) => void;
-  loadPlaylist: (item: PlaylistItem) => void;
-  currentItemId?: string;
+  dispatch: AppDispatch;
+  // play: (item: Item) => void;
+  // findSimilar: (videoId: string) => void;
+  // loadPlaylist: (item: PlaylistItem) => void;
+  // currentItemId?: string;
 }
 
 const decode = (text: string): string => {
@@ -32,28 +34,29 @@ const decode = (text: string): string => {
 const Card = ({
   item,
   index,
-  play,
-  findSimilar,
-  loadPlaylist,
-  currentItemId
+  dispatch,
+  // play,
+  // findSimilar,
+  // loadPlaylist,
+  // currentItemId
 }: Props) => {
   const onFindSimilar = (e: any) => {
     e.stopPropagation();
-    findSimilar(item.videoId);
+    // findSimilar(item.videoId);
   };
-  const onLoadPlaylist = (e: any, playlist: PlaylistItem) => {
+  const onLoadPlaylist = (e: any, playlist: any) => {
     e.stopPropagation();
-    loadPlaylist(playlist);
+    // loadPlaylist(playlist);
   };
 
   return (
     <Draggable draggableId={item.id} index={index} type="item">
       {provided => (
         <TaskContainer
-          title={item.text}
-          isPlaying={currentItemId === item.id}
+          title={item.name}
+          isPlaying={item.isPlaying || false}
           data-testid={"video-" + item.id}
-          onClick={() => play(item)}
+          onClick={() => dispatch(play(item.id))}
           ref={provided.innerRef}
           {...provided.dragHandleProps}
           {...provided.draggableProps}
@@ -61,37 +64,39 @@ const Card = ({
           <Img src={item.imageUrl} />
           <Subtext>
             <Truncate width={220 - 74 - 10} lines={2}>
-              {decode(item.text)}
+              {decode(item.name)}
             </Truncate>
           </Subtext>
-          <CardType>{item.type === "video" ? "V" : "P"}</CardType>
-          {item.type === "video" ? (
-            <CardButton
-              data-testid={"video-find-similar-" + item.id}
-              onClick={onFindSimilar}
-            >
-              similar
-            </CardButton>
-          ) : (
-            <CardButton
-              data-testid={"video-load-playlist-" + item.id}
-              title="This will place playlist at the start of the board"
-              onClick={e => onLoadPlaylist(e, item)}
-            >
-              load
-            </CardButton>
-          )}
+          {/*<CardType>{item.type === "video" ? "V" : "P"}</CardType>*/}
+          {/*{item.type === "video" ? (*/}
+          {/*  <CardButton*/}
+          {/*    data-testid={"video-find-similar-" + item.id}*/}
+          {/*    onClick={onFindSimilar}*/}
+          {/*  >*/}
+          {/*    similar*/}
+          {/*  </CardButton>*/}
+          {/*) : (*/}
+          {/*  <CardButton*/}
+          {/*    data-testid={"video-load-playlist-" + item.id}*/}
+          {/*    title="This will place playlist at the start of the board"*/}
+          {/*    onClick={e => onLoadPlaylist(e, item)}*/}
+          {/*  >*/}
+          {/*    load*/}
+          {/*  </CardButton>*/}
+          {/*)}*/}
         </TaskContainer>
       )}
     </Draggable>
   );
 };
+//
+// const mapState = (state: AppState) => ({
+//   currentItemId: state.itemBeingPlayed && state.itemBeingPlayed.id
+// });
 
-const mapState = (state: ApplicationState) => ({
-  currentItemId: state.itemBeingPlayed && state.itemBeingPlayed.id
-});
+// export default connect(
+//   mapState,
+//   // { findSimilar, play, loadPlaylist }
+// )(Card);
 
-export default connect(
-  mapState,
-  { findSimilar, play, loadPlaylist }
-)(Card);
+export default  connect()(Card);

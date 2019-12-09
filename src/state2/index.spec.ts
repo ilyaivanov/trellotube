@@ -2,7 +2,6 @@ import {
   createMyStore,
   getBoards,
   isLeftSidebarVisible,
-  setSidebarVisibility,
   selectBoard,
   getSelectedBoard,
   endDrag,
@@ -18,11 +17,6 @@ describe("Having a default store", () => {
 
   it("by default store should have a visible left base", () => {
     expect(isLeftSidebarVisible(store.getState())).toEqual(true);
-  });
-
-  it("hiding left sidebar should hide it", () => {
-    store.dispatch(setSidebarVisibility(false));
-    expect(isLeftSidebarVisible(store.getState())).toEqual(false);
   });
 
   describe("boards", () => {
@@ -124,8 +118,8 @@ describe("Having a default store", () => {
   describe("Having an additional column", () => {
     it("should set and retrieve those items", () => {
       const items: Item[] = [
-        { name: "Loaded Item 1", id: "101" },
-        { name: "Loaded Item 2", id: "102" }
+        { name: "Loaded Item 1", id: "101", videoId: "42", imageUrl: "42" },
+        { name: "Loaded Item 2", id: "102", videoId: "42", imageUrl: "42" }
       ];
       store.dispatch(setItemsFor("SEARCH", items));
 
