@@ -1,5 +1,8 @@
 import { Action, AppState, Container } from "./index";
-const SELECT_BOARD = "SELECT_BOARD";
+import { DropResult } from "react-beautiful-dnd";
+import { handleDrop } from "./dnd";
+const SELECT_BOARD = "SELECT_BOARD",
+  END_DROP = "END_DROP";
 
 export const selectBoard = (boardId: string) =>
   ({
@@ -7,7 +10,13 @@ export const selectBoard = (boardId: string) =>
     boardId
   } as const);
 
-interface BoardsState {
+export const endDrag = (dropResult: DropResult) =>
+  ({
+    type: END_DROP,
+    dropResult
+  } as const);
+
+export interface BoardsState {
   order: string[];
   selectedBoard: string;
   boards: Container<Board>;
@@ -22,15 +31,15 @@ export const getBoards = (state: AppState): BoardViewModel[] =>
     isSelected: bId === state.boardsState.selectedBoard
   }));
 
-interface Board {
+export interface Board {
   name: string;
   stacks: string[];
 }
-interface Column {
+export interface Column {
   name: string;
   items: string[];
 }
-interface Item {
+export interface Item {
   name: string;
 }
 
@@ -54,7 +63,7 @@ const initialState: BoardsState = {
     },
     "2": {
       name: "Stack2 Board1",
-      items: []
+      items: ["11", "12"]
     },
     "3": {
       name: "Stack1 Board2",
@@ -64,6 +73,12 @@ const initialState: BoardsState = {
   items: {
     "10": {
       name: "Stack1 - First Item"
+    },
+    "11": {
+      name: "Stack2 - First Item"
+    },
+    "12": {
+      name: "Stack2 - Second Item"
     }
   }
 };
@@ -115,6 +130,9 @@ export const boardsReducer = (
       ...boards,
       selectedBoard: action.boardId
     };
+  }
+  if (action.type === END_DROP) {
+    return handleDrop(boards, action.dropResult);
   }
   return boards;
 };

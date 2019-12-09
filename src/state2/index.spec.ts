@@ -4,8 +4,12 @@ import {
   isLeftSidebarVisible,
   setSidebarVisibility,
   selectBoard,
-  getSelectedBoard
+  getSelectedBoard,
+  endDrag,
+  AppState
 } from "./index";
+import { DraggableLocation, DropResult } from "react-beautiful-dnd";
+import { Simulate } from "react-dom/test-utils";
 
 describe("Having a default store", () => {
   let store: ReturnType<typeof createMyStore>;
@@ -62,6 +66,77 @@ describe("Having a default store", () => {
       });
     });
   });
+
+  describe("Re-ordering events", () => {
+    it("swapping two items within the column", () => {
+      expect(getItemsForSecondStack(store.getState())).toEqual([
+        "Stack2 - First Item",
+        "Stack2 - Second Item"
+      ]);
+      const event: DropResult = createDropResult(
+        { index: 0, droppableId: "2" },
+        { index: 1, droppableId: "2" }
+      );
+      store.dispatch(endDrag(event));
+      expect(getItemsForSecondStack(store.getState())).toEqual([
+        "Stack2 - Second Item",
+        "Stack2 - First Item"
+      ]);
+    });
+
+    it("dragging from one column into another", () => {
+      const event: DropResult = createDropResult(
+        { index: 0, droppableId: "2" },
+        { index: 1, droppableId: "1" }
+      );
+      store.dispatch(endDrag(event));
+      expect(getItemsForSecondStack(store.getState())).toEqual([
+        "Stack2 - Second Item"
+      ]);
+      expect(getItemsForFirstStack(store.getState())).toEqual([
+        "Stack1 - First Item",
+        "Stack2 - First Item"
+      ]);
+    });
+
+    it("swaping two stacks should switch their positions", () => {
+      const expectedStacks = ["Stack1 Board1", "Stack2 Board1"];
+      expect(getNames(getSelectedBoard(store.getState()).stacks)).toEqual(
+        expectedStacks
+      );
+      const dropResult: DropResult = {
+        draggableId: "1",
+        type: "column",
+        source: { index: 0, droppableId: "board" },
+        destination: { droppableId: "board", index: 1 },
+        mode: "FLUID",
+        reason: "DROP"
+      };
+      store.dispatch(endDrag(dropResult));
+      const expectedStacksAfterDrop = ["Stack2 Board1", "Stack1 Board1"];
+      expect(getNames(getSelectedBoard(store.getState()).stacks)).toEqual(
+        expectedStacksAfterDrop
+      );
+    });
+  });
 });
 
+//ADD COLUMN DND
+const createDropResult = (
+  source: DraggableLocation,
+  destination: DraggableLocation
+): DropResult => ({
+  draggableId: "I DO NOT USE DRAGGABLE ID FOR NOW",
+  type: "SOME IGNORED TYPE",
+  source,
+  reason: "DROP",
+  mode: "FLUID",
+  destination
+});
 const getNames = (items: { name: string }[]) => items.map(i => i.name);
+
+const getItemsForSecondStack = (state: AppState) =>
+  getNames(getSelectedBoard(state).stacks[1].items);
+
+const getItemsForFirstStack = (state: AppState) =>
+  getNames(getSelectedBoard(state).stacks[0].items);

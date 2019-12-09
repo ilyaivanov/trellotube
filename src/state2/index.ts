@@ -1,11 +1,12 @@
 import { combineReducers, createStore, Store } from "redux";
 import { optionsReducer, setSidebarVisibility } from "./userOptions";
-import {boardsReducer, selectBoard} from "./boards";
-export { selectBoard, getBoards, getSelectedBoard } from "./boards";
+import {boardsReducer, endDrag, selectBoard} from "./boards";
+export { selectBoard, getBoards, getSelectedBoard, endDrag } from "./boards";
 export { setSidebarVisibility } from "./userOptions";
 
 export type Action =
   | ReturnType<typeof setSidebarVisibility>
+  | ReturnType<typeof endDrag>
   | ReturnType<typeof selectBoard>;
 
 const rootReducer = combineReducers({
