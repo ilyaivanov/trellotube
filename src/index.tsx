@@ -2,13 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
-import { createTrelloTubeStore } from "./state/store";
+import { createAppStore } from "./state2";
 import { Provider } from "react-redux";
 import App from "./AppLayout";
 import { persistStore } from "redux-persist";
 
-const store = createTrelloTubeStore();
-const persistor = persistStore(store);
+const store = createAppStore();
+const persistor = persistStore(store as any);
 
 const app = (
   <Provider store={store}>

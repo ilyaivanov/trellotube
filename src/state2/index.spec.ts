@@ -10,7 +10,6 @@ import {
   setItemsFor
 } from "./index";
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
-import { Simulate } from "react-dom/test-utils";
 import { getExtraItems, Item } from "./boards";
 
 describe("Having a default store", () => {
