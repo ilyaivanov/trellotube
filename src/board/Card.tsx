@@ -1,4 +1,4 @@
-import { ItemViewModel} from "../state2/boards";
+import { ItemViewModel, VideoItem } from "../state2/boards";
 import { Draggable } from "react-beautiful-dnd";
 import React from "react";
 import {
@@ -10,17 +10,14 @@ import {
 } from "./components";
 import Truncate from "react-truncate";
 import { connect } from "react-redux";
-import {AppDispatch, AppState, play} from "../state2";
-// import { findSimilar, play, loadPlaylist } from "../state";
+import { AppDispatch, play, setItemsFor, setRightbarState } from "../state2";
+import { searchSimilar } from "../infrastructure/networking/youtube";
+import { ExtraColumn } from "../state2/menu";
 
 interface Props {
   item: ItemViewModel;
   index: number;
   dispatch: AppDispatch;
-  // play: (item: Item) => void;
-  // findSimilar: (videoId: string) => void;
-  // loadPlaylist: (item: PlaylistItem) => void;
-  // currentItemId?: string;
 }
 
 const decode = (text: string): string => {
@@ -31,18 +28,13 @@ const decode = (text: string): string => {
   return dom.body.textContent || "";
 };
 
-const Card = ({
-  item,
-  index,
-  dispatch,
-  // play,
-  // findSimilar,
-  // loadPlaylist,
-  // currentItemId
-}: Props) => {
-  const onFindSimilar = (e: any) => {
+const Card = ({ item, index, dispatch }: Props) => {
+  const onFindSimilar = (e: any, video: VideoItem) => {
     e.stopPropagation();
-    // findSimilar(item.videoId);
+    dispatch(setRightbarState("SIMILAR"));
+    searchSimilar(video.videoId).then(response =>
+      dispatch(setItemsFor(ExtraColumn.SIMILAR, response.items))
+    );
   };
   const onLoadPlaylist = (e: any, playlist: any) => {
     e.stopPropagation();
@@ -61,42 +53,34 @@ const Card = ({
           {...provided.dragHandleProps}
           {...provided.draggableProps}
         >
-          <Img src={item.imageUrl} />
+          <Img src={item.itemDetails.imageUrl} />
           <Subtext>
             <Truncate width={220 - 74 - 10} lines={2}>
               {decode(item.name)}
             </Truncate>
           </Subtext>
-          {/*<CardType>{item.type === "video" ? "V" : "P"}</CardType>*/}
-          {/*{item.type === "video" ? (*/}
-          {/*  <CardButton*/}
-          {/*    data-testid={"video-find-similar-" + item.id}*/}
-          {/*    onClick={onFindSimilar}*/}
-          {/*  >*/}
-          {/*    similar*/}
-          {/*  </CardButton>*/}
-          {/*) : (*/}
-          {/*  <CardButton*/}
-          {/*    data-testid={"video-load-playlist-" + item.id}*/}
-          {/*    title="This will place playlist at the start of the board"*/}
-          {/*    onClick={e => onLoadPlaylist(e, item)}*/}
-          {/*  >*/}
-          {/*    load*/}
-          {/*  </CardButton>*/}
-          {/*)}*/}
+          <CardType>{item.itemDetails.type === "video" ? "V" : "P"}</CardType>
+          {item.itemDetails.type === "video" && (
+            <CardButton
+              data-testid={"video-find-similar-" + item.id}
+              onClick={e => onFindSimilar(e, item.itemDetails as VideoItem)}
+            >
+              similar
+            </CardButton>
+          )}
+          {/*// ) : (*/}
+          {/*//   <CardButton*/}
+          {/*//     data-testid={"video-load-playlist-" + item.id}*/}
+          {/*//     title="This will place playlist at the start of the board"*/}
+          {/*//     onClick={e => onLoadPlaylist(e, item)}*/}
+          {/*//   >*/}
+          {/*//     load*/}
+          {/*//   </CardButton>*/}
+          {/*// )}*/}
         </TaskContainer>
       )}
     </Draggable>
   );
 };
-//
-// const mapState = (state: AppState) => ({
-//   currentItemId: state.itemBeingPlayed && state.itemBeingPlayed.id
-// });
 
-// export default connect(
-//   mapState,
-//   // { findSimilar, play, loadPlaylist }
-// )(Card);
-
-export default  connect()(Card);
+export default connect()(Card);

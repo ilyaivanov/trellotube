@@ -77,8 +77,9 @@ const style = {
 } as {};
 
 const mapState = (state: AppState) => {
-  const item = state.player.itemBeingPlayed;
-  const videoId = item && state.boardsState.items[item].videoId;
+  const itemId = state.player.itemBeingPlayed;
+  const item = itemId && state.boardsState.items[itemId];
+  const videoId = item && item.type === "video" ? item.videoId : "";
   return {
     videoId
     // nextItem: getNextPlayItem(state),

@@ -40,12 +40,21 @@ export interface Column {
   name: string;
   items: string[];
 }
-export interface Item {
+export interface VideoItem {
   id: string;
   name: string;
   videoId: string;
+  type: "video";
   imageUrl: string;
 }
+export interface PlaylistItem {
+  id: string;
+  name: string;
+  playlistId: string;
+  type: "playlist";
+  imageUrl: string;
+}
+export type Item = VideoItem | PlaylistItem;
 
 const initialState: BoardsState = {
   order: ["1", "2"],
@@ -79,18 +88,21 @@ const initialState: BoardsState = {
       id: "10",
       name: "Stack1 - First Item",
       imageUrl: "https://i.ytimg.com/vi/b5SSHK-mIF8/mqdefault.jpg",
+      type: "video",
       videoId: "b5SSHK-mIF8"
     },
     "11": {
       id: "11",
       name: "Stack2 - First Item",
       imageUrl: "https://i.ytimg.com/vi/b5SSHK-mIF8/mqdefault.jpg",
+      type: "video",
       videoId: "b5SSHK-mIF8"
     },
     "12": {
       id: "12",
       name: "Stack2 - Second Item",
       imageUrl: "https://i.ytimg.com/vi/b5SSHK-mIF8/mqdefault.jpg",
+      type: "video",
       videoId: "b5SSHK-mIF8"
     }
   }
@@ -109,8 +121,7 @@ interface StackViewModel extends BaseViewModel {
   items: ItemViewModel[];
 }
 export interface ItemViewModel extends BaseViewModel {
-  videoId: string;
-  imageUrl: string;
+  itemDetails: Item;
   isPlaying?: boolean;
 }
 
@@ -130,7 +141,9 @@ export const getSelectedBoard = (state: AppState): BoardDetailsViewModel => {
         name: column.name,
         id: s,
         items: column.items.map(id => ({
-          ...state.boardsState.items[id],
+          itemDetails: state.boardsState.items[id],
+          name: state.boardsState.items[id].name,
+          isPlaying: state.player.itemBeingPlayed === id,
           id
         }))
       };
@@ -144,7 +157,9 @@ export const getExtraItems = (
 ): ItemViewModel[] =>
   state.menu.extraColumns[type]
     ? state.menu.extraColumns[type].map(id => ({
-        ...state.boardsState.items[id],
+        itemDetails: state.boardsState.items[id],
+        name: state.boardsState.items[id].name,
+        isPlaying: state.player.itemBeingPlayed === id,
         id
       }))
     : [];

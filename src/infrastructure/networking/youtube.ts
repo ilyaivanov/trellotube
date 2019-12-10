@@ -50,15 +50,15 @@ const mapItem = (item: ItemsItem): Item => {
     name: item.snippet.title,
     id: createId(),
     type: mapType(getId(item).kind),
-    videoId: getId(item).videoId,
   };
-  // if (base.type === "video") {
-  //   //@ts-ignore
-  //   base.videoId = getId(item).videoId;
-  // } else {
-  //   //@ts-ignore
-  //   base.playlistId = getId(item).playlistId;
-  // }
+  if (base.type === "video") {
+    //@ts-ignore
+    base.videoId = getId(item).videoId;
+  } else {
+    //@ts-ignore
+    base.playlistId = getId(item).playlistId;
+  }
+  //@ts-ignore
   return base;
 };
 
