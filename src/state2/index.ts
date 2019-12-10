@@ -59,8 +59,7 @@ export const createAppStore = (): Store<AppState, Action> => {
     // @ts-ignore
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-  const blacklist: (keyof AppState)[] = [];
-  // const blacklist: (keyof AppState)[] = ["itemBeingPlayed"];
+  const blacklist: (keyof AppState)[] = ["player"];
 
   const persistedReducer = persistReducer(
     {
