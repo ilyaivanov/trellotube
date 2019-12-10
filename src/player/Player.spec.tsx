@@ -1,7 +1,7 @@
 import { ApplicationSandbox } from "../infrastructure/testUtils";
 import {ids} from "../infrastructure/testUtils/ids";
 
-describe("having an app with a video being played", () => {
+xdescribe("having an app with a video being played", () => {
   let app: ApplicationSandbox;
   beforeEach(() => {
     app = new ApplicationSandbox();

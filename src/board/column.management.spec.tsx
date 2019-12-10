@@ -1,6 +1,6 @@
 import { ApplicationSandbox } from "../infrastructure/testUtils";
 
-describe("Having a board", () => {
+xdescribe("Having a board", () => {
   let app: ApplicationSandbox;
   beforeEach(() => (app = new ApplicationSandbox()));
 

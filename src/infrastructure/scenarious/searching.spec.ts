@@ -15,7 +15,7 @@ jest.mock("../networking/fetch", () => ({
 // @ts-ignore
 let fetch: jest.Mock = myFetch;
 
-describe("Having a default application", () => {
+xdescribe("Having a default application", () => {
   let app: ApplicationSandbox;
   beforeEach(() => {
     app = new ApplicationSandbox();

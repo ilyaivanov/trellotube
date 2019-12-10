@@ -1,7 +1,7 @@
 import { ApplicationSandbox } from "../testUtils";
 import { ids } from "../testUtils/ids";
 
-describe("Having a default application", () => {
+xdescribe("Having a default application", () => {
   let app: ApplicationSandbox;
   beforeEach(() => {
     app = new ApplicationSandbox();

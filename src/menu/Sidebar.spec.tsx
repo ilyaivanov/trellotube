@@ -20,7 +20,7 @@ jest.mock("../infrastructure/networking/youtube", () => ({
     })
 }));
 
-describe("App", () => {
+xdescribe("App", () => {
   let app: ApplicationSandbox;
   beforeEach(() => (app = new ApplicationSandbox()));
 

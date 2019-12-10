@@ -1,6 +1,6 @@
 import { ApplicationSandbox } from "../infrastructure/testUtils";
 
-describe("", () => {
+xdescribe("", () => {
   let app: ApplicationSandbox;
   beforeEach(() => {
     // TODO: Write a separate component for sandboxed sidebar,
