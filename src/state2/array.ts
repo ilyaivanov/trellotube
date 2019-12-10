@@ -10,6 +10,12 @@ export const remove = <T>(items: T[], index: number) => {
   return copy;
 };
 
+export const removeItem = <T>(items: T[], item: T) => {
+  const index = items.indexOf(item);
+  if (index >= 0) return remove(items, index);
+  return items;
+};
+
 export const contains = <T>(items: T[], value: T): boolean => {
   return items.indexOf(value) >= 0;
 };

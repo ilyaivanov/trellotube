@@ -6,7 +6,10 @@ import {
   getSelectedBoard,
   endDrag,
   AppState,
-  setItemsFor
+  setItemsFor,
+  removeColumn,
+  renameColumn,
+  createColumn
 } from "./index";
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
 import { getExtraItems, Item } from "./boards";
@@ -119,11 +122,9 @@ describe("Having a default store", () => {
 
     describe("having a search results ", () => {
       it("when draging within search results it should handle dnd properly", () => {
-        const items: Item[] = [
-          { name: "Loaded Item 1", id: "101", videoId: "42", imageUrl: "42" },
-          { name: "Loaded Item 2", id: "102", videoId: "42", imageUrl: "42" }
-        ];
-        store.dispatch(setItemsFor(ExtraColumn.SEARCH, items));
+        store.dispatch(
+          setItemsFor(ExtraColumn.SEARCH, createTwoSampledVideos())
+        );
         const dropResult: DropResult = {
           draggableId: "101",
           type: "column",
@@ -143,17 +144,34 @@ describe("Having a default store", () => {
 
   describe("Having an additional column", () => {
     it("should set and retrieve those items", () => {
-      const items: Item[] = [
-        { name: "Loaded Item 1", id: "101", videoId: "42", imageUrl: "42" },
-        { name: "Loaded Item 2", id: "102", videoId: "42", imageUrl: "42" }
-      ];
-      store.dispatch(setItemsFor(ExtraColumn.SEARCH, items));
+      store.dispatch(setItemsFor(ExtraColumn.SEARCH, createTwoSampledVideos()));
 
       const searchItems = getNames(
         getExtraItems(ExtraColumn.SEARCH, store.getState())
       );
       expect(searchItems).toEqual(["Loaded Item 1", "Loaded Item 2"]);
     });
+  });
+
+  it("Removing a column should remove it from the board and from columns as well", () => {
+    store.dispatch(removeColumn("2"));
+    expect(getNames(getSelectedBoard(store.getState()).stacks)).toEqual([
+      "Stack1 Board1"
+    ]);
+  });
+
+  it("Renaming a column should change it's name", () => {
+    store.dispatch(renameColumn("2", "NEW NAME"));
+    expect(getSelectedBoard(store.getState()).stacks[1].name).toEqual(
+      "NEW NAME"
+    );
+  });
+
+  it("Creating a new column should add a column with some non-empty name", () => {
+    store.dispatch(createColumn({ name: "Some Name" }));
+    expect(getSelectedBoard(store.getState()).stacks[2].name).toEqual(
+      "Some Name"
+    );
   });
 });
 
@@ -177,3 +195,20 @@ const getItemsForSecondStack = (state: AppState) =>
 
 const getItemsForFirstStack = (state: AppState) =>
   getNames(getSelectedBoard(state).stacks[0].items);
+
+const createTwoSampledVideos = (): Item[] => [
+  {
+    name: "Loaded Item 1",
+    id: "101",
+    videoId: "42",
+    imageUrl: "42",
+    type: "video"
+  },
+  {
+    name: "Loaded Item 2",
+    id: "102",
+    videoId: "42",
+    imageUrl: "42",
+    type: "video"
+  }
+];

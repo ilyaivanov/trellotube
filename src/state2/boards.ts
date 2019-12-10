@@ -2,7 +2,12 @@ import { Action, AppState, Container } from "./index";
 import { DropResult } from "react-beautiful-dnd";
 import { handleDrop } from "./dnd";
 import { ExtraColumn, SET_EXTRA_ITEMS } from "./menu";
+import { removeItem } from "./array";
+import { createId } from "../infrastructure/utils";
 export const SELECT_BOARD = "SELECT_BOARD",
+  REMOVE_COLUMN = "REMOVE_COLUMN",
+  RENAME_COLUMN = "RENAME_COLUMN",
+  CREATE_COLUMN = "CREATE_COLUMN",
   END_DROP = "END_DROP";
 
 export const selectBoard = (boardId: string) =>
@@ -17,8 +22,29 @@ export const endDrag = (dropResult: DropResult) =>
     payload: dropResult
   } as const);
 
+export const removeColumn = (columnId: string) =>
+  ({
+    type: REMOVE_COLUMN,
+    payload: columnId
+  } as const);
+
+export const createColumn = (options: { name: string }) =>
+  ({
+    type: CREATE_COLUMN,
+    payload: {
+      ...options,
+      id: createId()
+    }
+  } as const);
+
+export const renameColumn = (columnId: string, newName: string) =>
+  ({
+    type: RENAME_COLUMN,
+    payload: { columnId, newName }
+  } as const);
+
 export interface BoardsState {
-  order: string[];
+  boardsOrder: string[];
   selectedBoard: string;
   boards: Container<Board>;
   columns: Container<Column>;
@@ -26,7 +52,7 @@ export interface BoardsState {
 }
 
 export const getBoards = (state: AppState): BoardViewModel[] =>
-  state.boardsState.order.map(bId => ({
+  state.boardsState.boardsOrder.map(bId => ({
     ...state.boardsState.boards[bId],
     id: bId,
     isSelected: bId === state.boardsState.selectedBoard
@@ -57,7 +83,7 @@ export interface PlaylistItem {
 export type Item = VideoItem | PlaylistItem;
 
 const initialState: BoardsState = {
-  order: ["1", "2"],
+  boardsOrder: ["1", "2"],
   selectedBoard: "1",
   boards: {
     "1": {
@@ -117,7 +143,7 @@ export interface BoardViewModel extends BaseViewModel {
   isSelected: boolean;
 }
 
-interface StackViewModel extends BaseViewModel {
+export interface StackViewModel extends BaseViewModel {
   items: ItemViewModel[];
 }
 export interface ItemViewModel extends BaseViewModel {
@@ -125,7 +151,7 @@ export interface ItemViewModel extends BaseViewModel {
   isPlaying?: boolean;
 }
 
-interface BoardDetailsViewModel extends BaseViewModel {
+export interface BoardDetailsViewModel extends BaseViewModel {
   stacks: StackViewModel[];
 }
 
@@ -165,28 +191,77 @@ export const getExtraItems = (
     : [];
 
 export const boardsReducer = (
-  boards = initialState,
+  state = initialState,
   action: Action
 ): BoardsState => {
   if (action.type === SELECT_BOARD) {
     return {
-      ...boards,
+      ...state,
       selectedBoard: action.payload
     };
   }
   if (action.type === END_DROP) {
-    return handleDrop(boards, action.payload);
+    return handleDrop(state, action.payload);
+  }
+
+  if (action.type === REMOVE_COLUMN) {
+    return {
+      ...state,
+      boards: {
+        ...state.boards,
+        [state.selectedBoard]: {
+          ...state.boards[state.selectedBoard],
+          stacks: removeItem(
+            state.boards[state.selectedBoard].stacks,
+            action.payload
+          )
+        }
+      }
+    };
+  }
+  if (action.type === CREATE_COLUMN) {
+    return {
+      ...state,
+      boards: {
+        ...state.boards,
+        [state.selectedBoard]: {
+          ...state.boards[state.selectedBoard],
+          stacks: state.boards[state.selectedBoard].stacks.concat([
+            action.payload.id
+          ])
+        }
+      },
+      columns: {
+        ...state.columns,
+        [action.payload.id]: {
+          ...action.payload,
+          items: []
+        }
+      }
+    };
+  }
+  if (action.type === RENAME_COLUMN) {
+    return {
+      ...state,
+      columns: {
+        ...state.columns,
+        [action.payload.columnId]: {
+          ...state.columns[action.payload.columnId],
+          name: action.payload.newName
+        }
+      }
+    };
   }
 
   if (action.type === SET_EXTRA_ITEMS) {
     return {
-      ...boards,
+      ...state,
       items: {
-        ...boards.items,
+        ...state.items,
         ...action.payload.items.reduce((o, i) => ({ ...o, [i.id]: i }), {})
       }
     };
   }
 
-  return boards;
+  return state;
 };

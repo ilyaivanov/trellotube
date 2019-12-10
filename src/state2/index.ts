@@ -5,7 +5,14 @@ import {
   createStore,
   Store
 } from "redux";
-import { boardsReducer, endDrag, selectBoard } from "./boards";
+import {
+  boardsReducer,
+  endDrag,
+  createColumn,
+  removeColumn,
+  renameColumn,
+  selectBoard
+} from "./boards";
 import {
   menuReducer,
   setItemsFor,
@@ -19,13 +26,24 @@ import { play, playerReducer } from "./player";
 export { play } from "./player";
 export { setItemsFor, setRightbarState, setRightbarVisibility } from "./menu";
 
-export { selectBoard, getBoards, getSelectedBoard, endDrag } from "./boards";
+export {
+  selectBoard,
+  getBoards,
+  getSelectedBoard,
+  endDrag,
+  removeColumn,
+  createColumn,
+  renameColumn
+} from "./boards";
 
 export type Action =
   | ReturnType<typeof endDrag>
   | ReturnType<typeof setRightbarState>
   | ReturnType<typeof setRightbarVisibility>
   | ReturnType<typeof setItemsFor>
+  | ReturnType<typeof createColumn>
+  | ReturnType<typeof renameColumn>
+  | ReturnType<typeof removeColumn>
   | ReturnType<typeof play>
   | ReturnType<typeof selectBoard>;
 
