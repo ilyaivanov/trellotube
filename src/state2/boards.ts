@@ -2,7 +2,7 @@ import { Action, AppState, Container } from "./index";
 import { DropResult } from "react-beautiful-dnd";
 import { handleDrop } from "./dnd";
 import { ExtraColumn, SET_EXTRA_ITEMS } from "./menu";
-const SELECT_BOARD = "SELECT_BOARD",
+export const SELECT_BOARD = "SELECT_BOARD",
   END_DROP = "END_DROP";
 
 export const selectBoard = (boardId: string) =>

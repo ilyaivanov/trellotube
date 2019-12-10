@@ -1,11 +1,12 @@
 import { DropResult } from "react-beautiful-dnd";
 import { BoardsState, Column } from "./boards";
+import {insert, remove} from "./array";
 
 export const handleDrop = (
   state: BoardsState,
   dropResult: DropResult
 ): BoardsState => {
-  const { destination, source } = dropResult;
+  const { destination, source, draggableId } = dropResult;
   if (!destination) return state;
 
   if (
@@ -33,13 +34,18 @@ export const handleDrop = (
     };
   }
 
-  const item = state.columns[source.droppableId].items[source.index];
-  const without = updateColun(state, source.droppableId, col => ({
-    items: remove(col.items, source.index)
-  }));
-  const witho = updateColun(without, destination.droppableId, col => ({
-    items: insert(col.items, destination.index, item)
-  }));
+  const isSourcedFromHere = !!state.columns[source.droppableId];
+  const without = isSourcedFromHere
+    ? updateColun(state, source.droppableId, col => ({
+        items: remove(col.items, source.index)
+      }))
+    : state;
+  const isDestinatedHere = !!state.columns[destination.droppableId];
+  const witho = isDestinatedHere
+    ? updateColun(without, destination.droppableId, col => ({
+        items: insert(col.items, destination.index, draggableId)
+      }))
+    : without;
   return witho;
 };
 
@@ -57,15 +63,3 @@ const updateColun = (
     }
   }
 });
-
-const insert = <T>(items: T[], index: number, item: T) => {
-  const copy = [...items];
-  copy.splice(index, 0, item);
-  return copy;
-};
-
-const remove = <T>(items: T[], index: number) => {
-  const copy = [...items];
-  copy.splice(index, 1);
-  return copy;
-};

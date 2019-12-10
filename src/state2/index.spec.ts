@@ -10,6 +10,7 @@ import {
 } from "./index";
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
 import { getExtraItems, Item } from "./boards";
+import { ExtraColumn } from "./menu";
 
 describe("Having a default store", () => {
   let store: ReturnType<typeof createMyStore>;
@@ -70,7 +71,8 @@ describe("Having a default store", () => {
       ]);
       const event: DropResult = createDropResult(
         { index: 0, droppableId: "2" },
-        { index: 1, droppableId: "2" }
+        { index: 1, droppableId: "2" },
+        "11"
       );
       store.dispatch(endDrag(event));
       expect(getItemsForSecondStack(store.getState())).toEqual([
@@ -82,7 +84,8 @@ describe("Having a default store", () => {
     it("dragging from one column into another", () => {
       const event: DropResult = createDropResult(
         { index: 0, droppableId: "2" },
-        { index: 1, droppableId: "1" }
+        { index: 1, droppableId: "1" },
+        "11"
       );
       store.dispatch(endDrag(event));
       expect(getItemsForSecondStack(store.getState())).toEqual([
@@ -113,6 +116,29 @@ describe("Having a default store", () => {
         expectedStacksAfterDrop
       );
     });
+
+    describe("having a search results ", () => {
+      it("when draging within search results it should handle dnd properly", () => {
+        const items: Item[] = [
+          { name: "Loaded Item 1", id: "101", videoId: "42", imageUrl: "42" },
+          { name: "Loaded Item 2", id: "102", videoId: "42", imageUrl: "42" }
+        ];
+        store.dispatch(setItemsFor(ExtraColumn.SEARCH, items));
+        const dropResult: DropResult = {
+          draggableId: "101",
+          type: "column",
+          source: { index: 0, droppableId: "SEARCH" },
+          destination: { droppableId: "SEARCH", index: 1 },
+          mode: "FLUID",
+          reason: "DROP"
+        };
+        store.dispatch(endDrag(dropResult));
+        const searchItems = getNames(
+          getExtraItems(ExtraColumn.SEARCH, store.getState())
+        );
+        expect(searchItems).toEqual(["Loaded Item 2", "Loaded Item 1"]);
+      });
+    });
   });
 
   describe("Having an additional column", () => {
@@ -121,9 +147,11 @@ describe("Having a default store", () => {
         { name: "Loaded Item 1", id: "101", videoId: "42", imageUrl: "42" },
         { name: "Loaded Item 2", id: "102", videoId: "42", imageUrl: "42" }
       ];
-      store.dispatch(setItemsFor("SEARCH", items));
+      store.dispatch(setItemsFor(ExtraColumn.SEARCH, items));
 
-      const searchItems = getNames(getExtraItems("SEARCH", store.getState()));
+      const searchItems = getNames(
+        getExtraItems(ExtraColumn.SEARCH, store.getState())
+      );
       expect(searchItems).toEqual(["Loaded Item 1", "Loaded Item 2"]);
     });
   });
@@ -132,9 +160,10 @@ describe("Having a default store", () => {
 //ADD COLUMN DND
 const createDropResult = (
   source: DraggableLocation,
-  destination: DraggableLocation
+  destination: DraggableLocation,
+  draggableId: string
 ): DropResult => ({
-  draggableId: "I DO NOT USE DRAGGABLE ID FOR NOW",
+  draggableId,
   type: "SOME IGNORED TYPE",
   source,
   reason: "DROP",

@@ -1,11 +1,15 @@
 import { Action } from "./index";
-import { Item } from "./boards";
+import { END_DROP, Item } from "./boards";
+import { contains, remove, insert } from "./array";
 
 export const SET_EXTRA_ITEMS = "SET_EXTRA_ITEMS",
   SET_RIGHTBAR_STATE = "SET_RIGHTBAR_STATE",
   SET_RIGHTBAR_VISIBILITY = "SET_RIGHTBAR_VISIBILITY";
 
-export type ExtraColumn = "SEARCH" | "SIMILAR";
+export enum ExtraColumn {
+  SEARCH = "SEARCH",
+  SIMILAR = "SIMILAR"
+}
 
 export const setItemsFor = (columnType: ExtraColumn, items: Item[]) =>
   ({
@@ -67,6 +71,39 @@ export const menuReducer = (
       ...options,
       isRightSidebarVisible: action.isVisible
     };
+  }
+  if (action.type === END_DROP) {
+    const { source, destination, draggableId } = action.dropResult;
+    let newOptions = options;
+    if (contains(Object.values(ExtraColumn), source.droppableId)) {
+      newOptions = {
+        ...options,
+        extraColumns: {
+          ...options.extraColumns,
+          [source.droppableId]: remove(
+            options.extraColumns[source.droppableId],
+            source.index
+          )
+        }
+      };
+    }
+    if (
+      destination &&
+      contains(Object.values(ExtraColumn), destination.droppableId)
+    ) {
+      newOptions = {
+        ...newOptions,
+        extraColumns: {
+          ...newOptions.extraColumns,
+          [destination.droppableId]: insert(
+            newOptions.extraColumns[destination.droppableId],
+            destination.index,
+            draggableId
+          )
+        }
+      };
+    }
+    return newOptions;
   }
   return options;
 };
