@@ -8,13 +8,13 @@ export const SELECT_BOARD = "SELECT_BOARD",
 export const selectBoard = (boardId: string) =>
   ({
     type: SELECT_BOARD,
-    boardId
+    payload: boardId
   } as const);
 
 export const endDrag = (dropResult: DropResult) =>
   ({
     type: END_DROP,
-    dropResult
+    payload: dropResult
   } as const);
 
 export interface BoardsState {
@@ -111,7 +111,7 @@ interface StackViewModel extends BaseViewModel {
 export interface ItemViewModel extends BaseViewModel {
   videoId: string;
   imageUrl: string;
-  isPlaying?:boolean;
+  isPlaying?: boolean;
 }
 
 interface BoardDetailsViewModel extends BaseViewModel {
@@ -156,11 +156,11 @@ export const boardsReducer = (
   if (action.type === SELECT_BOARD) {
     return {
       ...boards,
-      selectedBoard: action.boardId
+      selectedBoard: action.payload
     };
   }
   if (action.type === END_DROP) {
-    return handleDrop(boards, action.dropResult);
+    return handleDrop(boards, action.payload);
   }
 
   if (action.type === SET_EXTRA_ITEMS) {
@@ -168,7 +168,7 @@ export const boardsReducer = (
       ...boards,
       items: {
         ...boards.items,
-        ...action.items.reduce((o, i) => ({ ...o, [i.id]: i }), {})
+        ...action.payload.items.reduce((o, i) => ({ ...o, [i.id]: i }), {})
       }
     };
   }

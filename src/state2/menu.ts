@@ -14,20 +14,19 @@ export enum ExtraColumn {
 export const setItemsFor = (columnType: ExtraColumn, items: Item[]) =>
   ({
     type: SET_EXTRA_ITEMS,
-    columnType,
-    items
+    payload: { columnType, items }
   } as const);
 
 export const setRightbarState = (state: RightSidebarState) =>
   ({
     type: SET_RIGHTBAR_STATE,
-    state
+    payload: state
   } as const);
 
 export const setRightbarVisibility = (isVisible: boolean) =>
   ({
     type: SET_RIGHTBAR_VISIBILITY,
-    isVisible
+    payload: isVisible
   } as const);
 
 const initialState: MenuOptions = {
@@ -55,25 +54,25 @@ export const menuReducer = (
       ...options,
       extraColumns: {
         ...options.extraColumns,
-        [action.columnType]: action.items.map(i => i.id)
+        [action.payload.columnType]: action.payload.items.map(i => i.id)
       }
     };
   }
   if (action.type === SET_RIGHTBAR_STATE) {
     return {
       ...options,
-      rightSidebarState: action.state,
+      rightSidebarState: action.payload,
       isRightSidebarVisible: true
     };
   }
   if (action.type === SET_RIGHTBAR_VISIBILITY) {
     return {
       ...options,
-      isRightSidebarVisible: action.isVisible
+      isRightSidebarVisible: action.payload
     };
   }
   if (action.type === END_DROP) {
-    const { source, destination, draggableId } = action.dropResult;
+    const { source, destination, draggableId } = action.payload;
     let newOptions = options;
     if (contains(Object.values(ExtraColumn), source.droppableId)) {
       newOptions = {
