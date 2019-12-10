@@ -7,6 +7,8 @@ import { createId } from "../infrastructure/utils";
 export const SELECT_BOARD = "SELECT_BOARD",
   REMOVE_COLUMN = "REMOVE_COLUMN",
   RENAME_COLUMN = "RENAME_COLUMN",
+  RENAME_BOARD = "RENAME_BOARD",
+  CREATE_BOARD = "CREATE_BOARD",
   CREATE_COLUMN = "CREATE_COLUMN",
   END_DROP = "END_DROP";
 
@@ -22,12 +24,6 @@ export const endDrag = (dropResult: DropResult) =>
     payload: dropResult
   } as const);
 
-export const removeColumn = (columnId: string) =>
-  ({
-    type: REMOVE_COLUMN,
-    payload: columnId
-  } as const);
-
 export const createColumn = (options: { name: string }) =>
   ({
     type: CREATE_COLUMN,
@@ -37,10 +33,28 @@ export const createColumn = (options: { name: string }) =>
     }
   } as const);
 
+export const removeColumn = (columnId: string) =>
+  ({
+    type: REMOVE_COLUMN,
+    payload: columnId
+  } as const);
+
 export const renameColumn = (columnId: string, newName: string) =>
   ({
     type: RENAME_COLUMN,
     payload: { columnId, newName }
+  } as const);
+
+export const renameBoard = (boardId: string, newName: string) =>
+  ({
+    type: RENAME_BOARD,
+    payload: { boardId, newName }
+  } as const);
+
+export const createBoard = (newName: string) =>
+  ({
+    type: CREATE_BOARD,
+    payload: { id: createId(), newName }
   } as const);
 
 export interface BoardsState {
@@ -253,6 +267,22 @@ export const boardsReducer = (
     };
   }
 
+  if (action.type === RENAME_BOARD) {
+    return {
+      ...state,
+      boards: {
+        ...state.boards,
+        [action.payload.boardId]: {
+          ...state.boards[action.payload.boardId],
+          name: action.payload.newName
+        }
+      }
+    };
+  }
+
+  //TODO: handle create board
+  //TODO: write specs and imp for removing board. Import "select next board" logic
+  //TODO: considering using some mutation helping library
   if (action.type === SET_EXTRA_ITEMS) {
     return {
       ...state,

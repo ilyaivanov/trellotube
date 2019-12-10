@@ -6,10 +6,11 @@ import {
   getSelectedBoard,
   endDrag,
   AppState,
+  createBoard,
   setItemsFor,
   removeColumn,
   renameColumn,
-  createColumn
+  createColumn, renameBoard
 } from "./index";
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
 import { getExtraItems, Item } from "./boards";
@@ -172,6 +173,16 @@ describe("Having a default store", () => {
     expect(getSelectedBoard(store.getState()).stacks[2].name).toEqual(
       "Some Name"
     );
+  });
+
+  it("renaming a board should change it's name", () => {
+    store.dispatch(renameBoard("1", "NEW NAME"));
+    expect(getSelectedBoard(store.getState()).name).toEqual("NEW NAME");
+  });
+
+  it("creating a board should create new board and select it", () => {
+    store.dispatch(createBoard("MY FANCY NEW BOARD"));
+    expect(getSelectedBoard(store.getState()).name).toEqual("MY FANCY NEW BOARD");
   });
 });
 

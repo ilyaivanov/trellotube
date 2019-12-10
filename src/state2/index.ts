@@ -11,6 +11,8 @@ import {
   createColumn,
   removeColumn,
   renameColumn,
+  renameBoard,
+  createBoard,
   selectBoard
 } from "./boards";
 import {
@@ -32,6 +34,8 @@ export {
   getSelectedBoard,
   endDrag,
   removeColumn,
+  renameBoard,
+  createBoard,
   createColumn,
   renameColumn
 } from "./boards";
@@ -44,6 +48,8 @@ export type Action =
   | ReturnType<typeof createColumn>
   | ReturnType<typeof renameColumn>
   | ReturnType<typeof removeColumn>
+  | ReturnType<typeof renameBoard>
+  | ReturnType<typeof createBoard>
   | ReturnType<typeof play>
   | ReturnType<typeof selectBoard>;
 
