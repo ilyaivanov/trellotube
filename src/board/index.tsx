@@ -1,27 +1,30 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import ColumnView from "./Column";
-import { ApplicationState, Column } from "../state/types";
+import { AppState, createColumn, getSelectedBoard } from "../state2";
 import { connect } from "react-redux";
-import { createColumn } from "../state";
 import { BoardContainer } from "./components";
-import { getColumnsForSelectedBoard } from "../state/board.utils";
+import { BoardDetailsViewModel } from "../state2/boards";
+import { AppDispatch } from "../state2";
 
 interface Props {
-  createColumn: any;
-  columns: Column[];
+  dispatch: AppDispatch;
+  selectedBoard: BoardDetailsViewModel;
 }
 
-const App = ({ createColumn, columns }: Props) => {
+const App = ({ dispatch, selectedBoard }: Props) => {
   return (
     <Droppable droppableId="board" direction={"horizontal"} type="column">
       {provided => (
         <BoardContainer ref={provided.innerRef} {...provided.droppableProps}>
-          {columns.map((column, index) => (
+          {selectedBoard.stacks.map((column, index) => (
             <ColumnView key={column.id} column={column} index={index} />
           ))}
           {provided.placeholder}
-          <button data-testid="column-create" onClick={createColumn}>
+          <button
+            data-testid="column-create"
+            onClick={() => dispatch(createColumn({ name: "New Column" }))}
+          >
             + Playlist
           </button>
         </BoardContainer>
@@ -30,12 +33,7 @@ const App = ({ createColumn, columns }: Props) => {
   );
 };
 
-const mapState = (state: ApplicationState) => ({
-  columns: getColumnsForSelectedBoard(state)
+const mapState = (state: AppState) => ({
+  selectedBoard: getSelectedBoard(state)
 });
-export default connect(
-  mapState,
-  {
-    createColumn
-  }
-)(App);
+export default connect(mapState)(App);

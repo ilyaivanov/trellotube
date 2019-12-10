@@ -1,20 +1,20 @@
 import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { Column } from "../state/types";
 import Card from "./Card";
 import { connect } from "react-redux";
 import { ColumnContainer, TaskList, Title, Options } from "./components";
 import EditableTitle from "../infrastructure/components/EditableTitle";
-import { removeColumn, renameColumn } from "../state";
+import { removeColumn, renameColumn } from "../state2";
+import { StackViewModel } from "../state2/boards";
+import { AppDispatch } from "../state2";
 
 interface Props {
-  column: Column;
+  column: StackViewModel;
   index: number;
-  renameColumn: (columnId: string, newLabel: string) => void;
-  removeColumn: (columnId: string) => void;
+  dispatch: AppDispatch;
 }
 
-const ColumnView = ({ column, index, removeColumn, renameColumn }: Props) => {
+const ColumnView = ({ column, index, dispatch }: Props) => {
   return (
     <Draggable draggableId={column.id} index={index}>
       {columnProvided => (
@@ -27,14 +27,14 @@ const ColumnView = ({ column, index, removeColumn, renameColumn }: Props) => {
             dragHandleProps={columnProvided.dragHandleProps}
             label={column.name}
             id={column.id}
-            onRename={renameColumn}
-            onRemove={removeColumn}
+            onRename={(id, newText) => dispatch(renameColumn(id, newText))}
+            onRemove={id => dispatch(removeColumn(id))}
             testIdGroupName={"column-label"}
             Title={Title}
             Options={Options}
           />
           <Droppable droppableId={column.id} type="item">
-            {(provided) => (
+            {provided => (
               <TaskList ref={provided.innerRef} {...provided.droppableProps}>
                 {column.items.map((item, index) => (
                   <Card index={index} key={item.id} item={item as any} />
@@ -49,7 +49,4 @@ const ColumnView = ({ column, index, removeColumn, renameColumn }: Props) => {
   );
 };
 
-export default connect(
-  null,
-  { renameColumn, removeColumn }
-)(ColumnView);
+export default connect()(ColumnView);

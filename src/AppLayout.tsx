@@ -1,7 +1,7 @@
 import React from "react";
 import AppSidebar from "./menu/Sidebar";
 import Player from "./player/Player";
-// import Board from "./board";
+import Board from "./board";
 import { DragDropContext } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import {
@@ -69,7 +69,9 @@ const App = ({
           </button>
           <AppSidebar state={rightSidebarState} />
         </LeftSidebar>
-        <MainContent>{/*    <Board />*/}</MainContent>
+        <MainContent>
+          <Board />
+        </MainContent>
         <RightSidebar isVisible={false}>Right Sidebar</RightSidebar>
       </MainContainer>
       <Player />
