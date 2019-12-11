@@ -293,5 +293,19 @@ export const boardsReducer = (
     };
   }
 
+  if (action.type === CREATE_BOARD) {
+    console.log("foo");
+    return {
+      ...state,
+      boards: {
+        [action.payload.id]: {
+          name: action.payload.newName,
+          stacks: []
+        }
+      },
+      selectedBoard: action.payload.id
+    };
+  }
+
   return state;
 };
