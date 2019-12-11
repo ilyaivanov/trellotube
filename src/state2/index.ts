@@ -11,6 +11,7 @@ import {
   createColumn,
   removeColumn,
   renameColumn,
+  removeBoard,
   renameBoard,
   createBoard,
   selectBoard
@@ -35,6 +36,7 @@ export {
   endDrag,
   removeColumn,
   renameBoard,
+  removeBoard,
   createBoard,
   createColumn,
   renameColumn
@@ -47,6 +49,7 @@ export type Action =
   | ReturnType<typeof setItemsFor>
   | ReturnType<typeof createColumn>
   | ReturnType<typeof renameColumn>
+  | ReturnType<typeof removeBoard>
   | ReturnType<typeof removeColumn>
   | ReturnType<typeof renameBoard>
   | ReturnType<typeof createBoard>

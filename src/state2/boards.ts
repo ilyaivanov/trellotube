@@ -8,6 +8,7 @@ export const SELECT_BOARD = "SELECT_BOARD",
   REMOVE_COLUMN = "REMOVE_COLUMN",
   RENAME_COLUMN = "RENAME_COLUMN",
   RENAME_BOARD = "RENAME_BOARD",
+  REMOVE_BOARD = "REMOVE_BOARD",
   CREATE_BOARD = "CREATE_BOARD",
   CREATE_COLUMN = "CREATE_COLUMN",
   END_DROP = "END_DROP";
@@ -49,6 +50,12 @@ export const renameBoard = (boardId: string, newName: string) =>
   ({
     type: RENAME_BOARD,
     payload: { boardId, newName }
+  } as const);
+
+export const removeBoard = (boardId: string) =>
+  ({
+    type: REMOVE_BOARD,
+    payload: boardId
   } as const);
 
 export const createBoard = (newName: string) =>
@@ -305,6 +312,19 @@ export const boardsReducer = (
       },
       selectedBoard: action.payload.id
     };
+  }
+
+  if (action.type === REMOVE_BOARD) {
+    const cope = {
+      ...state,
+      boards: {
+        ...state.boards
+      }
+    };
+    delete cope.boards[action.payload];
+    cope.boardsOrder = removeItem(cope.boardsOrder, action.payload);
+    cope.selectedBoard = cope.boardsOrder[0];
+    return cope;
   }
 
   return state;

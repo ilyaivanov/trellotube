@@ -10,7 +10,7 @@ import {
   setItemsFor,
   removeColumn,
   renameColumn,
-  createColumn, renameBoard
+  createColumn, renameBoard, removeBoard
 } from "./index";
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
 import { getExtraItems, Item } from "./boards";
@@ -183,6 +183,11 @@ describe("Having a default store", () => {
   it("creating a board should create new board and select it", () => {
     store.dispatch(createBoard("MY FANCY NEW BOARD"));
     expect(getSelectedBoard(store.getState()).name).toEqual("MY FANCY NEW BOARD");
+  });
+
+  it('removing a board from the state should remove that board and selext another one ', () => {
+    store.dispatch(removeBoard('1'));
+    expect(getSelectedBoard(store.getState()).name).toEqual("Second Board");
   });
 });
 
