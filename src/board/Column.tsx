@@ -1,12 +1,11 @@
 import React from "react";
-import { Draggable, Droppable } from "react-beautiful-dnd";
-import Card from "./Card";
+import { Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
-import { ColumnContainer, TaskList, Title, Options } from "./components";
+import { ColumnContainer, Options, Title } from "./components";
 import EditableTitle from "../infrastructure/components/EditableTitle";
-import { removeColumn, renameColumn } from "../state2";
+import { AppDispatch, removeColumn, renameColumn } from "../state2";
 import { StackViewModel } from "../state2/boards";
-import { AppDispatch } from "../state2";
+import TasksList from "../infrastructure/components/TasksList";
 
 interface Props {
   column: StackViewModel;
@@ -33,16 +32,7 @@ const ColumnView = ({ column, index, dispatch }: Props) => {
             Title={Title}
             Options={Options}
           />
-          <Droppable droppableId={column.id} type="item">
-            {provided => (
-              <TaskList ref={provided.innerRef} {...provided.droppableProps}>
-                {column.items.map((item, index) => (
-                  <Card index={index} key={item.id} item={item as any} />
-                ))}
-                {provided.placeholder}
-              </TaskList>
-            )}
-          </Droppable>
+          <TasksList droppableId={column.id} tasks={column.items} />
         </ColumnContainer>
       )}
     </Draggable>
