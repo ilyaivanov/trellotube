@@ -1,19 +1,18 @@
 import React from "react";
 import AppSidebar from "./menu/Sidebar";
+import TopBar from "./menu/TopBar";
 import Player from "./player/Player";
 import Board from "./board";
 import { DragDropContext } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import {
   AppDispatch,
-  setRightbarState,
   endDrag,
   AppState,
   setRightbarVisibility
 } from "./state2";
 import {
   Container,
-  TopBar,
   MainContainer,
   MainContent,
   LeftSidebar,
@@ -29,36 +28,13 @@ interface Props {
 }
 
 const App = ({
-  onClearPress,
   isRightSidebarVisible,
   rightSidebarState,
   dispatch
 }: Props) => (
   <DragDropContext onDragEnd={e => dispatch(endDrag(e))}>
     <Container>
-      <TopBar>
-        <button
-          data-testid="boards-button"
-          onClick={() => dispatch(setRightbarState("BOARDS"))}
-        >
-          boards
-        </button>
-        <button
-          data-testid="search-button"
-          onClick={() => dispatch(setRightbarState("SEARCH"))}
-        >
-          search
-        </button>
-        <button
-          data-testid="similar-button"
-          onClick={() => dispatch(setRightbarState("SIMILAR"))}
-        >
-          similar
-        </button>
-        <button style={{ float: "right" }} onClick={onClearPress}>
-          clear-store
-        </button>
-      </TopBar>
+      <TopBar />
       <MainContainer>
         <LeftSidebar isVisible={isRightSidebarVisible}>
           <button

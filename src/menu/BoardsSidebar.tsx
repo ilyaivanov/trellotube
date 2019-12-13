@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { BoardItemView, BoardOptions } from "./components";
-import EditableTitle from "../infrastructure/components/EditableTitle";
+import { EditableTitle } from "../infrastructure";
 import {
   selectBoard,
   removeBoard,

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import c from "../../infrastructure/constants";
+import c from "../infrastructure/constants";
 
 interface Props {
   isSelected?: boolean;
@@ -34,4 +34,9 @@ export const BoardItemView = styled.div<Props>`
 export const SidebarVideosContainer = styled.div`
   padding-left: ${c.STACK_PADDING}px;
   padding-right: ${c.STACK_PADDING}px;
+`;
+
+export const TopBar = styled.div`
+  min-height: ${c.TOP_BAR_HEIGHT}px;
+  background-color: ${c.MENU_COLOR};
 `;

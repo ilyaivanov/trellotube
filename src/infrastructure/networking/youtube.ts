@@ -1,4 +1,4 @@
-import { YOUTUBE_KEY } from "../keys";
+import { YOUTUBE_KEY } from "../constants";
 import { ItemKind, ItemsItem, YoutubeSearchResponse } from "./types";
 import { Item } from "../../state2/boards";
 import { createId } from "../utils";
@@ -49,7 +49,7 @@ const mapItem = (item: ItemsItem): Item => {
     imageUrl: item.snippet.thumbnails.medium.url,
     name: item.snippet.title,
     id: createId(),
-    type: mapType(getId(item).kind),
+    type: mapType(getId(item).kind)
   };
   if (base.type === "video") {
     //@ts-ignore

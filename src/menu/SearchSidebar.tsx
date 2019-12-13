@@ -1,14 +1,15 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
-import {useDebounce} from "../infrastructure/hooks";
-import {searchVideos} from "../infrastructure/networking/youtube";
-import {Droppable} from "react-beautiful-dnd";
-import Card from "../board/Card";
-import {SEARCH_DELAY} from "./constants";
-import {connect} from "react-redux";
-import {getExtraItems, ItemViewModel} from "../state2/boards";
-import {AppDispatch, AppState, setItemsFor} from "../state2";
-import {SidebarVideosContainer} from "./components";
-import {ExtraColumn} from "../state2/menu";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import {
+  useDebounce,
+  SEARCH_DELAY,
+  searchVideos,
+  TasksList
+} from "../infrastructure";
+import { connect } from "react-redux";
+import { getExtraItems, ItemViewModel } from "../state2/boards";
+import { AppDispatch, AppState, setItemsFor } from "../state2";
+import { SidebarVideosContainer } from "./components";
+import { ExtraColumn } from "../state2/menu";
 
 export interface SearchProps {
   items: ItemViewModel[];
@@ -37,19 +38,11 @@ const SearchArea = ({ items, dispatch }: SearchProps) => {
         value={term}
         onChange={onSearch}
       />
-      <Droppable droppableId="SEARCH" type="item">
-        {provided => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
-            {items.map((i, index) => (
-              <Card key={i.id} index={index} item={i} />
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
+      <TasksList droppableId="SEARCH" tasks={items} />
     </SidebarVideosContainer>
   );
 };
+
 const mapState = (state: AppState) => ({
   items: getExtraItems(ExtraColumn.SEARCH, state)
 });

@@ -1,4 +1,4 @@
-import { ItemViewModel, VideoItem } from "../state2/boards";
+import { ItemViewModel, VideoItem } from "../../state2/boards";
 import { Draggable } from "react-beautiful-dnd";
 import React from "react";
 import {
@@ -7,12 +7,12 @@ import {
   Subtext,
   CardButton,
   CardType
-} from "./components";
+} from "../../board/components";
 import Truncate from "react-truncate";
 import { connect } from "react-redux";
-import { AppDispatch, play, setItemsFor, setRightbarState } from "../state2";
-import { searchSimilar } from "../infrastructure/networking/youtube";
-import { ExtraColumn } from "../state2/menu";
+import { AppDispatch, play, setItemsFor, setRightbarState } from "../../state2";
+import { searchSimilar } from "../networking/youtube";
+import { ExtraColumn } from "../../state2/menu";
 
 interface Props {
   item: ItemViewModel;
@@ -28,7 +28,7 @@ const decode = (text: string): string => {
   return dom.body.textContent || "";
 };
 
-const Card = ({ item, index, dispatch }: Props) => {
+const CardView = ({ item, index, dispatch }: Props) => {
   const onFindSimilar = (e: any, video: VideoItem) => {
     e.stopPropagation();
     dispatch(setRightbarState("SIMILAR"));
@@ -83,4 +83,4 @@ const Card = ({ item, index, dispatch }: Props) => {
   );
 };
 
-export default connect()(Card);
+export const Card = connect()(CardView);

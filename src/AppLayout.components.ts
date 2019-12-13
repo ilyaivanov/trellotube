@@ -10,11 +10,6 @@ export const Container = styled.div`
   align-items: stretch;
 `;
 
-export const TopBar = styled.div`
-  min-height: ${c.TOP_BAR_HEIGHT}px;
-  background-color: ${c.MENU_COLOR};
-`;
-
 export const MainContainer = styled.div`
   display: flex;
   flex: 1;

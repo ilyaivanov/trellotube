@@ -9,7 +9,7 @@ interface Props {
   Title: any;
   Options: any;
 }
-const EditableTitle = ({
+export const EditableTitle = ({
   id,
   label,
   onRename,
@@ -75,5 +75,3 @@ const EditableTitle = ({
     </Title>
   );
 };
-
-export default EditableTitle;
