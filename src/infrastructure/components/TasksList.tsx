@@ -1,9 +1,9 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { ItemViewModel } from "../../state2/boards";
-import Card from "./Card";
+import { Card } from "./Card";
 
-const TasksList = ({
+export const TasksList = ({
   droppableId,
   tasks
 }: {
@@ -21,5 +21,3 @@ const TasksList = ({
     )}
   </Droppable>
 );
-
-export default TasksList;

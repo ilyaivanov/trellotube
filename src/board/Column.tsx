@@ -2,10 +2,9 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import { ColumnContainer, Options, Title } from "./components";
-import EditableTitle from "../infrastructure/components/EditableTitle";
 import { AppDispatch, removeColumn, renameColumn } from "../state2";
 import { StackViewModel } from "../state2/boards";
-import TasksList from "../infrastructure/components/TasksList";
+import {TasksList, EditableTitle} from "../infrastructure";
 
 interface Props {
   column: StackViewModel;

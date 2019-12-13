@@ -4,7 +4,7 @@ import { SidebarVideosContainer } from "./components";
 import { AppState } from "../state2";
 import { getExtraItems, ItemViewModel } from "../state2/boards";
 import { ExtraColumn } from "../state2/menu";
-import TasksList from "../infrastructure/components/TasksList";
+import { TasksList } from "../infrastructure";
 
 interface Props {
   isLoading?: boolean;

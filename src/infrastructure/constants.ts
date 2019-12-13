@@ -26,3 +26,7 @@ export default {
   ACCENT_COLOR: 'lightpink',
   COLUMN_COLOR: '#E6E7ED',
 };
+
+export const SEARCH_DELAY = 600;
+
+export const YOUTUBE_KEY = "AIzaSyAk1MbyIUnFinouWsMg46UwgHa8JjHBrsw";

@@ -1,13 +1,15 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { useDebounce } from "../infrastructure/hooks";
-import { searchVideos } from "../infrastructure/networking/youtube";
-import { SEARCH_DELAY } from "./constants";
+import {
+  useDebounce,
+  SEARCH_DELAY,
+  searchVideos,
+  TasksList
+} from "../infrastructure";
 import { connect } from "react-redux";
 import { getExtraItems, ItemViewModel } from "../state2/boards";
 import { AppDispatch, AppState, setItemsFor } from "../state2";
 import { SidebarVideosContainer } from "./components";
 import { ExtraColumn } from "../state2/menu";
-import TasksList from "../infrastructure/components/TasksList";
 
 export interface SearchProps {
   items: ItemViewModel[];

@@ -28,7 +28,7 @@ const decode = (text: string): string => {
   return dom.body.textContent || "";
 };
 
-const Card = ({ item, index, dispatch }: Props) => {
+const CardView = ({ item, index, dispatch }: Props) => {
   const onFindSimilar = (e: any, video: VideoItem) => {
     e.stopPropagation();
     dispatch(setRightbarState("SIMILAR"));
@@ -83,4 +83,4 @@ const Card = ({ item, index, dispatch }: Props) => {
   );
 };
 
-export default connect()(Card);
+export const Card = connect()(CardView);
