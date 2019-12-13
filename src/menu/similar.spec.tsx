@@ -3,7 +3,7 @@ import { ApplicationSandbox } from "../infrastructure/testUtils";
 
 jest.mock("react-truncate", () => ({ children }: any) => children);
 
-describe("Having a Sidebar", () => {
+xdescribe("Having a Sidebar", () => {
   let app: ApplicationSandbox;
 
   beforeEach(() => (app = new ApplicationSandbox()));

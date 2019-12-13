@@ -1,6 +1,6 @@
 import { YOUTUBE_KEY } from "../keys";
 import { ItemKind, ItemsItem, YoutubeSearchResponse } from "./types";
-import { Item, ItemType } from "../types";
+import { Item } from "../../state2/boards";
 import { createId } from "../utils";
 import { myFetch } from "./fetch";
 interface ResponseType {
@@ -47,9 +47,9 @@ const searchForVideos = (verb: string, props: {}): Promise<ResponseType> =>
 const mapItem = (item: ItemsItem): Item => {
   const base = {
     imageUrl: item.snippet.thumbnails.medium.url,
-    text: item.snippet.title,
+    name: item.snippet.title,
     id: createId(),
-    type: mapType(getId(item).kind)
+    type: mapType(getId(item).kind),
   };
   if (base.type === "video") {
     //@ts-ignore
@@ -58,7 +58,7 @@ const mapItem = (item: ItemsItem): Item => {
     //@ts-ignore
     base.playlistId = getId(item).playlistId;
   }
-  // @ts-ignore
+  //@ts-ignore
   return base;
 };
 
@@ -78,7 +78,7 @@ const isItemSupported = (itemKind: ItemKind): boolean =>
   itemKind === "youtube#playlistItem";
 // itemKind === "youtube#channel";
 
-const mapType = (itemKind: ItemKind): ItemType => {
+const mapType = (itemKind: ItemKind): string => {
   if (itemKind === "youtube#video" || itemKind === "youtube#playlistItem")
     return "video";
   else return "playlist";
