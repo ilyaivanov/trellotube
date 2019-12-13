@@ -183,6 +183,7 @@ describe("Having a default store", () => {
   it("creating a board should create new board and select it", () => {
     store.dispatch(createBoard("MY FANCY NEW BOARD"));
     expect(getSelectedBoard(store.getState()).name).toEqual("MY FANCY NEW BOARD");
+    expect(store.getState().boardsState.boardsOrder).toHaveLength(3)
   });
 
   it('removing a board from the state should remove that board and selext another one ', () => {

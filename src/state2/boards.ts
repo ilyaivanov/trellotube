@@ -301,30 +301,31 @@ export const boardsReducer = (
   }
 
   if (action.type === CREATE_BOARD) {
-    console.log("foo");
     return {
       ...state,
       boards: {
+        ...state.boards,
         [action.payload.id]: {
           name: action.payload.newName,
           stacks: []
         }
       },
+      boardsOrder: state.boardsOrder.concat([action.payload.id]),
       selectedBoard: action.payload.id
     };
   }
 
   if (action.type === REMOVE_BOARD) {
-    const cope = {
+    const copy = {
       ...state,
       boards: {
         ...state.boards
       }
     };
-    delete cope.boards[action.payload];
-    cope.boardsOrder = removeItem(cope.boardsOrder, action.payload);
-    cope.selectedBoard = cope.boardsOrder[0];
-    return cope;
+    delete copy.boards[action.payload];
+    copy.boardsOrder = removeItem(copy.boardsOrder, action.payload);
+    copy.selectedBoard = copy.boardsOrder[0];
+    return copy;
   }
 
   return state;
