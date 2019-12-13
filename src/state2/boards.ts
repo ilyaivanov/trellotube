@@ -287,9 +287,6 @@ export const boardsReducer = (
     };
   }
 
-  //TODO: handle create board
-  //TODO: write specs and imp for removing board. Import "select next board" logic
-  //TODO: considering using some mutation helping library
   if (action.type === SET_EXTRA_ITEMS) {
     return {
       ...state,
