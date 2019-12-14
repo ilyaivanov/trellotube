@@ -58,23 +58,44 @@ export type Action =
   | ReturnType<typeof play>
   | ReturnType<typeof makeApiCall>
   | ReturnType<typeof selectBoard>
-  | SearchSimilarNetworkAction;
+  | SearchSimilarNetworkAction
+  | SearchNetworkAction;
 
 export type AppDispatch = (action: Action) => void;
 
-interface StartAction {
+interface SimilarSearchStartAction {
   type: "SEARCH_SIMILAR_START";
 }
-interface ErrorAction {
+interface SimilarSearchErrorAction {
   type: "SEARCH_SIMILAR_ERROR";
 }
-interface SuccessAction {
+interface SimilarSearchSuccessAction {
   type: "SEARCH_SIMILAR_SUCCESS";
   idPool: string[];
   body: YoutubeSearchResponse;
 }
 
-type SearchSimilarNetworkAction = StartAction | ErrorAction | SuccessAction;
+type SearchSimilarNetworkAction =
+  | SimilarSearchStartAction
+  | SimilarSearchErrorAction
+  | SimilarSearchSuccessAction;
+
+interface SearchStartAction {
+  type: "SEARCH_START";
+}
+interface SearchErrorAction {
+  type: "SEARCH_ERROR";
+}
+interface SearchSuccessAction {
+  type: "SEARCH_SUCCESS";
+  idPool: string[];
+  body: YoutubeSearchResponse;
+}
+
+type SearchNetworkAction =
+  | SearchStartAction
+  | SearchErrorAction
+  | SearchSuccessAction;
 
 export const rootReducer = combineReducers({
   boardsState: boardsReducer,

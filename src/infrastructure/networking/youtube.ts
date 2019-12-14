@@ -2,11 +2,7 @@ import { YOUTUBE_KEY } from "../constants";
 import { ItemKind, ItemsItem, YoutubeSearchResponse } from "./types";
 import { Item } from "../../state2/boards";
 import { createId } from "../utils";
-import { myFetch } from "./fetch";
 import { makeApiCall } from "../../state2/apiMiddleware";
-interface ResponseType {
-  items: Item[];
-}
 
 export const mapYoutubeSimilarSearchResponse = (
   response: YoutubeSearchResponse,
@@ -16,15 +12,6 @@ export const mapYoutubeSimilarSearchResponse = (
     .filter(item => isItemSupported(getId(item).kind))
     .map((item, index) => mapItem(item, idPool[index]));
 };
-
-export const searchVideos = (
-  term: string
-  // pageToken?: string
-): Promise<ResponseType> =>
-  searchForVideos("search", {
-    shart: "mostPopular",
-    q: logRequest(term, "search")
-  });
 
 export const searchSimilar = (videoId: string) =>
   makeApiCall({
@@ -41,26 +28,19 @@ export const searchSimilar = (videoId: string) =>
     }
   });
 
-export const loadPlaylistVideos = (playlistId: string) =>
-  searchForVideos("playlistItems", {
-    part: "snippet",
-    playlistId,
-    maxResults: 20
-  });
-
-const searchForVideos = (verb: string, props: {}): Promise<ResponseType> =>
-  myFetch(
-    url(verb, {
+export const searchVideos = (term: string) =>
+  makeApiCall({
+    onStart: "SEARCH_START",
+    onError: "SEARCH_ERROR",
+    onSuccess: "SEARCH_SUCCESS",
+    url: "https://www.googleapis.com/youtube/v3/search",
+    props: {
+      key: YOUTUBE_KEY,
       part: "snippet",
       maxResults: 20,
-      ...props
-    })
-  ).then((data: YoutubeSearchResponse) => {
-    return {
-      items: data.items
-        .filter(item => isItemSupported(getId(item).kind))
-        .map(i => mapItem(i))
-    };
+      shart: "mostPopular",
+      q: term
+    }
   });
 
 const mapItem = (item: ItemsItem, id = createId()): Item => {
@@ -86,11 +66,6 @@ const getId = (item: any) => {
   return item.id;
 };
 
-const logRequest = (term: string, requestType: string) => {
-  console.log(requestType, term);
-  return term;
-};
-
 const isItemSupported = (itemKind: ItemKind): boolean =>
   itemKind === "youtube#video" ||
   itemKind === "youtube#playlist" ||
@@ -102,17 +77,3 @@ const mapType = (itemKind: ItemKind): string => {
     return "video";
   else return "playlist";
 };
-
-const defaultProps = {
-  key: YOUTUBE_KEY
-};
-
-const parseProps = (props: any): string => {
-  const allProps = { ...props, ...defaultProps };
-  return Object.keys(allProps)
-    .filter(key => typeof allProps[key] !== "undefined")
-    .map(key => `${key}=${allProps[key]}`)
-    .join("&");
-};
-const url = (verb: string, props: {}) =>
-  `https://www.googleapis.com/youtube/v3/${verb}?${parseProps(props)}`;
