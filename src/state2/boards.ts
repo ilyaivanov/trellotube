@@ -302,8 +302,14 @@ export const boardsReducer = (
       }
     };
   }
-  if (action.type === "SEARCH_SIMILAR_SUCCESS") {
-    const items: any = mapYoutubeSimilarSearchResponse(action.body, action.idPool);
+  if (
+    action.type === "SEARCH_SIMILAR_SUCCESS" ||
+    action.type === "SEARCH_SUCCESS"
+  ) {
+    const items: any = mapYoutubeSimilarSearchResponse(
+      action.body,
+      action.idPool
+    );
     return {
       ...state,
       items: {

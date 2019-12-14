@@ -1,7 +1,7 @@
 import { Action } from "./index";
 import { END_DROP, Item } from "./boards";
 import { contains, remove, insert } from "./array";
-import {mapYoutubeSimilarSearchResponse} from "../infrastructure/networking/youtube";
+import { mapYoutubeSimilarSearchResponse } from "../infrastructure/networking/youtube";
 
 export const SET_EXTRA_ITEMS = "SET_EXTRA_ITEMS",
   SET_RIGHTBAR_STATE = "SET_RIGHTBAR_STATE",
@@ -35,7 +35,7 @@ const initialState: MenuOptions = {
   isRightSidebarVisible: true,
   rightSidebarState: "SEARCH",
   isSimilarLoading: false,
-  isSearchLoading: false,
+  isSearchLoading: false
 };
 
 interface MenuOptions {
@@ -90,15 +90,39 @@ export const menuReducer = (
       isSimilarLoading: false,
       extraColumns: {
         ...options.extraColumns,
-        [ExtraColumn.SIMILAR]: mapYoutubeSimilarSearchResponse(action.body, action.idPool).map(i => i.id)
+        [ExtraColumn.SIMILAR]: mapYoutubeSimilarSearchResponse(
+          action.body,
+          action.idPool
+        ).map(i => i.id)
       }
     };
   }
 
-  if (action.type === "SEARCH_SIMILAR_ERROR") {
+  if (action.type === "SEARCH_START") {
     return {
       ...options,
-      isSimilarLoading: false
+      isSearchLoading: true
+    };
+  }
+
+  if (action.type === "SEARCH_SUCCESS") {
+    return {
+      ...options,
+      isSearchLoading: false,
+      extraColumns: {
+        ...options.extraColumns,
+        [ExtraColumn.SEARCH]: mapYoutubeSimilarSearchResponse(
+          action.body,
+          action.idPool
+        ).map(i => i.id)
+      }
+    };
+  }
+
+  if (action.type === "SEARCH_ERROR") {
+    return {
+      ...options,
+      isSearchLoading: false
     };
   }
 

@@ -7,7 +7,7 @@ import {
 } from "../infrastructure";
 import { connect } from "react-redux";
 import { getExtraItems, ItemViewModel } from "../state2/boards";
-import { AppDispatch, AppState, setItemsFor } from "../state2";
+import { AppDispatch, AppState } from "../state2";
 import { SearchInput, SidebarVideosContainer } from "./components";
 import { ExtraColumn } from "../state2/menu";
 
@@ -25,9 +25,7 @@ const SearchArea = ({ items, isLoading, dispatch }: SearchProps) => {
 
   useEffect(() => {
     if (debounced) {
-      searchVideos(debounced).then(response =>
-        dispatch(setItemsFor(ExtraColumn.SEARCH, response.items))
-      );
+      dispatch(searchVideos(debounced));
     }
   }, [debounced, dispatch]);
 
@@ -41,7 +39,7 @@ const SearchArea = ({ items, isLoading, dispatch }: SearchProps) => {
         onChange={onSearch}
       />
       {isLoading && <h5>Loading...</h5>}
-      <TasksList droppableId="SEARCH" tasks={items} />
+      {!isLoading && <TasksList droppableId="SEARCH" tasks={items} />}
     </SidebarVideosContainer>
   );
 };

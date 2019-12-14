@@ -4,8 +4,4 @@ export { EditableTitle } from "./components/EditableTitle";
 
 export { useDebounce } from "./hooks";
 export * from "./constants";
-export {
-  searchVideos,
-  searchSimilar,
-  loadPlaylistVideos
-} from "./networking/youtube";
+export { searchVideos, searchSimilar } from "./networking/youtube";
