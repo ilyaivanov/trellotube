@@ -1,6 +1,6 @@
 import { Action, AppState } from "./index";
 import { Store } from "redux";
-import {createId} from "../infrastructure/utils";
+import { createId } from "../infrastructure/utils";
 
 const API_CALL = "API_CALL";
 
@@ -18,11 +18,9 @@ export const makeApiCall = (config: ApiCallConfig) =>
     payload: config
   } as const);
 
-
 export const apiMiddleware = (store: Store<AppState, Action>) => (
   next: (action: any) => void
 ) => (action: Action) => {
-  next(action);
   if (action && action.type === API_CALL) {
     const { url, props, onSuccess, onError, onStart } = action.payload;
     next({ type: onStart });
@@ -31,11 +29,13 @@ export const apiMiddleware = (store: Store<AppState, Action>) => (
       .then(json =>
         next({
           type: onSuccess,
-          body:  json,
+          body: json,
           idPool: createIdPool(20)
         })
       )
       .catch(res => next({ type: onError, error: res }));
+  } else {
+    next(action);
   }
 };
 
