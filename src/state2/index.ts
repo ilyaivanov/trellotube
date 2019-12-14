@@ -26,6 +26,8 @@ import thunk from "redux-thunk";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { play, playerReducer } from "./player";
+import { apiMiddleware, makeApiCall } from "./apiMiddleware";
+import { YoutubeSearchResponse } from "../infrastructure/networking/types";
 export { play } from "./player";
 export { setItemsFor, setRightbarState, setRightbarVisibility } from "./menu";
 
@@ -54,9 +56,25 @@ export type Action =
   | ReturnType<typeof renameBoard>
   | ReturnType<typeof createBoard>
   | ReturnType<typeof play>
-  | ReturnType<typeof selectBoard>;
+  | ReturnType<typeof makeApiCall>
+  | ReturnType<typeof selectBoard>
+  | SearchSimilarNetworkAction;
 
 export type AppDispatch = (action: Action) => void;
+
+interface StartAction {
+  type: "SEARCH_SIMILAR_START";
+}
+interface ErrorAction {
+  type: "SEARCH_SIMILAR_ERROR";
+}
+interface SuccessAction {
+  type: "SEARCH_SIMILAR_SUCCESS";
+  idPool: string[];
+  body: YoutubeSearchResponse;
+}
+
+type SearchSimilarNetworkAction = StartAction | ErrorAction | SuccessAction;
 
 export const rootReducer = combineReducers({
   boardsState: boardsReducer,
@@ -80,7 +98,7 @@ export const createMyStore = (): Store<AppState, Action> => {
 const STORE_VERSION = "0.2";
 
 export const createAppStore = (): Store<AppState, Action> => {
-  const getMiddlewares = () => [thunk];
+  const getMiddlewares = (): [] => [thunk, apiMiddleware] as any;
 
   const composeEnhancers =
     // @ts-ignore

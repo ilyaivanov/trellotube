@@ -1,6 +1,7 @@
 import { Action } from "./index";
 import { END_DROP, Item } from "./boards";
 import { contains, remove, insert } from "./array";
+import {mapYoutubeSimilarSearchResponse} from "../infrastructure/networking/youtube";
 
 export const SET_EXTRA_ITEMS = "SET_EXTRA_ITEMS",
   SET_RIGHTBAR_STATE = "SET_RIGHTBAR_STATE",
@@ -32,7 +33,9 @@ export const setRightbarVisibility = (isVisible: boolean) =>
 const initialState: MenuOptions = {
   extraColumns: {},
   isRightSidebarVisible: true,
-  rightSidebarState: "SEARCH"
+  rightSidebarState: "SEARCH",
+  isSimilarLoading: false,
+  isSearchLoading: false,
 };
 
 interface MenuOptions {
@@ -41,6 +44,8 @@ interface MenuOptions {
   };
   isRightSidebarVisible: boolean;
   rightSidebarState: RightSidebarState;
+  isSimilarLoading: boolean;
+  isSearchLoading: boolean;
 }
 
 export type RightSidebarState = "SEARCH" | "SIMILAR" | "BOARDS";
@@ -71,6 +76,32 @@ export const menuReducer = (
       isRightSidebarVisible: action.payload
     };
   }
+
+  if (action.type === "SEARCH_SIMILAR_START") {
+    return {
+      ...options,
+      isSimilarLoading: true
+    };
+  }
+
+  if (action.type === "SEARCH_SIMILAR_SUCCESS") {
+    return {
+      ...options,
+      isSimilarLoading: false,
+      extraColumns: {
+        ...options.extraColumns,
+        [ExtraColumn.SIMILAR]: mapYoutubeSimilarSearchResponse(action.body, action.idPool).map(i => i.id)
+      }
+    };
+  }
+
+  if (action.type === "SEARCH_SIMILAR_ERROR") {
+    return {
+      ...options,
+      isSimilarLoading: false
+    };
+  }
+
   if (action.type === END_DROP) {
     const { source, destination, draggableId } = action.payload;
     let newOptions = options;

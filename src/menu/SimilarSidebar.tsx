@@ -13,23 +13,18 @@ interface Props {
 
 const SimilarSidebar = ({ items, isLoading }: Props) => {
   return (
-    <>
+    <SidebarVideosContainer>
       <h2>Similar</h2>
-
       {isLoading && <h5>Loading...</h5>}
-      <SidebarVideosContainer>
-        {!isLoading && items && (
-          <TasksList droppableId="SIMILAR" tasks={items} />
-        )}
-      </SidebarVideosContainer>
-    </>
+      {!isLoading && items && <TasksList droppableId="SIMILAR" tasks={items} />}
+    </SidebarVideosContainer>
   );
 };
 
 const mapState = (state: AppState) => {
   return {
     items: getExtraItems(ExtraColumn.SIMILAR, state),
-    isLoading: false
+    isLoading: state.menu.isSimilarLoading
   };
 };
 

@@ -10,9 +10,8 @@ import {
 } from "../../board/components";
 import Truncate from "react-truncate";
 import { connect } from "react-redux";
-import { AppDispatch, play, setItemsFor, setRightbarState } from "../../state2";
+import { AppDispatch, play, setRightbarState } from "../../state2";
 import { searchSimilar } from "../networking/youtube";
-import { ExtraColumn } from "../../state2/menu";
 
 interface Props {
   item: ItemViewModel;
@@ -32,9 +31,7 @@ const CardView = ({ item, index, dispatch }: Props) => {
   const onFindSimilar = (e: any, video: VideoItem) => {
     e.stopPropagation();
     dispatch(setRightbarState("SIMILAR"));
-    searchSimilar(video.videoId).then(response =>
-      dispatch(setItemsFor(ExtraColumn.SIMILAR, response.items))
-    );
+    dispatch(searchSimilar(video.videoId));
   };
   const onLoadPlaylist = (e: any, playlist: any) => {
     e.stopPropagation();
