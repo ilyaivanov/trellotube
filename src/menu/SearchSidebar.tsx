@@ -8,15 +8,16 @@ import {
 import { connect } from "react-redux";
 import { getExtraItems, ItemViewModel } from "../state2/boards";
 import { AppDispatch, AppState, setItemsFor } from "../state2";
-import { SidebarVideosContainer } from "./components";
+import { SearchInput, SidebarVideosContainer } from "./components";
 import { ExtraColumn } from "../state2/menu";
 
 export interface SearchProps {
   items: ItemViewModel[];
   dispatch: AppDispatch;
+  isLoading: boolean;
 }
 
-const SearchArea = ({ items, dispatch }: SearchProps) => {
+const SearchArea = ({ items, isLoading, dispatch }: SearchProps) => {
   const [term, setTerm] = useState("");
   const debounced = useDebounce(term, SEARCH_DELAY);
   const onSearch = (e: ChangeEvent<HTMLInputElement>) =>
@@ -32,18 +33,21 @@ const SearchArea = ({ items, dispatch }: SearchProps) => {
 
   return (
     <SidebarVideosContainer>
-      <input
+      <h2>Search</h2>
+      <SearchInput
         data-testid="search-input"
         type="text"
         value={term}
         onChange={onSearch}
       />
+      {isLoading && <h5>Loading...</h5>}
       <TasksList droppableId="SEARCH" tasks={items} />
     </SidebarVideosContainer>
   );
 };
 
 const mapState = (state: AppState) => ({
-  items: getExtraItems(ExtraColumn.SEARCH, state)
+  items: getExtraItems(ExtraColumn.SEARCH, state),
+  isLoading: state.menu.isSearchLoading
 });
 export default connect(mapState)(SearchArea);

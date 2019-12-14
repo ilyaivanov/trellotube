@@ -4,6 +4,7 @@ import { handleDrop } from "./dnd";
 import { ExtraColumn, SET_EXTRA_ITEMS } from "./menu";
 import { removeItem } from "./array";
 import { createId } from "../infrastructure/utils";
+import { mapYoutubeSimilarSearchResponse } from "../infrastructure/networking/youtube";
 export const SELECT_BOARD = "SELECT_BOARD",
   REMOVE_COLUMN = "REMOVE_COLUMN",
   RENAME_COLUMN = "RENAME_COLUMN",
@@ -198,6 +199,11 @@ export const getSelectedBoard = (state: AppState): BoardDetailsViewModel => {
   };
 };
 
+const l = (e: any) => {
+  console.log(e);
+  return e;
+};
+
 export const getExtraItems = (
   type: ExtraColumn,
   state: AppState
@@ -293,6 +299,16 @@ export const boardsReducer = (
       items: {
         ...state.items,
         ...action.payload.items.reduce((o, i) => ({ ...o, [i.id]: i }), {})
+      }
+    };
+  }
+  if (action.type === "SEARCH_SIMILAR_SUCCESS") {
+    const items: any = mapYoutubeSimilarSearchResponse(action.body, action.idPool);
+    return {
+      ...state,
+      items: {
+        ...state.items,
+        ...items.reduce((o: any, i: any) => ({ ...o, [i.id]: i }), {})
       }
     };
   }

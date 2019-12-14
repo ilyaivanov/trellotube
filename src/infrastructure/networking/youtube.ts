@@ -3,9 +3,19 @@ import { ItemKind, ItemsItem, YoutubeSearchResponse } from "./types";
 import { Item } from "../../state2/boards";
 import { createId } from "../utils";
 import { myFetch } from "./fetch";
+import { makeApiCall } from "../../state2/apiMiddleware";
 interface ResponseType {
   items: Item[];
 }
+
+export const mapYoutubeSimilarSearchResponse = (
+  response: YoutubeSearchResponse,
+  idPool: string[]
+): Item[] => {
+  return response.items
+    .filter(item => isItemSupported(getId(item).kind))
+    .map((item, index) => mapItem(item, idPool[index]));
+};
 
 export const searchVideos = (
   term: string
@@ -17,9 +27,18 @@ export const searchVideos = (
   });
 
 export const searchSimilar = (videoId: string) =>
-  searchForVideos("search", {
-    type: "video",
-    relatedToVideoId: logRequest(videoId, "search.similar")
+  makeApiCall({
+    onStart: "SEARCH_SIMILAR_START",
+    onError: "SEARCH_SIMILAR_ERROR",
+    onSuccess: "SEARCH_SIMILAR_SUCCESS",
+    url: "https://www.googleapis.com/youtube/v3/search",
+    props: {
+      key: YOUTUBE_KEY,
+      part: "snippet",
+      maxResults: 20,
+      type: "video",
+      relatedToVideoId: videoId
+    }
   });
 
 export const loadPlaylistVideos = (playlistId: string) =>
@@ -40,15 +59,15 @@ const searchForVideos = (verb: string, props: {}): Promise<ResponseType> =>
     return {
       items: data.items
         .filter(item => isItemSupported(getId(item).kind))
-        .map(mapItem)
+        .map(i => mapItem(i))
     };
   });
 
-const mapItem = (item: ItemsItem): Item => {
+const mapItem = (item: ItemsItem, id = createId()): Item => {
   const base = {
+    id,
     imageUrl: item.snippet.thumbnails.medium.url,
     name: item.snippet.title,
-    id: createId(),
     type: mapType(getId(item).kind)
   };
   if (base.type === "video") {

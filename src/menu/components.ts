@@ -31,6 +31,12 @@ export const BoardItemView = styled.div<Props>`
   }
 `;
 
+export const SearchInput = styled.input`
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: ${c.STACK_PADDING}px;
+`;
+
 export const SidebarVideosContainer = styled.div`
   padding-left: ${c.STACK_PADDING}px;
   padding-right: ${c.STACK_PADDING}px;
